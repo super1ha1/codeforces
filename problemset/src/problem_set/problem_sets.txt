@@ -1,0 +1,406 @@
+    158B	Taxi
+ int n = sc.nextInt();
+        int [] arr = new int[n];
+        for ( int i = 0 ; i < n ; i ++){
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        int rel = 0 ;
+        int i = 0, j = n-1 ;
+        while(i < j ){
+            if (arr[i] + arr[j] <= 4){
+                arr[j] += arr[i];
+                i++;
+            }else{
+                rel++;
+                j--;
+            }
+        }
+        System.out.println(rel + 1);
+  ------------------------------------------------
+    266A	Stones on the Table
+
+ private static int rel = 0 ;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        String s = sc.next();
+        if (n == 1){
+            rel = 0 ;
+        }else {
+            count(s, 0);
+        }
+        System.out.println(rel);
+    }
+    public static void count(String s, int index){
+        if( index >= s.length()- 1){
+            return;
+        }
+        char[] arr = s.toCharArray();
+        if( arr[index] == arr[index+ 1]){
+            rel++;
+            count(new String(updateCharArray(arr, index+1)), index);
+        }else {
+            count(s, index+1);
+        }
+
+    }
+    public static char[] updateCharArray(char [] original, int index){
+        char[] newCharr = new char[original.length - 1];
+
+        for ( int i = 0 ;i < index; i ++){
+            newCharr[i] =original[i];
+        }
+        for ( int i = index + 1; i < original.length; i++){
+            newCharr[i-1] = original[i];
+        }
+//        String s = new String(newCharr);
+//        System.out.println(s );
+        return newCharr;
+    }
+---------------------------------------------------
+    Div without * or /
+    public static int div(int n, int m){
+           int a = n > 0 ? n : -1 * n ;
+           int b = m > 0 ? m : -1 * m ;
+           if ( a < b ){
+               return  0;
+           }else if( a == b){
+               return n * m > 0 ? 1 : -1;
+           }else {
+               int rel = 0 ;
+               while( a >= b){
+                   a -= b;
+                   rel++;
+               }
+               return n * m > 0 ? rel : -1 * rel;
+           }
+       }
+-------------------------------------------------------
+    339A - Helpful Maths
+public static String updateStr(String s){
+        int [] arr = new int[s.length()/2 + 1];
+        char [] chars= s.toCharArray();
+        int index = 0 ;
+         for ( int i = 0 ; i < s.length(); i+= 2){
+             arr[index] = chars[i];
+             index++;
+         }
+        Arrays.sort(arr);
+
+        char [] newChars = new char[chars.length];
+        index = 0 ;
+        for( int i = 0 ; i < newChars.length; i ++){
+            if( i %2 == 0){
+                newChars[i] = (char) arr[index];
+                index++;
+            }else{
+                newChars[i] = '+';
+            }
+        }
+        return new String(newChars);
+    }
+
+-------------------------------------------------------
+    82A	Double Cola
+ Scanner sc = new Scanner(System.in);
+        String rel = null;
+        int b, mod, p;
+        int n = sc.nextInt();
+        if( n <= 5){
+            mod = (n -1 ) ;
+        }else{
+            p = findP(n);
+//            System.out.println("p: " + p);
+            b = (int)  (n - ( (Math.pow(2, p) -1  )  * 5) );
+//            System.out.println("b: " + b);
+            mod = (int) (b/ Math.pow(2, p));
+//            System.out.println("mod: " + mod);
+        }
+
+
+
+        switch (mod){
+            case 0:
+                rel = "Sheldon";
+                break;
+            case 1:
+                rel = "Leonard";
+                break;
+            case 2:
+                rel = "Penny";
+                break;
+            case 3:
+                rel = "Rajesh";
+                break;
+            case 4:
+                rel = "Howard";
+                break;
+        }
+        System.out.println(rel);
+    }
+    public static int findP(int n){
+        double rel = ( Math.log(n/5 + 1)/Math.log(2) );
+        return  (int) rel;
+    }
+-------------------------------------------------------
+    119A	Epic Game
+     Scanner sc = new Scanner(System.in);
+        int a, b, n, rel = 0 , gcd;
+        a = sc.nextInt();
+        b = sc.nextInt();
+        n = sc.nextInt();
+
+        while (n > 0 ){
+            gcd = findGCD(a, n);
+            n-= gcd;
+            rel++;
+            if( n == 0) break;
+            gcd = findGCD(b,n);
+            n -= gcd;
+            rel++;
+        }
+
+        rel++;
+        System.out.println(rel%2);
+    }
+    public static int findGCD(int a, int b){
+        if ( b == 0) {
+            return a;
+        }else{
+            return findGCD(b, a % b);
+        }
+
+    }
+-------------------------------------------------------
+        58A	Chat room
+ public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+
+        HashSet<Integer> H = new HashSet<Integer>();
+        HashSet<Integer> E = new HashSet<Integer>();
+        HashSet<Integer> L1 = new HashSet<Integer>();
+        HashSet<Integer> L2 = new HashSet<Integer>();
+        HashSet<Integer> O = new HashSet<Integer>();
+
+        findHello(s, 'h', H);
+        findHello(s, 'l', L1);
+        findHello(s, 'l', L2);
+        findHello(s, 'e', E);
+        findHello(s, 'o', O);
+
+        int last = s.lastIndexOf("l");
+        int first = s.indexOf("l");
+
+        boolean rel = true;
+        if(first < 0 || last < 0 || first == last){
+            rel = false;
+        }else{
+            L1.remove(last);
+            L2.remove(first);
+        }
+        rel = rel &&  check(H, E) && check(E, L1) && check(L1, L2) && check(L2, O);
+        if(rel){
+            System.out.println("YES");
+        }else {
+            System.out.println("NO");
+        }
+
+
+    }
+    public static void findHello(String s, char c, HashSet<Integer> H){
+        char [] chars = s.toCharArray();
+        for ( int i = 0 ; i < chars.length; i++){
+            if( chars[i] == c){
+                H.add(i);
+            }
+        }
+    }
+    public static boolean check(HashSet<Integer> S1, HashSet<Integer> S2){
+        boolean rel = true;
+        if( S1.isEmpty() || S2.isEmpty() )
+            return false;
+        for (Integer s2 : S2){
+            rel = true;
+            for ( Integer s1: S1){
+                if(s1 > s2)  rel = false;
+            }
+            if (rel ){
+                break;
+            }
+        }
+        return rel;
+    }
+
+
+-------------------------------------------------------  14/07
+    110A	Nearly Lucky Number 1
+Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        char [] chars = s.toCharArray();
+        int count = 0 ;
+        for ( int i = 0 ; i < chars.length; i++){
+            if ( chars[i] == '4' ||
+                    chars[i] == '7'){
+                count++;
+            }
+        }
+        String digit = String.valueOf(count);
+        char [] arr = digit.toCharArray();
+        boolean val = true;
+        for (char c: arr){
+            if( c != '4' && c!= '7'){
+                val = false;
+            }
+        }
+        if(val){
+            System.out.println("YES");
+        }else{
+            System.out.println("NO");
+
+        }
+
+------------------------------------------------------
+    467A	George and AccommodationN 2
+   Scanner sc = new Scanner(System.in);
+        int n, p, q, rel = 0 ;
+        n = sc.nextInt();
+        for ( int i = 0 ; i < n ; i ++){
+            p = sc.nextInt();
+            q = sc.nextInt();
+            if ( q - p >= 2 ){
+                rel++;
+            }
+        }
+        System.out.println(rel);
+------------------------------------------------------
+    122A	Lucky Division 3
+  Scanner sc = new Scanner(System.in);
+        int [] arr = {
+          4, 7,
+                44, 77, 47, 74,
+                444, 447, 474, 477, 744,  747 , 774,777
+        };
+        String s = sc.next();
+        char [] chars = s.toCharArray();
+
+        int count = Integer.valueOf(s);
+        boolean val = true, val2 = false, finalVal;
+        for (char c: chars){
+            if( c != '4' && c!= '7'){
+                val = false;
+            }
+        }
+
+        for ( int i : arr){
+            if ( count % i == 0){
+                val2 = true;
+            }
+        }
+//        if( count % 4 == 0 || count % 7 == 0){
+//            val2 = true;
+//        }
+        finalVal = val || val2;
+        if(finalVal){
+            System.out.println("YES");
+        }else{
+            System.out.println("NO");
+
+        }
+------------------------------------------------------
+    271A	Beautiful Year 4
+ public static final int N = 9001;
+    public static void main(String[] args) {
+      Scanner sc = new Scanner( System.in);
+        int [] arr = new int[8050];
+        for ( int i = 0 ; i < 8050; i++){
+            int a = i + 1000;
+            if( check(a)){
+                arr[i] = 1;
+//                System.out.println(a);
+            }
+        }
+        int n = sc.nextInt();
+        for (int i = n-1000 ; i < 8050; i++){
+            int a = i + 1000;
+            if (a > n &&  arr[i] == 1){
+                System.out.println(a);
+                break;
+            }
+        }
+
+
+    }
+    public static boolean check (int a){
+        String s = String.valueOf(a);
+        char [] chars= s.toCharArray();
+        boolean val = true;
+        for (int i = 0 ; i < chars.length ; i++ ){
+            if( !checkEach(a, i) )
+                val = false;
+        }
+        return val;
+    }
+    public static boolean checkEach(int a, int index){
+        String s = String.valueOf(a);
+        char [] chars= s.toCharArray();
+        boolean val = true;
+        for (int i = 0 ; i < chars.length ; i++ ){
+            if( i == index  ){
+                continue;
+            }else {
+                if( chars[i] == chars[index])
+                    val = false;
+            }
+
+        }
+        return val;
+    }
+
+------------------------------------------------------
+        472A - Design Tutorial: Learn from Math 5
+ Scanner sc = new Scanner( System.in);
+        int [] arr = new int[N];
+        arr[2] = 1 ;
+        for ( int i = 2 ; i < N; i++){
+            if( arr[i] == 0){
+                arr[i] = 1;
+            }
+            for( int j = i+i; j < N ; j += i ){
+                arr[j] = -1;
+            }
+        }
+
+        int n = sc.nextInt();
+        for (int i = 2 ; i < N; i++){
+            if( arr[i] == -1 && arr[n- i] == -1){
+                System.out.println(i + " " + (n-i) );
+                break;
+            }
+        }
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
