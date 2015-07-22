@@ -380,7 +380,17 @@ Scanner sc = new Scanner(System.in);
             }
         }
 ------------------------------------------------------
-
+    136A - Presents
+ Scanner sc = new Scanner( System.in);
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int n = sc.nextInt();
+        for( int i = 1 ;i <= n ; i ++){
+            int m = sc.nextInt();
+            map.put(m, i);
+        }
+        for ( int i = 1; i <= n; i++){
+            System.out.print(map.get(i) + " ");
+        }
 ------------------------------------------------------
 
 ------------------------------------------------------

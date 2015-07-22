@@ -234,8 +234,8 @@ public static String updateStr(String s){
     }
 
 
--------------------------------------------------------
-    110A	Nearly Lucky Number
+-------------------------------------------------------  14/07
+    110A	Nearly Lucky Number 1
 Scanner sc = new Scanner(System.in);
         String s = sc.next();
         char [] chars = s.toCharArray();
@@ -262,7 +262,7 @@ Scanner sc = new Scanner(System.in);
         }
 
 ------------------------------------------------------
-    467A	George and Accommodation
+    467A	George and AccommodationN 2
    Scanner sc = new Scanner(System.in);
         int n, p, q, rel = 0 ;
         n = sc.nextInt();
@@ -275,7 +275,7 @@ Scanner sc = new Scanner(System.in);
         }
         System.out.println(rel);
 ------------------------------------------------------
-    122A	Lucky Division
+    122A	Lucky Division 3
   Scanner sc = new Scanner(System.in);
         int [] arr = {
           4, 7,
@@ -309,7 +309,7 @@ Scanner sc = new Scanner(System.in);
 
         }
 ------------------------------------------------------
-    271A	Beautiful Year
+    271A	Beautiful Year 4
  public static final int N = 9001;
     public static void main(String[] args) {
       Scanner sc = new Scanner( System.in);
@@ -359,9 +359,38 @@ Scanner sc = new Scanner(System.in);
     }
 
 ------------------------------------------------------
+        472A - Design Tutorial: Learn from Math 5
+ Scanner sc = new Scanner( System.in);
+        int [] arr = new int[N];
+        arr[2] = 1 ;
+        for ( int i = 2 ; i < N; i++){
+            if( arr[i] == 0){
+                arr[i] = 1;
+            }
+            for( int j = i+i; j < N ; j += i ){
+                arr[j] = -1;
+            }
+        }
 
+        int n = sc.nextInt();
+        for (int i = 2 ; i < N; i++){
+            if( arr[i] == -1 && arr[n- i] == -1){
+                System.out.println(i + " " + (n-i) );
+                break;
+            }
+        }
 ------------------------------------------------------
-
+    136A - Presents
+ Scanner sc = new Scanner( System.in);
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int n = sc.nextInt();
+        for( int i = 1 ;i <= n ; i ++){
+            int m = sc.nextInt();
+            map.put(m, i);
+        }
+        for ( int i = 1; i <= n; i++){
+            System.out.print(map.get(i) + " ");
+        }
 ------------------------------------------------------
 
 ------------------------------------------------------
