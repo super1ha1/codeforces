@@ -392,8 +392,42 @@ Scanner sc = new Scanner(System.in);
             System.out.print(map.get(i) + " ");
         }
 ------------------------------------------------------
+    379A - New Year Candles
+ public static void main(String[] args) {
+        Scanner sc = new Scanner( System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        System.out.print(getHour(a, b));
+
+    }
+
+    public static int getHour(int a , int b){
+        int mod, rel;
+        mod = a % b;
+        rel = a /b ;
+        if ( rel == 0) return  mod;
+        else return (a - mod)   + getHour(rel + mod, b);
+    }
 
 ------------------------------------------------------
+    460 A. Vasya and Socks
+ public static void main(String[] args) {
+        Scanner sc = new Scanner( System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        System.out.print(getHour(a, b));
+
+    }
+
+    public static int getHour(int a , int b){
+        int mod, rel;
+        mod = a % b;
+        rel = a /b ;
+        if ( rel == 0) return  mod;
+        else return a   + getHour(rel , b);
+    }
 
 ------------------------------------------------------
 
