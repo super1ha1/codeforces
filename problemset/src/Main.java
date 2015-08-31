@@ -7,27 +7,50 @@ public class Main {
     public static final int N = 1000001;
     public static void main(String[] args) {
         Scanner sc = new Scanner( System.in);
-        int row = 0 , col = 0 , n;
-        for ( int i = 1; i <= 5; i ++){
-            for ( int j = 1; j <= 5; j++){
-                n = sc.nextInt();
-                if( n == 1){
-                    row = i;
-                    col = j ;
-                }
-            }
+        int col = sc.nextInt();
+        int row = sc.nextInt();
+        int result = 0 ;
+        while (row >0 && col > 0){
+            int n = col * row;
+            int dec = row + col - 1;
+//            int add = n % dec == 0 ? 0 : 1;
+//            int rel = add + ( n / dec);
+
+            result ++;
+            row--;
+            col--;
+        }
+//        System.out.println("rel : " + result);
+        if( result % 2 == 1 ){
+            System.out.println("Akshat");
+        }else {
+            System.out.println("Malvika");
+
         }
 
-        System.out.print(Math.abs(row -3 ) + Math.abs(col -3));
+
+
 
     }
 
-    public static int getHour(int a , int b){
-        int mod, rel;
-        mod = a % b;
-        rel = a /b ;
-        if ( rel == 0) return  mod;
-        else return a   + getHour(rel , b);
+
+    public static  boolean check(String s, String t){
+        boolean rel = false;
+        int i = 0 ;
+        char [] s1 = s.toCharArray();
+        char [] t1 = t.toCharArray();
+        if( s.length() == t.length()){
+            int n = s.length() ;
+            while (i <= n - 1 && s1[i] == t1[n-1 - i] ){
+                i++;
+
+            }
+            if( i == n  ){
+                rel = true;
+            }
+        }
+
+        return rel;
     }
 
 
