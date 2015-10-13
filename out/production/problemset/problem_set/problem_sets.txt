@@ -430,13 +430,91 @@ Scanner sc = new Scanner(System.in);
     }
 
 ------------------------------------------------------
+    263A - Beautiful Matrix
+ public static void main(String[] args) {
+        Scanner sc = new Scanner( System.in);
+        int row = 0 , col = 0 , n;
+        for ( int i = 1; i <= 5; i ++){
+            for ( int j = 1; j <= 5; j++){
+                n = sc.nextInt();
+                if( n == 1){
+                    row = i;
+                    col = j ;
+                }
+            }
+        }
+
+        System.out.print(Math.abs(row -3 ) + Math.abs(col -3));
+
+    }
+------------------------------------------------------
+    41A	Translation
+ public static  boolean check(String s, String t){
+        boolean rel = false;
+        int i = 0 ;
+        char [] s1 = s.toCharArray();
+        char [] t1 = t.toCharArray();
+        if( s.length() == t.length()){
+            int n = s.length() ;
+            while (i <= n - 1 && s1[i] == t1[n-1 - i] ){
+                i++;
+
+            }
+            if( i == n  ){
+                rel = true;
+            }
+        }
+
+        return rel;
+    }
+------------------------------------------------------
+        451A - Game With Sticks
+ Scanner sc = new Scanner( System.in);
+        int col = sc.nextInt();
+        int row = sc.nextInt();
+        int result = 0 ;
+        while (row >0 && col > 0){
+            int n = col * row;
+            int dec = row + col - 1;
+//            int add = n % dec == 0 ? 0 : 1;
+//            int rel = add + ( n / dec);
+
+            result ++;
+            row--;
+            col--;
+        }
+//        System.out.println("rel : " + result);
+        if( result % 2 == 1 ){
+            System.out.println("Akshat");
+        }else {
+            System.out.println("Malvika");
+
+        }
 
 ------------------------------------------------------
+        MAXIMUM SUB ARRAY INTRO ALGO, CHAPTER 4, P72
+Brut force algo O(n^2)
+ public static void main(String[] args) {
+        int [] arr = {6, 9, 7 , 12, 15, 19, 14 , 16};
+        int n = arr.length;
+        int max = 0, left = -1, right = -1;
+        int i, j;
+        for (  i = 0 ; i < n; i++){
+            int sum = 0;
+            for(  j = i ; j < n; j++){
+                 sum = arr[j] - arr[i];
+                if( sum > max){
+                    max = sum;
+                    left = i;
+                    right = j;
+                }
+            }
 
-------------------------------------------------------
+        }
+        System.out.println("sum: " + max + " left: " + left + " right: " + right);
+    }
 
-------------------------------------------------------
-
+Divide and conquer
 ------------------------------------------------------
 ------------------------------------------------------
 

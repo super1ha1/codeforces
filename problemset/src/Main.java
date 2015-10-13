@@ -4,56 +4,52 @@ import java.util.*;
 
 public class Main {
 
-    public static final int N = 1000001;
+    public static final int N = -1000001;
     public static void main(String[] args) {
-        Scanner sc = new Scanner( System.in);
-        int col = sc.nextInt();
-        int row = sc.nextInt();
-        int result = 0 ;
-        while (row >0 && col > 0){
-            int n = col * row;
-            int dec = row + col - 1;
-//            int add = n % dec == 0 ? 0 : 1;
-//            int rel = add + ( n / dec);
-
-            result ++;
-            row--;
-            col--;
+        int [] arr = {6, 9, 7 , 12, 15, 19, 14 , 16};
+        int [] A = new int[arr.length-1];
+        for (int i = 0 ; i < arr.length -1 ; i++){
+            A[i] = arr[i+1] - arr[i];
         }
-//        System.out.println("rel : " + result);
-        if( result % 2 == 1 ){
-            System.out.println("Akshat");
+        int max = divide(A, 0, A.length-1 );
+        System.out.println("sum: " + max );
+    }
+    public static int divide(int[] A, int low, int high){
+        if( low == high){
+            return A[low];
         }else {
-            System.out.println("Malvika");
-
+            int mid = (int) (low + high)/2;
+            int leftSum = divide(A, low, mid);
+            int rightSum = divide(A, mid +1, high);
+            int crossSum = crossSum(A, low, high);
+            if( leftSum >= rightSum && leftSum >= crossSum)
+                return leftSum;
+            else if ( rightSum >= leftSum && rightSum >= crossSum)
+                return rightSum;
+            else return crossSum;
         }
-
-
-
-
     }
 
-
-    public static  boolean check(String s, String t){
-        boolean rel = false;
-        int i = 0 ;
-        char [] s1 = s.toCharArray();
-        char [] t1 = t.toCharArray();
-        if( s.length() == t.length()){
-            int n = s.length() ;
-            while (i <= n - 1 && s1[i] == t1[n-1 - i] ){
-                i++;
-
-            }
-            if( i == n  ){
-                rel = true;
+    private static int crossSum(int[] A, int low, int high) {
+        int leftMax = N, rightMax = N;
+        int sum = 0;
+        int i, j;
+        int mid = (int) (low + high)/2;
+        for ( i = mid; i >= low; i-- ){
+            sum += A[i];
+            if( sum > leftMax){
+                leftMax = sum;
             }
         }
-
-        return rel;
+        sum = 0;
+        for (j = mid+1; j <= high; j++ ){
+            sum+= A[j];
+            if(sum > rightMax){
+                rightMax = sum;
+            }
+        }
+        System.out.println("Cross max: " + (leftMax + rightMax));
+        return leftMax + rightMax;
     }
-
-
-
 
 }
