@@ -94,7 +94,7 @@
         int firstIndex = low;
         int secondIndex = mid;
         for ( int i = low; i < high; i++){
-            if(firstIndex < mid && (A[firstIndex] <= A[secondIndex]  || secondIndex >= high)){
+            if(firstIndex < mid && (secondIndex >= high || A[firstIndex] <= A[secondIndex] )){
                 B[i] = A[firstIndex];
                 firstIndex++;
             }else {
