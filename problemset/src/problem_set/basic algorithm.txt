@@ -1,16 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
-public class Main {
-
-    public static void main(String [] args){
-        System.out.println("Result: ");
-
-
-    }
+17/11 Sort
     public static void bubbleSort(int [] numbers){
         int n = numbers.length;
         if( n <= 1)
@@ -48,21 +36,9 @@ public class Main {
             n = newValue;
         }while (n > 0 );
     }
-    public static void insertionSort(int [] numbers){
-        int n = numbers.length;
-        if( n <= 1)
-            return;
-        for ( int i = 1; i < n; i++){
-            for ( int j = i; j >= 1; j--){
-                if( numbers[j-1] > numbers[j] ){
-                    int temp = numbers[j];
-                    numbers[j] = numbers[j-1];
-                    numbers[j-1] = temp;
-                }
-            }
-        }
-    }
-    public static void quickSort(int [] numbers, int low,int high){
+------------------------------------------
+        Quick sort
+ public static void quickSort(int [] numbers, int low,int high){
         int n = numbers.length;
         if( n <= 1)
             return;
@@ -91,7 +67,8 @@ public class Main {
         numbers[j] = numbers[i];
         numbers[i] = temp;
     }
-
+--------------------------------------------------------------
+        MERGE SORT
     public static void mergeSort(int [] numbers){
         int [] B = new int[numbers.length];
         split(numbers, 0, numbers.length, B);
@@ -126,4 +103,3 @@ public class Main {
             }
         }
     }
-}

@@ -688,3 +688,227 @@ Divide and conquer
 
 ------------------------------------------------------
 
+    public static  int solution(int[] A) {
+        int N = A.length;
+        if( N == 0)
+            return 0;
+        HashMap<Integer, Integer>map = new HashMap<Integer, Integer>();
+        int result = 0 ;
+        for ( int i = 0 ; i < N; i++){
+            if( map.containsKey(A[i])){
+                int current = map.get(A[i]);
+                map.put(A[i], current+1);
+                result += current;
+            }else {
+                map.put(A[i], 1);
+            }
+        }
+        return result;
+    }
+    public static int factorial(int n) {
+        int fact = 1; // this  will be the result
+        for (int i = 1; i <= n; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+        public  static  int solution(int[] A, int X) {
+            // write your code in Java SE 8
+                int N = A.length;
+                if (N == 0) {
+                    return -1;
+                }
+                int l = 0;
+                int r = N - 1;
+
+                while (l < r  ) {
+                    int m = (l + r + 1) / 2;
+                    if (A[m] > X ) {
+                        r = m - 1;
+                    } else {
+                        l = m ;
+                    }
+                }
+                if ( (r == l) && (A[r] == X) ) {
+                    return r;
+                }
+                return -1;
+            }
+---------------------------------------------------------------------------------------------
+public static String solution(String S) {
+        // write your code in Java SE 8
+        String result = S  ;
+        if( S == null){
+            return null;
+        }
+        if( S.length() == 0)
+            return "";
+
+        int []array = new int[N];
+        reset(array);
+        printArray(array);
+        setArray(array, S);
+        printArray(array);
+        int count = count(array);
+        System.out.println("cout: " + count);
+        while (count > 0){
+            int random = (int )(Math.random() * count + 1);
+            System.out.println("random: " + random);
+            int choice = getChoice(array, random, count);
+            System.out.println("choice: " + choice);
+
+            result = applyChange(result, choice);
+            System.out.println("after resule: : " + result);
+
+            reset(array);
+            setArray(array, result);
+            printArray(array);
+            count = count(array);
+        }
+        return result;
+    }
+
+    private static String applyChange(String ori, int choice) {
+        String result = null;
+        if( choice == 1 ){
+           result = ori.replace("AB", "AA");
+        }else if( choice == 2  ) {
+            result = ori.replace("BA", "AA");
+
+        }else if( choice == 3  ){
+            result = ori.replace("CB", "CC");
+
+        }else if( choice == 4  ){
+            result = ori.replace("BC", "CC");
+
+        }else if( choice == 5   ){
+            result = ori.replace("AA", "A");
+
+        }else if( choice == 6  ){
+            result = ori.replace("CC", "C");
+
+        }
+        return result;
+    }
+
+    private static int getChoice(int[] array, int random, int largeCount) {
+        int count = 0;
+        for ( int i = 0 ; i < N; i++){
+            if( array[i] == 1){
+                count++;
+                if( count == random){
+                    return i+1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private static int count(int[] array) {
+        int count = 0 ;
+        for ( int i = 0 ; i < N; i++){
+            if( array[i] == 1){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static void reset(int[] array) {
+        for ( int i = 0 ; i < N; i++){
+            array[i] = -1;
+        }
+    }
+
+    private static void printArray(int[] array) {
+        for ( int i = 0 ; i < N; i++){
+            System.out.println(" " + array[i]);
+        }
+        System.out.println("\n");
+
+    }
+
+
+    public static void setArray(int[] array, String S) {
+        if( S.contains("AB")){
+            array[0] = 1;
+        }
+        if( S.contains("BA")) {
+            array[1] = 1;
+        }
+        if( S.contains("CB")){
+            array[2] = 1;
+        }
+        if( S.contains("BC")){
+            array[3] = 1;
+        }
+        if( S.contains("AA")){
+            array[4] = 1;
+        }
+        if( S.contains("CC")){
+            array[5] = 1;
+        }
+    }
+-------------------------------------------------------------------------------------
+        Rakuten interview
+ static  int LARGE = 2147483647;
+
+    public static void main(String [] args){
+        int result = solution( 0, 2, 4, 3, -4, 1, 2, 6);
+        System.out.println("Result: " + result);
+    }
+
+    public static  int solution(int K, int L, int M, int N,
+                                int P, int Q, int R, int S) {
+        // write your code in Java SE 8
+        int firstArea = getOneRectangleArea(K, L, M, N);
+        int secondArea = getOneRectangleArea(P, Q, R, S);
+        int intersectionArea = getIntersection(K, L, M, N, P, Q, R, S);
+        if( firstArea == -1 || secondArea == -1
+                || firstArea + secondArea - LARGE > 0){
+            return -1;
+        }
+        return firstArea + secondArea - intersectionArea;
+    }
+
+    private static int getIntersection(int x1, int y1, int x2, int y2,
+                                       int x3, int y3,
+                                       int x4, int y4) {
+        int height = 0 ,width = 0;
+        if( x2 >= x3 && x4 >= x1 ){ //condition for width intersect
+            if( x1 <= x3 && x2 <= x4 ){
+                width = x2 - x3;
+            }else  if( x3 <= x1 && x4 <= x2){
+                width = x4 - x1;
+            }else if( x3 <= x1 && x2 <= x4 ){
+                width = x2 - x1;
+            }else  if( x1 <= x3 && x4<= x2){
+                width = x4 - x3;
+            }
+        }
+
+        if( y2 >= y3 && y4 >= y1 ){ //condition for height intersect
+            if( y1 <= y3 && y2 <= y4 ){
+                height = y2 - y3;
+            }else  if( y3 <= y1 && y4 <= y2){
+
+                height = y4 - y1;
+            }else if( y3 <= y1 && y2 <= y4 ){
+
+                height = y2 - y1;
+            }else  if( y1 <= y3 && y4<= y2){
+                height = y4 - y3;
+
+            }
+        }
+
+        return width* height - LARGE > 0 ? -1 : width* height;
+    }
+
+    public static int getOneRectangleArea(int K, int L, int M, int N){
+        int width = M -K;
+        int height = N - L;
+        return width* height - LARGE > 0 ? -1 : width* height;
+    }
+----------------------------------------------------------------------------------------
