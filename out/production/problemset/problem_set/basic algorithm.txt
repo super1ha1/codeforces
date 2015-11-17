@@ -68,3 +68,38 @@
         numbers[i] = temp;
     }
 --------------------------------------------------------------
+        MERGE SORT
+    public static void mergeSort(int [] numbers){
+        int [] B = new int[numbers.length];
+        split(numbers, 0, numbers.length, B);
+    }
+
+    private static void split(int[] A, int low, int high, int[] B) {
+        if( high - low < 2)
+            return;
+        int mid = (low + high)/2;
+        split(A, low, mid, B);
+        split(A, mid, high, B);
+        merge(A, low, mid, high, B);
+        copyArray(A, low, high, B);
+    }
+
+    private static void copyArray(int[] a, int low, int high, int[] b) {
+        for ( int i = low; i < high; i++){
+            a[i] = b[i];
+        }
+    }
+
+    private static void merge(int[] A, int low, int mid, int high, int[] B) {
+        int firstIndex = low;
+        int secondIndex = mid;
+        for ( int i = low; i < high; i++){
+            if(firstIndex < mid && (A[firstIndex] <= A[secondIndex]  || secondIndex >= high)){
+                B[i] = A[firstIndex];
+                firstIndex++;
+            }else {
+                B[i] = A[secondIndex];
+                secondIndex++;
+            }
+        }
+    }

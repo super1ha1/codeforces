@@ -103,3 +103,30 @@
             }
         }
     }
+---------------------------------------------------------------
+    BINARY SEARCH
+    public static int binarySearch(int[] A, int low, int high, int key){
+        while (low < high){
+            int mid = (low + high) /2;
+            if( A[mid] < key)
+                low= mid + 1;
+            else if( A[mid] > key)
+                high = mid -1;
+            else
+                return mid;
+        }
+        return -1;
+    }
+    public static int optimizedBinarySearch(int[] A, int low, int high, int key){
+        while (low < high){
+            int mid = low + (high - low)/2;
+            if( A[mid] < key)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        if( low == high && A[low] == key)
+            return low;
+        return -1;
+    }
+----------------------------------------------------------
