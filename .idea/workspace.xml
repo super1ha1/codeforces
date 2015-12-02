@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe9647e9-f241-4104-9329-d4b65d4e8dc7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/problemset/src/problem_set/Java_language.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/problemset/Main.class" afterPath="$PROJECT_DIR$/out/production/problemset/Main.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/problemset/src/Main.java" afterPath="$PROJECT_DIR$/problemset/src/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt" afterPath="$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="codeforce.iws" />
@@ -28,17 +26,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.294118">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="84" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.33112583">
+              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#main#0;class#Main#0" expanded="false" />
-                <element signature="method#check#0;class#Main#0" expanded="false" />
-                <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-                <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -84,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UVA_Problems.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UVA_Problems.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9402174">
-              <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="109" column="5" selection-start-line="109" selection-start-column="5" selection-end-line="109" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -127,8 +121,8 @@
         <option value="$PROJECT_DIR$/in.txt" />
         <option value="$PROJECT_DIR$/expected.txt" />
         <option value="$PROJECT_DIR$/out.txt" />
-        <option value="$PROJECT_DIR$/problemset/src/Main.java" />
         <option value="$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt" />
+        <option value="$PROJECT_DIR$/problemset/src/Main.java" />
       </list>
     </option>
   </component>
@@ -692,7 +686,7 @@
       <workItem from="1447500583468" duration="238000" />
       <workItem from="1447501350853" duration="3983000" />
       <workItem from="1447761879164" duration="13447000" />
-      <workItem from="1449058092171" duration="5968000" />
+      <workItem from="1449058092171" duration="7859000" />
     </task>
     <task id="LOCAL-00001" summary="update 1/9">
       <created>1441039241594</created>
@@ -704,7 +698,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75749000" />
+    <option name="totallyTimeSpent" value="77640000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -718,7 +712,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12330317" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2341629" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5463801" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30010775" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -777,10 +771,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -799,10 +789,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -821,10 +807,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -843,10 +825,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -865,10 +843,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -887,10 +861,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -909,10 +879,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -931,10 +897,6 @@
           <caret line="22" column="5" selection-start-line="7" selection-start-column="3" selection-end-line="22" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -953,10 +915,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -975,10 +933,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -997,10 +951,6 @@
           <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1019,10 +969,6 @@
           <caret line="29" column="9" selection-start-line="11" selection-start-column="7" selection-end-line="29" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1041,10 +987,6 @@
           <caret line="29" column="9" selection-start-line="11" selection-start-column="7" selection-end-line="29" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1063,10 +1005,6 @@
           <caret line="29" column="9" selection-start-line="11" selection-start-column="7" selection-end-line="29" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1085,10 +1023,6 @@
           <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1107,10 +1041,6 @@
           <caret line="36" column="0" selection-start-line="14" selection-start-column="4" selection-end-line="36" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1129,10 +1059,6 @@
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1151,10 +1077,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1173,10 +1095,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1238,22 +1156,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/problem_set/Java_language.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="62" selection-start-line="23" selection-start-column="62" selection-end-line="23" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/in.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/out.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1270,25 +1172,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/problem_set/Java_language.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.294118">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="84" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#check#0;class#Main#0" expanded="false" />
-            <element signature="method#checkOutput#0;class#Main#0" expanded="false" />
-            <element signature="method#writeOutput#0;class#Main#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="62" selection-start-line="23" selection-start-column="62" selection-end-line="23" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/in.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9402174">
-          <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="109" column="5" selection-start-line="109" selection-start-column="5" selection-end-line="109" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33112583">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
