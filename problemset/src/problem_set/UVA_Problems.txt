@@ -1,17 +1,8 @@
-import javax.xml.soap.Text;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+   02/12 UVA 100 3n + 1
+- Problem : some time output 0 > wrong because assume that i <= j, which is wrong
+- use sc.hasNextInt() to read input
 
-public class Main {
-
+My Own answer code
     public static void main(String [] args) throws  Exception{
         Scanner sc = new Scanner(new FileReader("in.txt"));
         StringBuilder sb = new StringBuilder();
@@ -83,4 +74,51 @@ public class Main {
             System.err.format("IOException: %s%n", x);
         }
     }
-}
+
+------------------------------------------
+
+--------------------------------------------------------------
+
+---------------------------------------------------------------
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+
+----------------------------------------------------------
+
+
