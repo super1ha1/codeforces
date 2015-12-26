@@ -253,7 +253,63 @@ public static void main (String args[])  // entry point from OS
 ---------------------------------------------------------------
     UVA 483 - Word Scramble
 Problem: does not trim string ( keep the space between word, begin and end space also.
+public static void main (String args[])  throws Exception// entry point from OS
+    {
+        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int N, R;
+        String line, updateLine;
+        String[] ar;
+        char [] chars;
+        int begin = -1, end = -1, count = 0 ;
+        char temp;
+        while (sc.hasNext())
+        {
+            line = sc.nextLine();
+            chars = line.toCharArray();
+            for ( int i = 0 ; i < chars.length; i++){
+                if( chars[i] != ' '){
+                    count++;
+                    if( begin == -1) {
+                        begin = i;
+                        System.out.println("begin: " + i);
+                    }
+                }else {
+                    if( begin != -1){
+                        System.out.println("begin: " + begin + " count: "+  count);
+                        swap(chars, begin, begin + count);
+                        begin = -1;
+                        count = 0;
+                    }
+                }
+            }
+            updateLine = String.valueOf(chars);
+//            for( String s : ar){
+//                chars = s.toCharArray();
+////                System.out.println("String : " + s + " char: " + String.valueOf(chars));
+//
+//                for ( int i = 0; i < chars.length/2; i++){
+//                    temp = chars[i];
+//                    chars[i] = chars[chars.length -1 -i];
+//                    chars[chars.length -1 - i] = temp;
+//                }
+////                System.out.println(String.valueOf(chars));
+//
+//                updateLine += String.valueOf(chars) + " ";
+//            }
+//            updateLine.trim();
+            System.out.println(updateLine);
+        }
+    }
 
+     static void swap(char[] chars, int begin, int end) {
+         char temp; int count, i;
+         for ( i = 0, count = begin; count < (end + begin ) /2; count++, i++){
+             temp = chars[count];
+             chars[count] = chars[end -i];
+             chars[end -i] = temp;
+         }
+         System.out.println("Cahr: " + String.valueOf(chars));
+    }
 ----------------------------------------------------------
 
 
