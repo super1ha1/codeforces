@@ -8,38 +8,44 @@ public  class Main
 {
     public static void main (String args[])  throws Exception// entry point from OS
     {
-//        Scanner sc = new Scanner(System.in);
-        Scanner sc = new Scanner(new FileReader("in.txt"));
-        int n, m, c;
+        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n;
         n = Integer.valueOf(sc.nextLine());
         int a, b;
         for ( int i = 0 ; i < n; i++){
+
             Vector<Integer> index = new Vector<>();
-            Vector<Integer> value = new Vector<>();
+            Vector<String> value = new Vector<>();
             String first = sc.nextLine();
             String indexStr = sc.nextLine();
             String valueStr = sc.nextLine();
 
-            System.out.println("index; " + indexStr);
-            System.out.println("value; " + valueStr);
             for( String s: indexStr.split(" ")){
-                System.out.print(s);
-
-//                index.add(Integer.valueOf(s));
+                index.add(Integer.valueOf(s));
             }
             for( String s: valueStr.split(" ")){
-                System.out.print(s);
-
-//                value.add(Integer.valueOf(s));
+                value.add(s);
             }
-            print(index);
-            print(value);
+//            printInt(index);
+//            printDouble(value);
+            for ( int j = 1 ; j <= index.size(); j++){
+                System.out.println(value.elementAt(index.indexOf(j)));
+            }
+            System.out.println();
+
         }
 
 
     }
-    public static void print(Vector<Integer> integers){
+    public static void printInt(Vector<Integer> integers){
         for( Integer integer: integers){
+            System.out.print(integer);
+        }
+        System.out.println();
+    }
+    public static void printDouble(Vector<String> integers){
+        for( String integer: integers){
             System.out.print(integer);
         }
         System.out.println();
