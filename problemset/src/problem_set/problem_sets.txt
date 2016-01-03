@@ -948,6 +948,8 @@ public static String solution(String S) {
 ------------------------------------------------------------------------------------------------------------------------
                 B. HDD is Outdated Technology
                 http://codeforces.com/contest/612/problem/B
+                Note: overflow may happen, need to use Big Int
+
                 int n ;
                 Map<Integer , Integer> map = new HashMap<>();
                 Scanner sc = new Scanner(System.in);
