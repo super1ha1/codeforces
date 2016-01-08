@@ -10,44 +10,30 @@ public  class Main
     {
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new FileReader("in.txt"));
-        int n;
-        n = Integer.valueOf(sc.nextLine());
-        int a, b;
-        for ( int i = 0 ; i < n; i++){
+        int n, m;
+        while (sc.hasNextInt()){
+            n = sc.nextInt();
+            m = sc.nextInt();
+            int a ;
+            int [] array = new int[m];
 
-            Vector<Integer> index = new Vector<>();
-            Vector<String> value = new Vector<>();
-            String first = sc.nextLine();
-            String indexStr = sc.nextLine();
-            String valueStr = sc.nextLine();
+            while (sc.hasNextInt()){
+                a = sc.nextInt();
+                array[a - 1 ] = 1;
+            }
 
-            for( String s: indexStr.split(" ")){
-                index.add(Integer.valueOf(s));
+            boolean yes = true;
+            for ( int i  =0 ; i < m; i++){
+                if(array[i] == 0){
+                    yes = false;
+                    break;
+                }
             }
-            for( String s: valueStr.split(" ")){
-                value.add(s);
-            }
-//            printInt(index);
-//            printDouble(value);
-            for ( int j = 1 ; j <= index.size(); j++){
-                System.out.println(value.elementAt(index.indexOf(j)));
-            }
-            System.out.println();
+            String s = yes ? "YES" : "NO" ;
+            System.out.println(s);
 
         }
 
+    }
 
-    }
-    public static void printInt(Vector<Integer> integers){
-        for( Integer integer: integers){
-            System.out.print(integer);
-        }
-        System.out.println();
-    }
-    public static void printDouble(Vector<String> integers){
-        for( String integer: integers){
-            System.out.print(integer);
-        }
-        System.out.println();
-    }
 }
