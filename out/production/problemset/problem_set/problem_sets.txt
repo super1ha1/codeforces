@@ -965,7 +965,53 @@ public static String solution(String S) {
                 }
                 System.out.println(sum);
 ------------------------------------------------------------------------------------------------------------------------
+            A. Bulbs http://codeforces.com/contest/615/problem/A
+ Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n, m;
+        while (sc.hasNextInt()){
+            n = sc.nextInt();
+            m = sc.nextInt();
+            int a ;
+            int [] array = new int[m];
+
+            while (sc.hasNextInt()){
+                a = sc.nextInt();
+                array[a - 1 ] = 1;
+            }
+
+            boolean yes = true;
+            for ( int i  =0 ; i < m; i++){
+                if(array[i] == 0){
+                    yes = false;
+                    break;
+                }
+            }
+            String s = yes ? "YES" : "NO" ;
+            System.out.println(s);
+
 ------------------------------------------------------------------------------------------------------------------------
+        A. Comparing Two Long Integers
+http://codeforces.com/contest/616/problem/A
+//        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String strLine = in.readLine();
+        BigInteger first = BigInteger.valueOf(new Long(strLine));
+        String secondLIne = in.readLine();
+        BigInteger second = BigInteger.valueOf(new Long(secondLIne));
+
+        PrintWriter printWriter = new PrintWriter(System.out);
+        int compare = first.compareTo(second);
+        if( compare < 0){
+            printWriter.write("<");
+        }else if( compare == 0){
+            printWriter.write("=");
+        }else if( compare > 0) {
+            printWriter.write(">");
+        }
+        printWriter.close();
+
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------

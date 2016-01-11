@@ -965,8 +965,87 @@ public static String solution(String S) {
                 }
                 System.out.println(sum);
 ------------------------------------------------------------------------------------------------------------------------
+            A. Bulbs http://codeforces.com/contest/615/problem/A
+ Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n, m;
+        while (sc.hasNextInt()){
+            n = sc.nextInt();
+            m = sc.nextInt();
+            int a ;
+            int [] array = new int[m];
+
+            while (sc.hasNextInt()){
+                a = sc.nextInt();
+                array[a - 1 ] = 1;
+            }
+
+            boolean yes = true;
+            for ( int i  =0 ; i < m; i++){
+                if(array[i] == 0){
+                    yes = false;
+                    break;
+                }
+            }
+            String s = yes ? "YES" : "NO" ;
+            System.out.println(s);
+
 ------------------------------------------------------------------------------------------------------------------------
+        A. Comparing Two Long Integers
+http://codeforces.com/contest/616/problem/A
+//        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String strLine = in.readLine();
+        BigInteger first = BigInteger.valueOf(new Long(strLine));
+        String secondLIne = in.readLine();
+        BigInteger second = BigInteger.valueOf(new Long(secondLIne));
+
+        PrintWriter printWriter = new PrintWriter(System.out);
+        int compare = first.compareTo(second);
+        if( compare < 0){
+            printWriter.write("<");
+        }else if( compare == 0){
+            printWriter.write("=");
+        }else if( compare > 0) {
+            printWriter.write(">");
+        }
+        printWriter.close();
+
 ------------------------------------------------------------------------------------------------------------------------
+            B. Dinner with Emma
+            http://codeforces.com/contest/616/problem/B
+
+       Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n, m;
+        n = sc.nextInt();
+        m = sc.nextInt();
+
+        long [] min = new long[n];
+        long [][] array = new long [n][m];
+        for ( int i = 0 ; i < n; i++){
+            for(int j = 0 ; j < m; j++){
+                array[i][j] = sc.nextLong();
+                if( j == 0 ) min[i] = array[i][j];
+                if( array[i][j] < min[i])
+                    min[i] = array[i][j];
+            }
+        }
+        int max_index = -1;
+        long max_value = -1;
+        for ( int i = 0 ;i < n; i++){
+            if( i == 0 ){
+                max_value = min[i];
+                max_index = i;
+            }
+            if( min[i] > max_value){
+                max_value = min[i];
+                max_index = i;
+            }
+        }
+        System.out.println(max_value);
+    }
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
