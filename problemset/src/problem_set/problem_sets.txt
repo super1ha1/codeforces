@@ -1012,6 +1012,43 @@ http://codeforces.com/contest/616/problem/A
         }
         printWriter.close();
 
+        -----------------------------------------
+        Accept answer
+          //        Scanner sc = new Scanner(System.in);
+        //        Scanner sc = new Scanner(new FileReader("in.txt"));
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                String firstLine = in.readLine();
+                String secondLIne = in.readLine();
+
+                long len1 = firstLine.length();
+                long len2 = secondLIne.length();
+                if( len1 > len2){
+                    String s = "";
+                    for ( int i = 0 ; i < len1 - len2; i++ ){
+                        s += "0";
+                    }
+                    secondLIne = s + secondLIne;
+                }else if( len1 < len2){
+                    String s = "";
+                    for ( int i = 0 ; i < len2 - len1; i++ ){
+                        s += "0";
+                    }
+                    firstLine= s + firstLine;
+                }
+
+                PrintWriter printWriter = new PrintWriter(System.out);
+                int compare = firstLine.compareTo(secondLIne);
+                if (compare < 0) {
+                    printWriter.write("<");
+                } else if (compare == 0) {
+                    printWriter.write("=");
+                } else if (compare > 0) {
+                    printWriter.write(">");
+                }
+                printWriter.close();
+            }
+
+
 ------------------------------------------------------------------------------------------------------------------------
             B. Dinner with Emma
             http://codeforces.com/contest/616/problem/B
@@ -1047,6 +1084,59 @@ http://codeforces.com/contest/616/problem/A
         System.out.println(max_value);
     }
 ------------------------------------------------------------------------------------------------------------------------
+        D. Longest k-Good Segment
+http://codeforces.com/contest/616/problem/D
+
+    public static void main (String args[])  throws Exception// entry point from OS
+    {
+        //        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n , k;
+        n = sc.nextInt();
+        k = sc.nextInt();
+        int [] array = new int[n];
+        int l = -1, r = -1;
+        for( int i  = 0 ; i < n; i++){
+            array[i] = sc.nextInt();
+        }
+        int [][] value = new int[n][n];
+        for ( int i = 0 ; i < n; i++){
+            int tempL = -1, tempR = -1;
+            for ( int j = i ; j < n; j++){
+
+                if(j == 0){
+                    value[i][j] = 1;
+                    continue;
+                }
+                int currentVal = check(array,n,  i, j);
+                value[i][j] = value[i][j-1] + currentVal;
+                if( value[i][j] == k){
+                    tempL = i + 1;
+                    tempR = j+1;
+                    break;
+                }
+            }
+            System.out.println(tempL + " " + tempR);
+
+            if( tempR - tempL > r - l){
+                l = tempL + 1;
+                r = tempR + 1;
+            }
+
+        }
+        System.out.println(l + " " + r);
+    }
+
+    private static int check(int[] array, int n,  int i, int j) {
+        Set<Integer> set = new HashSet<>();
+        for ( int k = i ; k < j; k++){
+            set.add(array[k]);
+        }
+        if( set.contains(array[j]))
+            return 0;
+        return 1;
+    }
+
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------

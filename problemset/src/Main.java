@@ -8,33 +8,24 @@ public  class Main
     {
                 Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new FileReader("in.txt"));
-        int n, m;
-        n = sc.nextInt();
-        m = sc.nextInt();
+        long n , m;
+        n = sc.nextLong();
+        m = sc.nextLong();
+        long sum = 0;
+        long modValue =(long) (Math.pow(10, 9) + 7);
+        for( int i = 1; i <= m; i++){
+            long mod = n % i;
+            if( mod > modValue){
+                mod = mod % modValue;
+            }
+            sum = sum + mod;
+            if( sum > modValue){
+                sum = sum % modValue;
+            }
+        }
 
-        long [] min = new long[n];
-        long [][] array = new long [n][m];
-        for ( int i = 0 ; i < n; i++){
-            for(int j = 0 ; j < m; j++){
-                array[i][j] = sc.nextLong();
-                if( j == 0 ) min[i] = array[i][j];
-                if( array[i][j] < min[i])
-                    min[i] = array[i][j];
-            }
-        }
-        int max_index = -1;
-        long max_value = -1;
-        for ( int i = 0 ;i < n; i++){
-            if( i == 0 ){
-                max_value = min[i];
-                max_index = i;
-            }
-            if( min[i] > max_value){
-                max_value = min[i];
-                max_index = i;
-            }
-        }
-        System.out.println(max_value);
+        System.out.println(sum);
     }
+
 
 }
