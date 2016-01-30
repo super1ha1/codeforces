@@ -38,35 +38,25 @@ public  class Main
     public static void main (String args[])
     {
         // TODO: Implement your program
-        grid = new int[SIZE][SIZE];
-        visited = new boolean[SIZE][SIZE];
 
-        Scanner sc = null;
 
         try {
-            FileWriter writer = new FileWriter("in.txt");
-            writer.write("500 500\n");
-            for ( int i = 0 ; i < SIZE; i++){
-                String s = "";
-                for ( int j = 0; j < SIZE; j++){
-                    s+= String.valueOf(j) + " ";
-                }
-                s += "\n";
-                writer.write(s);
-            }
-            writer.close();
+            Scanner sc = new Scanner(System.in);
+            while (sc.hasNextInt()){
+                grid = new int[SIZE][SIZE];
+                visited = new boolean[SIZE][SIZE];
+                maxScore = -1;
 
-//            sc = new Scanner(System.in);
-            sc = new Scanner(new FileReader("in.txt"));
-            numRows = sc.nextInt();
-            numCols = sc.nextInt();
-            for (int i = 0; i < numRows; i++){
-                for (int j = 0; j < numCols; j++){
-                    grid[i][j] = sc.nextInt();
+                numRows = sc.nextInt();
+                numCols = sc.nextInt();
+                for (int i = 0; i < numRows; i++){
+                    for (int j = 0; j < numCols; j++){
+                        grid[i][j] = sc.nextInt();
+                    }
                 }
+                findMaxScore();
+                System.out.println(maxScore);
             }
-            findMaxScore();
-            System.out.println(maxScore);
         } catch (Exception e) {
             e.printStackTrace();
         }
