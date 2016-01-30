@@ -52,7 +52,7 @@
     private static int partition(int[] numbers, int low, int high) {
         int i = low;
         int pivot = numbers[high];
-        for ( int j = low; j < high; j++){
+        for ( int j = low; j < high; j++) {
             if( numbers[j] <= pivot){
                 swap(numbers, i, j);
                 i++;
