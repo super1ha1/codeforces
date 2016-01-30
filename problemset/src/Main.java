@@ -1,80 +1,129 @@
 import java.io.*;
-import java.math.BigInteger;
 import java.util.*;
+
+/*
+    1) The algorithm used to solve the game problem is backtracking:
+    - construct the grid using x and y coordinate, where 0 <= x <= rows -1, 0 <= y <= cols -1
+    - for each cell, the snake can either go up, down or right, branch factor is 3
+    - when the snake reach the last column(y == cols -1)
+        + the snake could only go up or down
+        + check the total sum, if sum > maxScore, update maxScore
+
+    2) Time complexity:
+        T(1, m) = O(m); T(n, 1) = O(n)
+        T(n, m) = 2T(n-1, m) + T(n, m-1)
+        where n is number of rows, m is number of columns
+        if n == m, we could approximate:
+        T(0) = 1
+        T(n) = 3 T(n-1)
+        => T(n) = 3^n
+
+    3) Advantage and disadvantage of the algorithm:
+    - advantage: easy to understand, straight forward
+    - disadvantage:
+        + the algorithm use many recursive calls, may exceed the maximum stack size
+        + time complexity is large
+ */
 
 public  class Main
 {
-    static int [][]fnet;
-    static int [][] cap;
-    public static void main (String args[])  throws Exception// entry point from OS
+    public static final int SIZE = 501;
+    static int grid[][];
+    static boolean visited[][];
+    static int numRows, numCols;
+    static long maxScore = -1;
+    static final int increaseX[] = {-1, 0, 1}; //increase in x when the snake go up, down, right
+    static final int increaseY[] = {0, 1, 0};  //increase in y when the snake go up, down, right
+
+    public static void main (String args[])
     {
-        int n = 7;
+        // TODO: Implement your program
+        grid = new int[SIZE][SIZE];
+        visited = new boolean[SIZE][SIZE];
 
-        //Init all = 0
-        fnet = new int[n][n];
-        cap = new int[n][n];
+        Scanner sc = null;
 
-        // set capacity:
-        Scanner sc = new Scanner(new FileReader("in.txt"));
-        int first, second,  value;
-        for (int i = 0 ; i < 9 ; i++){
-            first = sc.nextInt();
-            second = sc.nextInt();
-            value = sc.nextInt();
-            cap[first][second] = value;
-        }
+        try {
+            FileWriter writer = new FileWriter("in.txt");
+            writer.write("500 500\n");
+            for ( int i = 0 ; i < SIZE; i++){
+                String s = "";
+                for ( int j = 0; j < SIZE; j++){
+                    s+= String.valueOf(j) + " ";
+                }
+                s += "\n";
+                writer.write(s);
+            }
+            writer.close();
 
-        int flow = fordFulkerson(n, 0, 6);
-        System.out.println("Flow; " + flow);
-
-    }
-
-    public static int fordFulkerson(int n, int s, int t) {
-        //ASSUMES: cap[u][v] stores capacity of edge (u,v). cap[u][v] = 0 for no edge.
-        //Initialise the flow network so that fnet[u][v] = 0 for all u,v
-        int flow = 0; //no flow yet
-
-        while (true) {
-            //Find an augmenting path using BFS
-            int[] prev = new int[n];
-            Arrays.fill(prev, -1);
-            LinkedList<Integer> queue = new LinkedList<Integer>();
-            prev[s] = -2;
-            queue.add(s);
-            while (!queue.isEmpty() && prev[t] == -1) {
-                int u = queue.poll();
-                for (int v = 0; v < n; v++) {
-                    if (prev[v] == -1) { //not seen yet
-                        if (fnet[v][u] > 0 || fnet[u][v] < cap[u][v]) {
-                            prev[v] = u;
-                            queue.add(v);
-                        }
-                    }
+//            sc = new Scanner(System.in);
+            sc = new Scanner(new FileReader("in.txt"));
+            numRows = sc.nextInt();
+            numCols = sc.nextInt();
+            for (int i = 0; i < numRows; i++){
+                for (int j = 0; j < numCols; j++){
+                    grid[i][j] = sc.nextInt();
                 }
             }
-            //See if we couldn't find any path to t (t has no parents)
-            if (prev[t] == -1) break;
-
-            //Get the bottleneck capacity;
-            int bot = Integer.MAX_VALUE;
-            for (int v = t, u = prev[v]; u >= 0; v = u, u = prev[v]) {
-                if (fnet[v][u] > 0)  //prefer a backward edge over a forward
-                    bot = Math.min(bot, fnet[v][u]);
-                else //must be a forward edge otherwise
-                    bot = Math.min(bot, cap[u][v] - fnet[u][v]);
-            }
-
-            //update the flow network
-            for (int v = t, u = prev[v]; u >= 0; v = u, u = prev[v]) {
-                if (fnet[v][u] > 0) //backward edge -> subtract
-                    fnet[v][u] -= bot;
-                else //forward edge -> add
-                    fnet[u][v] += bot;
-            }
-
-            //Sent 'bot' amount of flow from s to v, so update the flow
-            flow += bot;
+            findMaxScore();
+            System.out.println(maxScore);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return flow;
+    }
+
+    /*
+        Wrapper function of solveGame,
+        try to visit each of grid in the first column => column = 0
+     */
+    public static void findMaxScore(){
+        for (int i = 0; i < numRows; i++) {
+            if (grid[i][0] == -1)
+                continue;
+            visited[i][0] = true;
+            solveGame(grid[i][0], i, 0);
+            visited[i][0] = false;
+        }
+    }
+
+
+    public static void solveGame(long sum, int x, int y) {
+        //Reach the last column, check and update the maxScore
+        if (y == numCols - 1 && sum > maxScore) {
+            maxScore = sum;
+        }
+
+        //From current cell x, y, there are 3 options for the snake: up, down right
+        for (int i = 0; i <= 2; ++i) {
+            boolean flag = false; //Indicate whether the snake teleport
+
+            //update x
+            int newX = x + increaseX[i];
+            if (newX == -1) {
+                newX = numRows - 1;
+                flag = true;
+            }
+            if (newX == numRows) {
+                newX = 0;
+                flag = true;
+            }
+
+            //update y
+            int newY = y + increaseY[i];
+            if (newY == numCols)
+                continue;
+
+            //if next cell is blocked or already visited, continue
+            if (visited[newX][newY] || grid[newX][newY] == -1)
+                continue;
+
+            //Backtracking
+            visited[newX][newY] = true;
+            if (flag)
+                solveGame(grid[newX][newY], newX, newY);
+            else
+                solveGame(sum + grid[newX][newY], newX, newY);
+            visited[newX][newY] = false;
+        }
     }
 }
