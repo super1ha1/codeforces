@@ -80,7 +80,7 @@ My Own answer code
 import java.io.*;
 import java.util.*;
 
-class Main
+class nguyen_dac_khue.Exam2.Main
 {
     static String ReadLn (int maxLg)  // utility function to read from stdin
     {
@@ -108,7 +108,7 @@ class Main
 
     public static void main (String args[])  // entry point from OS
     {
-        Main myWork = new Main();  // create a dinamic instance
+        nguyen_dac_khue.Exam2.Main myWork = new nguyen_dac_khue.Exam2.Main();  // create a dinamic instance
         myWork.Begin();            // the true entry point
     }
 
@@ -118,7 +118,7 @@ class Main
         StringTokenizer idata;
         int a, b, min, max, num, n, cycle, cyclemax;
 
-        while ((input = Main.ReadLn (255)) != null)
+        while ((input = nguyen_dac_khue.Exam2.Main.ReadLn (255)) != null)
         {
           idata = new StringTokenizer (input);
           a = Integer.parseInt (idata.nextToken());

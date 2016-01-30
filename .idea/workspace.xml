@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe9647e9-f241-4104-9329-d4b65d4e8dc7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/problemset/src/Main.java" afterPath="$PROJECT_DIR$/problemset/src/Main.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam1/Main.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/problemset/Main.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/problemset/src/Main.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/in.txt" afterPath="$PROJECT_DIR$/in.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/problemset/problem_set/UVA_Problems.txt" afterPath="$PROJECT_DIR$/out/production/problemset/problem_set/UVA_Problems.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt" afterPath="$PROJECT_DIR$/problemset/src/problem_set/UVA_Problems.txt" />
     </list>
     <ignored path="codeforce.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,13 +31,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42372882">
-              <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="23" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#printCities#0;class#Main#0" expanded="false" />
+                <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+                <element signature="e#3673#3682#0" expanded="true" />
+                <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+                <element signature="e#4368#4377#0" expanded="true" />
+                <element signature="method#printVector#0;class#Main#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam1/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.079365">
+              <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#findMaxScore#0;class#Main#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -40,7 +66,7 @@
         <entry file="file://$PROJECT_DIR$/in.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+              <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -111,6 +137,8 @@
         <option value="$PROJECT_DIR$/problemset/src/MainTest.java" />
         <option value="$PROJECT_DIR$/in.txt" />
         <option value="$PROJECT_DIR$/problemset/src/Main.java" />
+        <option value="$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java" />
+        <option value="$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam1/Main.java" />
       </list>
     </option>
   </component>
@@ -152,7 +180,7 @@
       <showMembers />
       <showModules />
       <showLibraryContents />
-      <hideEmptyPackages />
+      <hideEmptyPackages ProjectPane="false" />
       <abbreviatePackageNames />
       <autoscrollToSource />
       <autoscrollFromSource />
@@ -197,6 +225,50 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="codeforce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="problemset" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nguyen_dac_khue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Exam2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="codeforce" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="problemset" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nguyen_dac_khue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Exam1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -236,10 +308,10 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Exam1Main">
+    <configuration default="false" name="Exam2Main" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="Main" />
+      <option name="MAIN_CLASS_NAME" value="nguyen_dac_khue.Exam2.Main" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -891,13 +963,29 @@
       <envs />
       <method />
     </configuration>
-    <list size="2">
+    <configuration default="false" name="Exam1Main" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="nguyen_dac_khue.Exam1.Main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="problemset" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.MainTest" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Exam1Main" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Exam2Main" />
     </list>
     <recent_temporary>
       <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="0" class="java.lang.String" itemvalue="Application.Exam2Main" />
       </list>
     </recent_temporary>
   </component>
@@ -968,7 +1056,7 @@
       <workItem from="1452265014102" duration="2242000" />
       <workItem from="1452527793279" duration="4289000" />
       <workItem from="1453725894148" duration="1023000" />
-      <workItem from="1454132714645" duration="15172000" />
+      <workItem from="1454132714645" duration="24778000" />
     </task>
     <task id="LOCAL-00001" summary="update 1/9">
       <created>1441039241594</created>
@@ -980,7 +1068,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133784000" />
+    <option name="totallyTimeSpent" value="143390000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -993,11 +1081,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32918552" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36414883" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18151072" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.69673055" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20096463" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15434083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45546788" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JavaEE:App" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09967846" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22064394" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1010,7 +1099,6 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1046,12 +1134,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1063,12 +1157,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1080,29 +1180,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/problem_set/problem_sets.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="466" column="0" selection-start-line="466" selection-start-column="0" selection-end-line="466" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1114,12 +1203,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1131,12 +1226,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="5" selection-start-line="7" selection-start-column="3" selection-end-line="22" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1148,12 +1249,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1165,12 +1272,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1182,12 +1295,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1199,12 +1318,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="29" column="9" selection-start-line="11" selection-start-column="7" selection-end-line="29" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1216,12 +1341,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="29" column="9" selection-start-line="11" selection-start-column="7" selection-end-line="29" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1233,12 +1364,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="29" column="9" selection-start-line="11" selection-start-column="7" selection-end-line="29" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1250,12 +1387,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1267,12 +1410,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="36" column="0" selection-start-line="14" selection-start-column="4" selection-end-line="36" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1284,12 +1433,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1301,12 +1456,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1318,12 +1479,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1453,28 +1620,53 @@
         <state vertical-scroll-proportion="0.58666664">
           <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
           <folding>
-            <element signature="e#908#909#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#1301#1302#0" expanded="true" />
-            <element signature="e#1337#1338#0" expanded="true" />
+            <element signature="e#908#909#0" expanded="false" />
+            <element signature="e#941#942#0" expanded="false" />
+            <element signature="e#1301#1302#0" expanded="false" />
+            <element signature="e#1337#1338#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_66/src.zip!/java/util/Queue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5921569">
+          <caret line="198" column="6" selection-start-line="198" selection-start-column="6" selection-end-line="198" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/in.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/problemset/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam2/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42372882">
-          <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="23" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#printCities#0;class#Main#0" expanded="false" />
+            <element signature="method#printGraph#0;class#Main#0" expanded="false" />
+            <element signature="e#3673#3682#0" expanded="true" />
+            <element signature="method#getUnvisitedNode#0;class#Main#0" expanded="false" />
+            <element signature="e#4368#4377#0" expanded="true" />
+            <element signature="method#printVector#0;class#Main#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/problemset/src/nguyen_dac_khue/Exam1/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.079365">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#findMaxScore#0;class#Main#0" expanded="false" />
           </folding>
         </state>
       </provider>

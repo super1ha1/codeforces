@@ -1,3 +1,5 @@
+package nguyen_dac_khue.Exam1;
+
 import java.io.*;
 import java.util.*;
 
@@ -19,7 +21,7 @@ import java.util.*;
         => T(n) = 3^n
 
     3) Advantage and disadvantage of the algorithm:
-    - advantage: easy to understand, straight forward
+    - advantage: easy to understand
     - disadvantage:
         + the algorithm use many recursive calls, may exceed the maximum stack size
         + time complexity is large
@@ -28,27 +30,24 @@ import java.util.*;
 public  class Main
 {
     public static final int SIZE = 501;
+    static final int increaseX[] = {-1, 0, 1}; //increase in x when the snake go up, down, right
+    static final int increaseY[] = {0, 1, 0};  //increase in y when the snake go up, down, right
+
     static int grid[][];
     static boolean visited[][];
     static int numRows, numCols;
     static long maxScore = -1;
-    static final int increaseX[] = {-1, 0, 1}; //increase in x when the snake go up, down, right
-    static final int increaseY[] = {0, 1, 0};  //increase in y when the snake go up, down, right
 
-    public static void main (String args[])
-    {
+    public static void main(String[] args) {
         // TODO: Implement your program
-
-
         try {
             Scanner sc = new Scanner(System.in);
             while (sc.hasNextInt()){
-                grid = new int[SIZE][SIZE];
-                visited = new boolean[SIZE][SIZE];
                 maxScore = -1;
-
                 numRows = sc.nextInt();
                 numCols = sc.nextInt();
+                grid = new int[numRows][numCols];
+                visited = new boolean[numRows][numCols];
                 for (int i = 0; i < numRows; i++){
                     for (int j = 0; j < numCols; j++){
                         grid[i][j] = sc.nextInt();
@@ -100,19 +99,22 @@ public  class Main
 
             //update y
             int newY = y + increaseY[i];
-            if (newY == numCols)
+            if (newY == numCols){
                 continue;
+            }
 
             //if next cell is blocked or already visited, continue
-            if (visited[newX][newY] || grid[newX][newY] == -1)
+            if (visited[newX][newY] || grid[newX][newY] == -1){
                 continue;
+            }
 
             //Backtracking
             visited[newX][newY] = true;
-            if (flag)
+            if (flag) {
                 solveGame(grid[newX][newY], newX, newY);
-            else
+            } else {
                 solveGame(sum + grid[newX][newY], newX, newY);
+            }
             visited[newX][newY] = false;
         }
     }
