@@ -1,11 +1,4 @@
-
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.*;
-
-
-public class MainTest {
+05/03 programming Abstraction: Lecture 7
 
     public static void main(String[] args){
 
@@ -95,5 +88,3 @@ public class MainTest {
     }
 
 
-
-}
