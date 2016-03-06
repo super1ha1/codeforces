@@ -133,12 +133,26 @@
         else if( array[mid] < key){
             return binarySearch(array, mid+1, high, key);
         }else return binarySearch(array, low, mid -1, key);
-
-
     }
 
-
 -----------------------------------------------------------------------------------------
+    calculate combination C(n, k) pick k from n people
+    * base case:
+        k ==0 : finish pick, pick 0 more people
+        k == n: exclude all people, now either no pick or pick every one
+
+public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println(C(10, 8));
+    }
+
+    public static int C(int n, int k){
+        if( k == 0 || k == n){
+            return 1;
+        }else
+            return C(n-1, k-1) + C(n-1, k);
+    }
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
