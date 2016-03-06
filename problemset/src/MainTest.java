@@ -7,89 +7,78 @@ import java.util.*;
 
 public class MainTest {
 
+    private static  Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args){
+        Entry list = getListEntry();
+        printList(list);
 
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int [][] board = new int[n][n];
-        if(solve(board, 0)){
-            printBoard(board);
-        }
 
     }
 
-    public static void printBoard(int[][] board){
-        for( int i = 0 ; i < board.length; i++){
-            for( int j = 0; j < board.length; j++){
-                if( board[i][j] == 1){
-                    System.out.print("[#]");
-                }else{
-                    System.out.print("[.]");
-                }
+    public static Entry getListEntry(){
+        Entry list = null;
+        while (true){
+            Entry entry = getEntry();
+            if(entry == null) break;
+            entry.setNext(list);
+            list = entry;
+
+        }
+        return list;
+    }
+
+    public static void printList(Entry list){
+        Entry temp = list;
+        while (temp != null){
+            System.out.println(temp.toString());
+            temp = temp.getNext();
+        }
+    }
+
+    public static Entry getEntry(){
+
+            System.out.println("enter name: ");
+            String name = sc.nextLine();
+            if(name.equals("")){
+                return  null;
             }
-            System.out.println();
-        }
-    }
-    public static boolean solve (int[][] board, int col){
-        if(col >= board.length)
-            return true;
-        for( int row = 0; row < board.length; row++){
-            if(isSafe(board, row, col)){
-                placeQueen(board, row, col);
-                if( solve(board, col + 1))
-                    return true;
-                removeQueen(board, row, col);
-            }
-        }
-        return false;
+            Entry entry = new Entry();
+            entry.setName(name);
+            entry.setNext(null);
+            return entry;
+
     }
 
-    public static boolean isSafe(int[][] board, int currentRow, int currentCol){
-        return board[currentRow][currentCol] != -1;
-    }
+    public static class Entry{
+        private String name;
+        private Entry next;
 
-    public static void placeQueen(int[][] board, int currentRow, int currentCol){
-        board[currentRow][currentCol] = 1;
-        for( int col = 0 ; col < currentCol + 1; col++){
-            for( int row = 0; row < board.length; row++){
-                if( board[row][col] == 1){
-                    markCheck(board, row, col);
-                }
-            }
-        }
-    }
+        public Entry(){
 
-    public static void removeQueen(int[][] board, int currentRow, int currentCol){
-        board[currentRow][currentCol] = 0;
-
-        for(int row = 0; row < board.length; row++){
-            for( int col =0 ;col < board.length; col++){
-               if(board[row][col] != 1){
-                   board[row][col] = 0;
-               }
-            }
         }
 
-        for( int col = 0 ; col < currentCol; col++){
-            for( int row = 0; row < board.length; row++){
-                if( board[row][col] == 1){
-                    markCheck(board, row, col);
-                }
-            }
+        public void setName(String name){
+            this.name = name;
+        }
+
+        public String getName(){
+            return this.name;
+        }
+
+        //getter and setter for next
+
+        public Entry getNext() {
+            return next;
+        }
+
+        public void setNext(Entry next) {
+            this.next = next;
+        }
+
+        public String toString(){
+            return "name: " + this.name;
         }
     }
-
-    public static void markCheck(int[][] check, int row, int col){
-        for(int i = 0; i < check.length; i++){
-            for( int j =0 ;j < check.length; j++){
-                if(i == row || j == col ||
-                        Math.abs(i - row) == Math.abs(j - col)){
-                    check[i][j] = -1;
-                }
-            }
-        }
-    }
-
-
 
 }
