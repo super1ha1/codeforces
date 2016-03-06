@@ -35,26 +35,48 @@ public class MainTest {
             return true;
         for( int row = 0; row < board.length; row++){
             if(isSafe(board, row, col)){
-                board[row][col] = 1;
-                if( solve(board, col +1))
+                placeQueen(board, row, col);
+                if( solve(board, col + 1))
                     return true;
-                board[row][col] = 0;
+                removeQueen(board, row, col);
             }
         }
         return false;
     }
 
     public static boolean isSafe(int[][] board, int currentRow, int currentCol){
-        int [][] check = new int[board.length][board.length];
+        return board[currentRow][currentCol] != -1;
+    }
+
+    public static void placeQueen(int[][] board, int currentRow, int currentCol){
+        board[currentRow][currentCol] = 1;
+        for( int col = 0 ; col < currentCol + 1; col++){
+            for( int row = 0; row < board.length; row++){
+                if( board[row][col] == 1){
+                    markCheck(board, row, col);
+                }
+            }
+        }
+    }
+
+    public static void removeQueen(int[][] board, int currentRow, int currentCol){
+        board[currentRow][currentCol] = 0;
+
+        for(int row = 0; row < board.length; row++){
+            for( int col =0 ;col < board.length; col++){
+               if(board[row][col] != 1){
+                   board[row][col] = 0;
+               }
+            }
+        }
 
         for( int col = 0 ; col < currentCol; col++){
             for( int row = 0; row < board.length; row++){
                 if( board[row][col] == 1){
-                    markCheck(check, row, col);
+                    markCheck(board, row, col);
                 }
             }
         }
-        return check[currentRow][currentCol] != -1;
     }
 
     public static void markCheck(int[][] check, int row, int col){
