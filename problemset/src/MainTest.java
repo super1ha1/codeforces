@@ -21,7 +21,7 @@ public class MainTest {
         while (true){
             Entry entry = getEntry();
             if(entry == null) break;
-            entry.setNext(list);
+            entry.next = list;
             list = entry;
 
         }
@@ -32,7 +32,7 @@ public class MainTest {
         Entry temp = list;
         while (temp != null){
             System.out.println(temp.toString());
-            temp = temp.getNext();
+            temp = temp.next;
         }
     }
 
@@ -44,40 +44,22 @@ public class MainTest {
                 return  null;
             }
             Entry entry = new Entry();
-            entry.setName(name);
-            entry.setNext(null);
+            entry.name = name;
+            entry.next = null;
             return entry;
 
     }
 
     public static class Entry{
-        private String name;
-        private Entry next;
+         String name;
+         Entry next;
 
         public Entry(){
 
         }
 
-        public void setName(String name){
-            this.name = name;
-        }
-
-        public String getName(){
-            return this.name;
-        }
-
-        //getter and setter for next
-
-        public Entry getNext() {
-            return next;
-        }
-
-        public void setNext(Entry next) {
-            this.next = next;
-        }
-
         public String toString(){
-            return "name: " + this.name;
+            return "name: " + name;
         }
     }
 
