@@ -2,65 +2,35 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.text.DecimalFormat;
 import java.util.*;
 
 
 public class MainTest {
 
     private static  Scanner sc = new Scanner(System.in);
-
+    private static DecimalFormat df=new DecimalFormat("0.000000");
     public static void main(String[] args){
-        Entry list = getListEntry();
-        printList(list);
-
-
-    }
-
-    public static Entry getListEntry(){
-        Entry list = null;
-        while (true){
-            Entry entry = getEntry();
-            if(entry == null) break;
-            entry.next = list;
-            list = entry;
-
+        int n  = sc.nextInt();
+        int[] M = new int[n];
+        int[] R = new int[n];
+        for( int i = 0 ; i < n; i++){
+            M[i] = sc.nextInt();
         }
-        return list;
-    }
-
-    public static void printList(Entry list){
-        Entry temp = list;
-        while (temp != null){
-            System.out.println(temp.toString());
-            temp = temp.next;
-        }
-    }
-
-    public static Entry getEntry(){
-
-            System.out.println("enter name: ");
-            String name = sc.nextLine();
-            if(name.equals("")){
-                return  null;
-            }
-            Entry entry = new Entry();
-            entry.name = name;
-            entry.next = null;
-            return entry;
-
-    }
-
-    public static class Entry{
-         String name;
-         Entry next;
-
-        public Entry(){
-
+        for( int i = 0 ; i < n; i++){
+            R[i] = sc.nextInt();
         }
 
-        public String toString(){
-            return "name: " + name;
+        double left = 1.0, result = 0.0;
+        for( int i = 0 ; i < n; i++){
+            result += left * 1/M[i];
+            left = left - (double) 1/M[i];
         }
+
+//        0.666667
+        System.out.println(df.format(result));
+
     }
+
 
 }
