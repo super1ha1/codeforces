@@ -1,4 +1,4 @@
-
+package problem_set;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 
-public class MainTest {
+public class Main {
 
     private static  Scanner sc = new Scanner(System.in);
     private static DecimalFormat df=new DecimalFormat("0.000000");
