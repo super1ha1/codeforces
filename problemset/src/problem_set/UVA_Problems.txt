@@ -471,7 +471,42 @@ public static void main (String args[])  throws Exception// entry point from OS
         System.out.println();
     }
 ----------------------------------------------------------
+        482	Permutation Arrays
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    public static void main(String[] args){
+        int n = Integer.valueOf(sc.nextLine().trim());
+        String firstLine, secondLine;
+        while (n-- > 0){
+            int size = 0;
+            sc.nextLine();
+            firstLine = sc.nextLine();
+            secondLine = sc.nextLine();
 
+            ArrayList<Integer> firstList = new ArrayList<Integer>();
+            ArrayList<String> secondList = new ArrayList<String>();
+
+            for( String s: firstLine.trim().split(" ")){
+                firstList.add(Integer.valueOf(s));
+            }
+            for( String s: secondLine.trim().split(" ")){
+                secondList.add(s);
+            }
+
+            size = firstList.size();
+            for( int i = 1 ; i <= size; i++){
+                int index = firstList.indexOf(i);
+                if(index >= 0)
+                    echo(secondList.get(index));
+            }
+            if(n > 0) echo("");
+        }
+    }
+
+    public static void echo(String s){
+        System.out.println(s);
+    }
+}
 
 ----------------------------------------------------------
 
