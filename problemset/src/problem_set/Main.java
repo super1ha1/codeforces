@@ -11,42 +11,47 @@ public class Main {
     private static  Scanner sc = new Scanner(System.in);
     private static DecimalFormat df=new DecimalFormat("0.000000");
     public static void main(String[] args){
-        int n  = sc.nextInt();
-        String temp = sc.nextLine();
-        String first, second;
-        Set<String> firstSubstringSet;
-        while (n-- > 0){
-            first = sc.nextLine();
-            second = sc.nextLine();
-            firstSubstringSet = getSubStringSet(first);
-            boolean result = false;
-            if(firstSubstringSet != null){
-                for(String s: firstSubstringSet){
-                    if(second.contains(s)) {
-                        result = true;
-                    }
-                }
-            }
-
-            String str = result ? "YES" : "NO";
-            System.out.println(str);
+        while (true){
+            int n  = sc.nextInt();
+            if(n == -1) break;
+            System.out.println(isPrime(n));
         }
 
     }
 
-    private static Set<String> getSubStringSet(String first) {
-        if(first == null || first.length() == 0) return  null;
-        Set<String> result = new TreeSet<>();
-        for( int i = 0; i < first.length(); i++){
-            for( int j = i + 1; j <= first.length(); j++){
-                result.add(first.substring(i, j));
-            }
+    public static int isPrime(long n){
+        long k = n-1;
+        int t = 0;
+        while (k % 2 == 0){
+            t++;
+            k/=2;
         }
-//        for( String s: result){
-//            System.out.println(s);
-//        }
-        return result;
 
+        if(n > 2 && n%2 == 0 ) return 0;
+        if(n > 3 && n%3 == 0 ) return 0;
+        if(n > 5 && n%5 == 0 ) return 0;
+        if(n > 7 && n%7 == 0 ) return 0;
+
+        if(sus(61, t, k, n) &&  sus(7, t, k,n) && sus(3, t, k ,n)){
+            return 1;
+        }
+        return 0;
+    }
+
+    private static boolean sus(long b, long t, long k, long n) {
+        long prod = 1;
+        while (k  > 0){
+            if(k %2 == 1) prod = (prod * b) % n;
+            k/=2;
+            b = (b * b) % n;
+        }
+        if(prod == 1) return true;
+
+        for( int i = 0; i <= t; i++){
+            if(prod == n -1 ) return true;
+            prod = (prod * prod) %n;
+        }
+        return false;
     }
 
 
