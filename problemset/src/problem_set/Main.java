@@ -36,7 +36,7 @@ public class Main {
 
     private static Set<String> getSubStringSet(String first) {
         if(first == null || first.length() == 0) return  null;
-        Set<String> result = new TreeSet<>();
+        Set<String> result = new TreeSet<String>();
         for( int i = 0; i < first.length(); i++){
             for( int j = i + 1; j <= first.length(); j++){
                 result.add(first.substring(i, j));
