@@ -515,7 +515,7 @@ public class Main {
     }
 
 ----------------------------------------------------------
-    11340	Newspaper
+    UVA 11340 Newspaper
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -845,19 +845,1872 @@ private static Scanner sc = new Scanner(System.in);
     }
 
 ----------------------------------------------------------
+    UVA 100: 3n + 1
+    private static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
+        while (sc.hasNextInt()){
+            int first = sc.nextInt();
+            int second = sc.nextInt();
+            int min = first > second ? second : first;
+            int max = first > second ? first : second;
+
+            int maxCycle = compute(min);
+            for (int i = min + 1; i <= max; i++){
+                int value = compute(i);
+                if(value > maxCycle){
+                    maxCycle = value;
+                }
+            }
+            System.out.println(first + " " + second + " " + maxCycle);
+        }
+    }
+
+    private static int compute(int number) {
+        if(number == 1) return 1;
+        int count = 1;
+        while (number != 1){
+            if(number % 2 == 0){
+                number/=2;
+                count++;
+            }else {
+                number = 3*number + 1;
+                count++;
+            }
+        }
+        return count;
+    }
+----------------------------------------------------------
+    UVA 10189	Minesweeper
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
+        int count = 1;
+        while (sc.hasNextInt()){
+            int row = sc.nextInt();
+            int col = sc.nextInt();
+            if(row == 0 && col == 0){
+                break;
+            }else {
+                if(count > 1){
+                    System.out.println("");
+                }
+            }
+            sc.nextLine();
+            int [][] array = getInput(row, col);
+            int [][] computedArray = compute(array);
+
+            System.out.println("Field #" + count + ":");
+            printResult(computedArray);
+            count++;
+        }
+    }
+
+    private static int[][] getInput(int row, int col) {
+        int [][] array = new int[row][col];
+        for( int i = 0 ; i < row; i++){
+            String line = sc.nextLine().trim();
+            for( int j = 0; j < col; j++){
+                if(line.charAt(j) == '.'){
+                    array[i][j] = 0;
+                }else if(line.charAt(j) == '*'){
+                    array[i][j] = 1;
+                }
+            }
+        }
+        return array;
+    }
+
+    private static int[][] compute(int[][] array) {
+        int row = array.length;
+        int col = array[0].length;
+        int [][] computedArray = new int[row][col];
+        for( int i = 0 ; i < row; i++){
+            for( int j = 0; j < col; j++){
+                switch (array[i][j]){
+                    case 1:
+                        computedArray[i][j] = -1;
+                        break;
+
+                    default:
+                        computedArray[i][j] = check(array, i, j);
+                        break;
+                }
+            }
+        }
+        return computedArray;
+    }
+
+    private static int check(int[][] array, int i, int j) {
+        int row = array.length;
+        int col = array[0].length;
+
+        int lowX = i -1 >= 0 ? i-1 : 0;
+        int highX = i+1 >= row -1 ? row-1 : i+1;
+
+        int lowY = j -1 >= 0 ? j-1 : 0;
+        int highY = j+1 >= col -1 ? col-1 : j+1;
+
+        int count = 0 ;
+        for (int x = lowX; x <= highX; x++){
+            for(int y = lowY; y <= highY; y++){
+                if(x == i && y == j){
+                    continue;
+                }
+                if(array[x][y] == 1){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private static void printResult(int[][] computedArray) {
+        int row = computedArray.length;
+        int col = computedArray[0].length;
+        for( int i = 0 ; i < row; i++){
+            for( int j = 0; j < col; j++){
+                switch (computedArray[i][j]){
+                    case -1:
+                        System.out.print('*');
+                        break;
+
+                    default:
+                        System.out.print(computedArray[i][j]);
+                        break;
+                }
+            }
+            System.out.println("");
+        }
+    }
+}
+
+----------------------------------------------------------
+    UVA 10137: the Trips
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    private static DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+    public static void main(String[] args) throws Exception {
+        while (sc.hasNextInt()){
+            int n = sc.nextInt();
+            if(n == 0 ){
+                break;
+            }
+            double [] array = getInput(n);
+            BigDecimal computedValue = compute(array);
+            System.out.println("$" + decimalFormat.format(computedValue));
+        }
+    }
+
+    private static BigDecimal compute(double[] array) {
+        double resultHigh = 0.0, resultLow = 0.0;
+        int length = array.length;
+        double sum = 0.0, average = 0.0;
+        for(int i = 0; i < length; i++){
+            sum += array[i];
+        }
+        average = sum/length;
+
+        for(int i = 0; i < length; i++){
+            if(array[i] > average){
+                resultHigh += parseDouble(array[i] - average);
+            }else {
+                resultLow += parseDouble(average - array[i]);
+            }
+        }
+
+        return BigDecimal.valueOf(resultHigh > resultLow ? resultHigh : resultLow);
+    }
+
+    private static double parseDouble(double value) {
+        Double truncatedDouble = new BigDecimal(value)
+                .setScale(2, BigDecimal.ROUND_DOWN)
+                .doubleValue();
+        return truncatedDouble;
+    }
+
+    private static double[] getInput(int n) {
+        double[] array = new double[n];
+        for( int i = 0 ; i < n; i++){
+            array[i] = sc.nextDouble();
+        }
+        return array;
+    }
+}
+
+----------------------------------------------------------
+    UVA 706 LCD-Display
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
+        int count = 1;
+        while (sc.hasNextInt()){
+            String line = sc.nextLine();
+            String [] str = line.trim().split(" ");
+            int s = Integer.valueOf(str[0]);
+            if( s == 0){
+                break;
+            } else {
+                int [] array = getDigitFromString(str[1]);
+                process(s, array);
+                System.out.println("");
+            }
+        }
+    }
+
+    private static int[] getDigitFromString(String s) {
+        int[] array = new int[s.length()];
+        for(int i = 0; i < s.length(); i++){
+            array[i] = Integer.valueOf(s.charAt(i) - '0');
+        }
+        return array;
+    }
+
+    private static void process(int s, int[] array) {
+        String [] strings = new String[2*s + 3];
+        for(int i = 0; i < strings.length; i++){
+            strings[i] = "";
+        }
+        for(int i = 0; i< array.length; i++){
+            if(i == array.length -1 ){
+                updateString(strings, array[i], s, true);
+            }else {
+                updateString(strings, array[i], s, false);
+            }
+        }
+        for(String string: strings){
+            System.out.println(string);
+        }
+    }
+
+    private static void updateString(String[] strings, int digit, int s, boolean lastItem) {
+        String dash= "", empty = "";
+        int i, mid = (2*s +3)/2;
+        for(i = 0; i < s; i++){
+            dash +="-";
+            empty += " ";
+        }
+        switch (digit){
+            case 0:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + empty +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i != mid){
+                        strings[i] += "|" + empty +"|";
+                    }
+                }
+                break;
+
+            case 1:
+                strings[0] += " " + empty +" ";
+                strings[strings.length - 1] += " " + empty +" ";
+                strings[mid] += " " + empty +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i !=  mid){
+                        strings[i] += " " + empty +"|";
+                    }
+                }
+                break;
+
+            case 2:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i < mid){
+                        strings[i] += " " + empty +"|";
+                    }else if(i > mid){
+                        strings[i] += "|" + empty +" ";
+                    }
+                }
+                break;
+
+            case 3:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i != mid){
+                        strings[i] += " " + empty +"|";
+                    }
+                }
+                break;
+
+            case 4:
+                strings[0] += " " + empty +" ";
+                strings[strings.length - 1] += " " + empty +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i < mid){
+                        strings[i] += "|" + empty +"|";
+                    }else if(i > mid){
+                        strings[i] += " " + empty +"|";
+                    }
+                }
+                break;
+
+            case 5:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i < mid){
+                        strings[i] += "|" + empty +" ";
+                    }else if(i > mid){
+                        strings[i] += " " + empty +"|";
+                    }
+                }
+                break;
+
+            case 6:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i < mid){
+                        strings[i] += "|" + empty +" ";
+                    }else if(i > mid){
+                        strings[i] += "|" + empty +"|";
+                    }
+                }
+                break;
+
+            case 7:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + empty +" ";
+                strings[mid] += " " + empty +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i < mid){
+                        strings[i] += " " + empty +"|";
+                    }else if(i > mid){
+                        strings[i] += " " + empty +"|";
+                    }
+                }
+                break;
+
+            case 8:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i != mid){
+                        strings[i] += "|" + empty +"|";
+                    }
+                }
+                break;
+
+            case 9:
+                strings[0] += " " + dash +" ";
+                strings[strings.length - 1] += " " + dash +" ";
+                strings[mid] += " " + dash +" ";
+                for(i = 1; i < strings.length -1; i++){
+                    if(i < mid){
+                        strings[i] += "|" + empty +"|";
+                    }else if(i > mid){
+                        strings[i] += " " + empty +"|";
+                    }
+                }
+                break;
+
+        }
+        if(lastItem){
+            return;
+        }
+        for(i = 0; i < strings.length; i++){
+            strings[i] += " ";
+        }
+    }
+
+    private static int[] getDigit(int n) {
+        if(n == 0){
+            return new int[]{0};
+        }
+        List<Integer> list = new ArrayList<Integer>();
+        while (n > 0){
+            int left = n/10;
+            int k = n - left * 10;
+            n = left;
+            list.add(k);
+        }
+
+        int [] array = new int[list.size()];
+        int count = 0;
+        for(int i = list.size()-1; i >=0; i--){
+            array[count] = list.get(i);
+            count++;
+        }
+        return array;
+    }
+}
 
 
 ----------------------------------------------------------
+    UVA 10267 Graphical Editor
+    public static void main(String[] args) throws Exception {
+        char [][] array = null;
+        while (sc.hasNextLine()){
+            String line = sc.nextLine();
+            String [] str = line.trim().split(" ");
+            if(str[0].charAt(0) == 'I'){
+                array = new char[Integer.valueOf(str[1]) + 1][Integer.valueOf(str[2]) + 1];
+                for(int col = 0; col <array.length; col++){
+                    for( int row =0; row < array[0].length; row++){
+                        array[col][row] = 'O';
+                    }
+                }
+            }else if(str[0].charAt(0) == 'C'){
+                for(int col = 0; col <array.length; col++){
+                    for( int row =0; row < array[0].length; row++){
+                        array[col][row] = 'O';
+                    }
+                }
+            }else if(str[0].charAt(0) == 'L'){
+                array[Integer.valueOf(str[1])][Integer.valueOf(str[2])] = str[3].charAt(0);
+
+            }else if(str[0].charAt(0) == 'V'){
+                for( int row = Integer.valueOf(str[2]); row <= Integer.valueOf(str[3]); row++){
+                    array[Integer.valueOf(str[1])][row] = str[4].charAt(0);
+                }
+            }else if(str[0].charAt(0) == 'H'){
+                for( int col = Integer.valueOf(str[1]); col <= Integer.valueOf(str[2]); col++){
+                    array[col][Integer.valueOf(str[3])] = str[4].charAt(0);
+                }
+            }else if(str[0].charAt(0) == 'K'){
+                for(int col = Integer.valueOf(str[1]); col <= Integer.valueOf(str[3]); col++){
+                    for( int row = Integer.valueOf(str[2]); row <= Integer.valueOf(str[4]); row++){
+                        array[col][row] = str[5].charAt(0);
+                    }
+                }
+            }else if(str[0].charAt(0) == 'F'){
+                char currentVal = array[Integer.valueOf(str[1])][Integer.valueOf(str[2])];
+                for(int col = 0; col <array.length; col++){
+                    for( int row = 0; row < array[0].length; row++){
+                        if(array[col][row] == currentVal){
+                            array[col][row] = str[3].charAt(0);
+                        }
+                    }
+                }
+            }else if(str[0].charAt(0) == 'S'){
+                System.out.println(str[1]);
+                for( int row =1; row < array[0].length; row++){
+                    for(int col = 1; col <array.length; col++) {
+                        System.out.print(array[col][row]);
+                    }
+                    System.out.println("");
+                }
+            }else if(str[0].charAt(0) == 'X'){
+                break;
+            }else {
+                continue;
+            }
+        }
+    }
+
+----------------------------------------------------------
+        UVA 10038 Jolly Jumbers
+    private static Scanner sc = new Scanner(System.in);
+    public static final String CARDS = "23456789TJQKA";
+    public static final String SUITS = "cdhs";
+
+
+    public static void main(String[] args) throws Exception {
+        while (sc.hasNextInt()){
+            int n = sc.nextInt();
+            int [] nums = new int[n];
+            Set<Integer> set = new HashSet<Integer>();
+            for(int i = 0; i < n; i++){
+                nums[i] = sc.nextInt();
+            }
+
+            if(nums.length == 1){
+                System.out.println("Jolly");
+                continue;
+            }
+            boolean jelly = true;
+            for(int i = 1; i < nums.length; i++){
+                double value = Math.abs(nums[i] - nums[i-1]);
+                if(value < 1 || value > nums.length -1 ) {
+                    jelly = false;
+                }
+                set.add((int)value);
+            }
+            for(int i = 1; i < nums.length; i++){
+                if(!set.contains(i)){
+                    jelly = false;
+                }
+            }
+            String result = jelly ? "Jolly" : "Not jolly";
+            System.out.println(result);
+        }
+    }
+----------------------------------------------------------
+    UVA 10315 Poker Hands
+
+import java.lang.reflect.Array;
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    public static final String CARDS = "23456789TJQKA";
+    public static final String SUITS = "CDHS";
+    public static final int NUMBER_OF_PAIRS = 10;
+    public enum RANK{HIGH, PAIR, TWO_PAIR, THREE_KIND, STRAIGHT, FLUSH, FULL_HOUSE, FOUR_KIND, STRAIGHT_FLUSH};
+    public  static Comparator<Card> cardComparator = new Comparator<Card>() {
+        @Override
+        public int compare(Card o1, Card o2) {
+            if(o1.getNumber() == o2.getNumber()){
+//                if(o1.getSuit() == o2.getSuit()){
+//                    return 0;
+//                }else return o1.getSuit() > o2.getSuit() ? 1 : -1;
+                return 0;
+            } else return o1.getNumber() > o2.getNumber() ? 1 : -1;
+        }
+    };
+    public static void main(String[] args) throws Exception {
+
+        while (sc.hasNextLine()){
+            String line = sc.nextLine();
+            String[] splits = line.trim().split(" ");
+            Card[] black = new Card[NUMBER_OF_PAIRS/2];
+            Card[] white = new Card[NUMBER_OF_PAIRS/2];
+
+            for(int i = 0 ; i < NUMBER_OF_PAIRS/2; i++){
+                black[i] = (new Card(String.valueOf(splits[i].charAt(0)), String.valueOf( splits[i].charAt(1))));
+            }
+
+            for(int i = NUMBER_OF_PAIRS/2; i < NUMBER_OF_PAIRS; i++){
+                white[i - NUMBER_OF_PAIRS/2] = (new Card(String.valueOf(splits[i].charAt(0)), String.valueOf( splits[i].charAt(1))));
+            }
+
+            Arrays.sort(black, cardComparator );
+            Arrays.sort(white, cardComparator );
+
+            compare(black, white);
+        }
+    }
+
+    private static void compare(Card[] black, Card[] white) {
+        CheckResult blackRank = getRank(black);
+        CheckResult whiteRank = getRank(white);
+        compare(blackRank, whiteRank);
+    }
+
+    private static void compare(CheckResult blackRank, CheckResult whiteRank) {
+        int compare = blackRank.rank.compareTo(whiteRank.rank);
+        if( compare > 0){
+            System.out.println("Black wins.");
+        }else if(compare < 0){
+            System.out.println("White wins.");
+        }else {
+            int result = compareEqualRank(blackRank, whiteRank, blackRank.rank);
+            if(result > 0){
+                System.out.println("Black wins.");
+            }else if(result < 0) {
+                System.out.println("White wins.");
+            }else {
+                System.out.println("Tie.");
+            }
+        }
+    }
+
+    private static int compareEqualRank(CheckResult blackRank, CheckResult whiteRank, RANK rank) {
+        int firstCompare, secondCompare;
+        switch (rank){
+            case HIGH:
+                return compareHighCard(blackRank.cardLeft, whiteRank.cardLeft);
+
+            case PAIR:
+                firstCompare = cardComparator.compare(blackRank.highestCard, whiteRank.highestCard);
+                if(firstCompare == 0){
+                    return compareHighCard(blackRank.cardLeft, whiteRank.cardLeft);
+                }else {
+                    return firstCompare;
+                }
+
+            case TWO_PAIR:
+                firstCompare = cardComparator.compare(blackRank.highestCardIn2Pair[1], whiteRank.highestCardIn2Pair[1]);
+                if(firstCompare == 0){
+                    secondCompare = cardComparator.compare(blackRank.highestCardIn2Pair[0], whiteRank.highestCardIn2Pair[0]);
+                    if(secondCompare == 0){
+                        return cardComparator.compare(blackRank.cardLeft[0], whiteRank.cardLeft[0]);
+                    }else {
+                        return secondCompare;
+                    }
+                }else {
+                    return firstCompare;
+                }
+
+            case THREE_KIND:
+                return cardComparator.compare(blackRank.highestCard, whiteRank.highestCard);
+
+            case STRAIGHT:
+                return cardComparator.compare(blackRank.highestCard, whiteRank.highestCard);
+
+            case FLUSH:
+                return compareHighCard(blackRank.cardLeft, whiteRank.cardLeft);
+
+            case FULL_HOUSE:
+                return cardComparator.compare(blackRank.highestCard, whiteRank.highestCard);
+
+            case FOUR_KIND:
+                return cardComparator.compare(blackRank.highestCard, whiteRank.highestCard);
+
+            case STRAIGHT_FLUSH:
+                return cardComparator.compare(blackRank.highestCard, whiteRank.highestCard);
+
+            default:
+                return 0;
+        }
+    }
+
+    private static int compareHighCard(Card[] black, Card[] white) {
+        for(int i = black.length -1; i >= 0; i--){
+            if(black[i].getNumber() == white[i].getNumber()){
+                continue;
+            }else {
+                if(black[i].getNumber() > white[i].getNumber()){
+                    return 1;
+                }else {
+                    return -1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private static CheckResult getRank(Card[] cards) {
+        CheckResult result = null;
+
+        result = Card.checkStraightFlush(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.check4SameKind(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.checkFullHouse(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.checkFlush(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.checkStraight(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.check3SameKind(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.checkTwoPair(cards);
+        if(result.fitRank)
+            return result;
+
+        result = Card.checkPair(cards);
+        if(result.fitRank)
+            return result;
+
+        result = new CheckResult();
+        result.fitRank = true;
+        result.rank = RANK.HIGH;
+        result.cardLeft = cards;
+        result.highestCard = null;
+
+        return result;
+    }
+
+    public static class Card {
+        private int number;
+        private int suit;
+
+        public int getNumber() {
+            return number;
+        }
+
+        public void setNumber(int number) {
+            this.number = number;
+        }
+
+        public int getSuit() {
+            return suit;
+        }
+
+        public void setSuit(int suit) {
+            this.suit = suit;
+        }
+
+        public Card(int number, int suit) {
+            this.number = number;
+            this.suit = suit;
+        }
+
+        public Card(String card, String suit){
+            this.number = convertCard(card);
+            this.suit = convertSuit(suit);
+        }
+
+        private int convertCard(String card) {
+            return  CARDS.indexOf(card);
+        }
+
+        private int convertSuit(String suit) {
+            return SUITS.indexOf(suit);
+        }
+
+        public static CheckResult checkStraightFlush(Card[] cards) {
+            CheckResult result = new CheckResult();
+            CheckResult straight = checkStraight(cards);
+            CheckResult flush = checkFlush(cards);
+
+            if(straight.fitRank && flush.fitRank){
+                result.fitRank = true;
+                result.cardLeft = null;
+                result.highestCard = straight.highestCard;
+                result.rank = RANK.STRAIGHT_FLUSH;
+            }else {
+                result.fitRank = false;
+            }
+
+            return result;
+        }
+
+        public static CheckResult checkStraight(Card[] cards) {
+            CheckResult result = new CheckResult();
+            boolean fit = true;
+            for(int i = 0; i < cards.length - 1; i++){
+                if(cards[i+1].getNumber() - cards[i].getNumber() != 1){
+                    fit = false;
+                }
+            }
+
+            if(fit){
+                result.fitRank = true;
+                result.highestCard = cards[cards.length - 1];
+                result.cardLeft = null;
+                result.rank = RANK.STRAIGHT;
+            }else {
+                result.fitRank = false;
+            }
+            return result;
+        }
+
+        public static CheckResult check4SameKind(Card[] cards) {
+            CheckResult result = new CheckResult();
+            Map<Integer, List<Card>> map = filterCardByNumber(cards);
+            List<Card> pairList = new ArrayList<Card>();
+            List<Card> leftList = new ArrayList<Card>();
+
+            for(Integer number: map.keySet()){
+                List<Card> list = map.get(number);
+                if(list.size() == 4){
+                    pairList = list;
+                    for(Integer integer: map.keySet()){
+                        if(integer != number){
+                            leftList.addAll(map.get(integer));
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if(pairList.size() == 4){
+                result.fitRank = true;
+                result.cardLeft = leftList.toArray(new Card[]{});
+                result.highestCard = pairList.get(0);
+                result.rank = RANK.FOUR_KIND;
+            }else {
+                result.fitRank = false;
+            }
+
+            return result;
+        }
+
+        public static CheckResult checkFullHouse(Card[] cards){
+            CheckResult result = new CheckResult();
+            CheckResult threeKind = check3SameKind(cards);
+            if(threeKind.fitRank){
+                CheckResult pair = checkPair(threeKind.cardLeft);
+
+                if(pair.fitRank){
+                    result.fitRank = true;
+                    result.cardLeft = null;
+                    result.highestCard = threeKind.highestCard;
+                    result.rank = RANK.FULL_HOUSE;
+                }else {
+                    result.fitRank = false;
+                }
+            }else {
+                result.fitRank = false;
+            }
+
+            return result;
+        }
+
+        public static CheckResult checkFlush(Card[] cards) {
+            CheckResult result = new CheckResult();
+            int commonSuit = cards[0].getSuit();
+            boolean fit = true;
+            for(Card card: cards){
+                if(card.getSuit() != commonSuit){
+                    fit = false;
+                }
+            }
+
+            if(fit){
+                result.fitRank = true;
+                result.cardLeft = cards;
+                result.highestCard = cards[cards.length -1];
+                result.rank = RANK.FLUSH;
+            }else {
+                result.fitRank = false;
+            }
+            return result;
+        }
+
+        public static CheckResult check3SameKind(Card[] cards) {
+            CheckResult result = new CheckResult();
+            Map<Integer, List<Card>> map = filterCardByNumber(cards);
+            List<Card> pairList = new ArrayList<Card>();
+            List<Card> leftList = new ArrayList<Card>();
+
+            for(Integer number: map.keySet()){
+                List<Card> list = map.get(number);
+                if(list.size() == 3){
+                    pairList = list;
+                    for(Integer integer: map.keySet()){
+                        if(integer != number){
+                            leftList.addAll(map.get(integer));
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if(pairList.size() == 3){
+                result.fitRank = true;
+                result.cardLeft = leftList.toArray(new Card[]{});
+                result.highestCard = pairList.get(0);
+                result.rank = RANK.THREE_KIND;
+            }else {
+                result.fitRank = false;
+            }
+
+            return result;
+        }
+
+        public static CheckResult checkTwoPair(Card[] cards) {
+            CheckResult result = new CheckResult();
+            CheckResult firstPair = checkPair(cards);
+            if(firstPair.fitRank){
+                CheckResult secondPair = checkPair(firstPair.cardLeft);
+
+                if(secondPair.fitRank){
+                    result.fitRank = true;
+                    result.cardLeft = secondPair.cardLeft;
+
+                    result.highestCardIn2Pair = new Card[2];
+                    result.highestCardIn2Pair[0] = firstPair.highestCard;
+                    result.highestCardIn2Pair[1] = secondPair.highestCard;
+                    Arrays.sort(result.highestCardIn2Pair, cardComparator);
+
+                    result.rank = RANK.TWO_PAIR;
+                }else {
+                    result.fitRank = false;
+                }
+            }else {
+                result.fitRank = false;
+            }
+
+            return result;
+        }
+
+        public static CheckResult checkPair(Card[] cards) {
+            CheckResult result = new CheckResult();
+            Map<Integer, List<Card>> map = filterCardByNumber(cards);
+            List<Card> pairList = new ArrayList<Card>();
+            List<Card> leftList = new ArrayList<Card>();
+
+            for(Integer number: map.keySet()){
+                List<Card> list = map.get(number);
+                if(list.size() == 2){
+                    pairList = list;
+                    for(Integer integer: map.keySet()){
+                        if(integer != number){
+                            leftList.addAll(map.get(integer));
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if(pairList.size() == 2){
+                result.fitRank = true;
+                result.cardLeft = leftList.toArray(new Card[]{});
+                result.highestCard = pairList.get(0);
+                result.rank = RANK.PAIR;
+            }else {
+                result.fitRank = false;
+            }
+
+            return result;
+        }
+
+        public static Map<Integer, List<Card>> filterCardByNumber(Card[] cards){
+            Map<Integer, List<Card>> map = new HashMap<Integer, List<Card>>();
+            for(Card card: cards){
+                if(map.keySet().contains(card.getNumber())){
+                    map.get(card.getNumber()).add(card);
+                }else {
+                    List<Card> list = new ArrayList<Card>();
+                    list.add(card);
+                    map.put(card.getNumber(), list);
+                }
+            }
+            return map;
+        }
+
+    }
+
+    public static class CheckResult{
+        public Card[] cardLeft;
+        public RANK rank;
+        public Card highestCard;
+        public Card[] highestCardIn2Pair;
+        public boolean fitRank;
+    }
+}
+----------------------------------------------------------
+        UVA 10050 Hartals
+
+import java.lang.reflect.Array;
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
+        int t = sc.nextInt();
+        while (t-- > 0){
+            int n = sc.nextInt();
+            int p = sc.nextInt();
+            int[] array = new int[p];
+
+            for (int i = 0; i < p; i++){
+                array[i] = sc.nextInt();
+            }
+
+            int[] result = new int[n+1];
+
+            for (int i = 0; i < p; i++){
+                mark(result, array[i]);
+            }
+            unmark(result);
+            int countResult = 0;
+            for(int i = 1; i < result.length; i++){
+                if(result[i] == 1){
+                    countResult++;
+                }
+            }
+            System.out.println(countResult);
+        }
+    }
+
+    private static void unmark(int[] result) {
+        for (int i = 6; i< result.length; i+= 7){
+            result[i] = 0;
+        }
+        for (int i = 7; i< result.length; i+= 7){
+            result[i] = 0;
+        }
+    }
+
+    private static void mark(int[] result, int number) {
+        for (int i = number; i< result.length; i+= number){
+            result[i] = 1;
+        }
+    }
+}
+
+----------------------------------------------------------
+    UVA 853 Crypt Kickers
+
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    private static List<String> dic = new ArrayList<String>();
+    private static Map<Character, Character> map = new HashMap<Character, Character>();
+    private static List<String> decodedList = new ArrayList<String>();
+    private static Comparator<String> comparator = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if(o1.length() == o2.length()){
+                return 0;
+            }else return o1.length() > o2.length() ? 1 : -1;
+        }
+    };
+
+    public static void main(String[] args) throws Exception {
+        int t = sc.nextInt();
+        sc.nextLine();
+        while (t-- > 0){
+            String word = sc.nextLine().trim().toLowerCase();
+            dic.add(word);
+        }
+
+        Collections.sort(dic, comparator);
+
+        while (sc.hasNextLine()){
+            String query = sc.nextLine();
+            process(query);
+        }
+    }
+
+    private static void process(String query) {
+        List<String> words = new LinkedList<String>(Arrays.asList(query.trim().split(" ")));
+        List<String> originalList = new LinkedList<String>(Arrays.asList(query.trim().split(" ")));
+//        Collections.sort(words, comparator);
+        if(words.size() == 0){
+            return;
+        }
+
+        String result = "";
+        decodedList.clear();
+        map.clear();
+
+        if(solve(words)){
+            for(int i = 0; i < decodedList.size(); i++){
+                result += decodedList.get(decodedList.size() - 1 - i) + " ";
+            }
+        }else {
+            for(String s: originalList){
+                for(int i = 0; i < s.length(); i++){
+                    result += "*";
+                }
+                result+= " ";
+            }
+        }
+        System.out.println(result.trim());
+    }
+
+    private static boolean solve(List<String> encryptedWords) {
+        if(encryptedWords.size() == 0){
+            return true;
+        }
+
+        String currentWord = encryptedWords.get(encryptedWords.size() -1);
+
+        List<String> tempString = new ArrayList<String>();
+        for(String s: dic){
+            if(s.length() == currentWord.length()){
+                if(ifCanDecrypt(currentWord, s)){
+                    tempString.add(s);
+                }
+            }
+        }
+
+        if(tempString.size() == 0){
+            return false;
+        }
+
+        for(String s: tempString){
+            if(ifCanDecrypt(currentWord, s)){
+                Set<Character> set = decrypt(currentWord, s, encryptedWords);
+                if(testAfterADecrypt()){
+                    if(solve(encryptedWords)){
+                        return true;
+                    }
+                }
+                undoDecrypt(currentWord, s, encryptedWords, set);
+            }
+        }
+        return false;
+    }
+
+    private static boolean testAfterADecrypt() {
+        Set<Character> tempSet = new HashSet<Character>();
+        for(Character c: map.values()){
+            tempSet.add(c);
+        }
+        if(map.size() != tempSet.size()){
+            return false;
+        }
+        return true;
+    }
+
+    private static Set<Character> decrypt(String currentWord, String dictionaryWord, List<String> encryptedWords) {
+        Set<Character> set = new HashSet<Character>();
+        for(int i = 0; i < currentWord.length(); i++){
+            if(map.keySet().contains(currentWord.charAt(i))){
+
+            }else {
+                set.add(currentWord.charAt(i));
+                map.put(currentWord.charAt(i), dictionaryWord.charAt(i));
+            }
+        }
+        if(encryptedWords.size() > 0){
+            encryptedWords.remove(encryptedWords.size() -1);
+        }
+        decodedList.add(dictionaryWord);
+
+        return set;
+//        After this method, tempMap only contains new char being added
+    }
+
+    private static Map<Character, Character> getMap(String currentWord, String dictionaryWord, List<String> encryptedWords) {
+        Map<Character, Character> tempMap = new HashMap<Character, Character>();
+        for(int i = 0; i < currentWord.length(); i++){
+            tempMap.put(currentWord.charAt(i), dictionaryWord.charAt(i));
+        }
+        return tempMap;
+    }
+
+    private static void undoDecrypt(String currentWord, String dictionaryWord, List<String> encryptedWords, Set<Character> set) {
+        for(Character c: set){
+            map.remove(c);
+        }
+        if(decodedList.size() > 0){
+            decodedList.remove(decodedList.size() -1);
+        }
+        encryptedWords.add(currentWord);
+    }
+
+    private static boolean ifCanDecrypt(String currentWord, String dictionaryWord) {
+        Map<Character, Character> tempMap = new HashMap<Character, Character>();
+//      Generally, must ensure that mapping is 1 - 1, and a new word does not conflict with old words mapping
+
+        for(int i = 0; i < currentWord.length(); i++){
+            if(map.keySet().contains(currentWord.charAt(i))){
+                if(map.get(currentWord.charAt(i)).compareTo(dictionaryWord.charAt(i)) != 0) {
+                    return false;
+                }
+            }
+
+            //  handle this case: sample, currentWord aa, dictionary Word: do
+            //  this only handle case of 2 same char map to diff char, need 1 more case to handle
+            //  need case to cater 2 diff char map to same char
+            if(tempMap.keySet().contains(currentWord.charAt(i))){
+                if(tempMap.get(currentWord.charAt(i)).compareTo(dictionaryWord.charAt(i)) != 0){
+                    return false;
+                }
+            }else {
+                tempMap.put(currentWord.charAt(i), dictionaryWord.charAt(i));
+            }
+        }
+
+        //  Check 2 diff char map to same char
+        Set<Character> tempSet = new HashSet<Character>();
+        for(Character c: tempMap.values()){
+            tempSet.add(c);
+        }
+        if(tempMap.size() != tempSet.size()){
+            return false;
+        }
+//        Still need to check more, 1-1 condition after each decrypt
+
+        return true;
+    }
+
+}
+
+----------------------------------------------------------
+        UVA 10205 Stack 'em Up => Run Time Error
+package algorithm;
+
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+//    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static Scanner sc = new Scanner(System.in);
+    private static String [] SUITS = {"Clubs", "Diamonds", "Hearts", "Spades"};
+    private static String [] VALUES = {"2", "3", "4", "5", "6", "7", "8", "9", "10",
+            "Jack", "Queen", "King", "Ace"};
+
+    public static void main(String[] args) throws Exception {
+        int testCase = Integer.valueOf(sc.nextLine());
+        sc.nextLine();
+
+        while (testCase-- > 0){
+            int noDeal = Integer.valueOf(sc.nextLine());
+
+            List<List<Integer>> allList = getAllDeal(noDeal);
+            List<Integer> originalList = createOriginalDeck();
+
+            while (true){
+                String line = sc.nextLine();
+                if(line.isEmpty()){
+                    break;
+                }
+                try{
+                    int deal = Integer.valueOf(line);
+                    updateDeck(allList, deal, originalList);
+
+                }catch (Exception e){
+                    break;
+                }
+            }
+
+            printResult(originalList);
+
+            if(testCase > 0){
+                System.out.println("");
+            }
+        }
+    }
+
+    private static void updateDeck(List<List<Integer>> allList, int deal, List<Integer> originalList) {
+        List<Integer> currentDeal = allList.get(deal -1);
+        List<Integer> newList = new ArrayList<Integer>();
+        if(currentDeal == null){
+            return;
+        }
+        for(int i = 0; i < currentDeal.size(); i++){
+            newList.add(originalList.get(currentDeal.get(i) - 1));
+        }
+
+        for(int i = 0; i < newList.size(); i++){
+            originalList.set(i, newList.get(i));
+        }
+    }
+
+    private static void printResult(List<Integer> originalList) {
+        for(Integer card: originalList){
+            System.out.println(getStrValue(card));
+        }
+    }
+
+    private static String getStrValue(int card) {
+        int value = (card-1)/4;
+        int suit = (card-1) % 4;
+        return VALUES[value] + " of " + SUITS[suit];
+    }
+
+    private static List<Integer> createOriginalDeck() {
+        List<Integer> list = new ArrayList<Integer>();
+        for(int j = 1; j <= 4; j++){
+            for(int i = 0; i <= 12; i++){
+                list.add(j + 4*i);
+            }
+        }
+        return list;
+    }
+
+    private static List<List<Integer>> getAllDeal(int deal) throws Exception{
+        List<List<Integer>> allList = new ArrayList<List<Integer>>();
+        while (allList.size() < deal){
+            List<Integer> currentList = new ArrayList<Integer>();
+            while (currentList.size() < 52){
+                String[] word = sc.nextLine().trim().split(" ");
+                for(String s: word){
+                    currentList.add(Integer.valueOf(s));
+                }
+            }
+            allList.add(currentList);
+        }
+        return allList;
+    }
+}
+
+----------------------------------------------------------
+    UVA 10044 ErdNos Numbers  > not try to run yet
+
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    private static final String ERDOS = "Erdos, P.";
+    private static final String INFINITY = "infinity";
+
+    public static void main(String[] args) throws Exception {
+        int testCase = sc.nextInt();
+        for(int i = 1; i <= testCase; i++){
+            int paper = sc.nextInt();
+            int n = sc.nextInt();
+            sc.nextLine();
+
+            List<Node> list = new ArrayList<Node>();
+            while (paper-- > 0){
+                String line = sc.nextLine();
+                processPaper(list, line);
+            }
+
+            List<String> names = new ArrayList<String>();
+            while (n-- > 0){
+                names.add(sc.nextLine().trim());
+            }
+
+            TreeNode node = constructNode(list);
+            System.out.println("Scenario: " + i);
+            for(String name: names){
+                System.out.println(name + " " + getRank(list, name));
+            }
+        }
+    }
+
+    private static TreeNode constructNode(List<Node> list) {
+        TreeNode node = null;
+        Node erdos = getNodeByName(list, ERDOS);
+        if(erdos == null){
+            return null;
+        }
+        Set<TreeNode> set = new HashSet<TreeNode>();
+        List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
+        for(Node n : list){
+            TreeNode treeNode = new TreeNode();
+            treeNode.name = n.name;
+            treeNodeList.add(treeNode);
+        }
+
+        int currentLevel = 1;
+        for(String s: erdos.coAuthors){
+            TreeNode treeNode = getTreeNodeByName(treeNodeList, s);
+            if(treeNode != null) {
+                set.add(treeNode);
+                treeNode.level = currentLevel;
+                treeNode.coAuthors = new LinkedList<TreeNode>();
+
+                Node n = getNodeByName(list, s);
+                if (n != null) {
+                    for (String author : n.coAuthors) {
+                        TreeNode authorTreeNode = getTreeNodeByName(treeNodeList, author);
+                        if (authorTreeNode != null) {
+                            treeNode.coAuthors.add(authorTreeNode);
+                        }
+                    }
+                }
+            }
+            treeNodeList.remove(treeNode);
+        }
+
+        node.name = erdos.name;
+        node.visited = false;
+        node.level = 0;
+        node.coAuthors = new LinkedList<TreeNode>();
+        for(String s: erdos.coAuthors){
+
+        }
+        return null;
+    }
+
+    private static TreeNode getTreeNodeByName(List<TreeNode> treeNodeList, String s) {
+        for(TreeNode node: treeNodeList){
+            if(node.name.equals(s)){
+                return  node;
+            }
+        }
+        return null;
+    }
+
+    private static String getRank(List<Node> root, String name) {
+        Node erdos = getNodeByName(root, ERDOS);
+        if(erdos == null){
+            return INFINITY;
+        }
+
+        for(Node n: root){
+            n.visited = false;
+        }
+
+        List<Pair> valueList = new LinkedList<Pair>();
+        Queue<String> queue = new LinkedList<String>();
+        queue.add(erdos.name);
+
+        int currentLevel = 1;
+
+        for(String s: erdos.coAuthors){
+            queue.add(s);
+            valueList.add(new Pair(s, currentLevel));
+        }
+
+        while (!queue.isEmpty()){
+            Node node = getNodeByName(root, queue.poll());
+            if(node == null || node.visited){
+                continue;
+            }
+            node.visited = true;
+            if(nameExistInCoAuthorsList(node, name)){
+                return getValue(valueList, name);
+            }else {
+                for(String s: node.coAuthors){
+                    queue.add(s);
+                    valueList.add(new Pair(s, currentLevel + 1));
+                }
+
+                if(queue.isEmpty()){
+                    currentLevel++;
+                }else {
+                    continue;
+                }
+            }
+        }
+        return INFINITY;
+    }
+
+    private static String getValue(List<Pair> valueList, String name) {
+        for(Pair p: valueList){
+            if(p.name.equals(name)){
+                return String.valueOf(p.value);
+            }
+        }
+        return INFINITY;
+    }
+
+    private static boolean nameExistInCoAuthorsList(Node n, String name) {
+        for(String s: n.coAuthors){
+            if(s.equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void processPaper(List<Node> root, String line) {
+        String[] split = line.split(":");
+        String[] names = split[0].split(",");
+        List<String> list = new ArrayList<String>();
+        for(int i = 0; i < names.length; i += 2){
+            String currentName = names[i] + "," + names[i+1];
+            list.add(currentName);
+        }
+        for(String currentName: list){
+            Node currentNode = getNodeByName(root, currentName);
+
+            if(currentNode != null){
+                for(String s: list){
+                    if(currentNode.coAuthors.indexOf(s) != -1){
+                        currentNode.coAuthors.add(s);
+                    }
+                }
+
+            }else {
+                currentNode = new Node();
+                currentNode.name = currentName;
+                currentNode.coAuthors = new ArrayList<String>();
+                for(String s: list){
+                    if(!s.equals(currentNode.name)){
+                        currentNode.coAuthors.add(s);
+                    }
+                }
+                root.add(currentNode);
+            }
+        }
+
+    }
+
+    public static class Node {
+        String name;
+        List<String> coAuthors;
+        boolean visited = false;
+    }
+
+    public static class TreeNode {
+        String name;
+        List<TreeNode> coAuthors;
+        boolean visited = false;
+        int level;
+    }
+
+    public static Node getNodeByName(List<Node> root, String name){
+        for(Node n: root){
+            if(n.name.equals(name)){
+                return n;
+            }
+        }
+        return null;
+    }
+
+    public static class Pair{
+        String name;
+        int value;
+        public Pair(String n, int v){
+            name = n;
+            value = v;
+        }
+    }
+}
+----------------------------------------------------------
+    UVA 10028 QWERTY => Run time error
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);
+    private static final String ERDOS = "Erdos, P.";
+    private static final String INFINITY = "infinity";
+    private static final String [] ENCODE = {"`1234567890-=", "QWERTYUIOP[]\\",
+            "ASDFGHJKL;'", "ZXCVBNM,./"  };
+
+    public static void main(String[] args) throws Exception {
+        String line = sc.nextLine();
+        while (line != null){
+            process(line);
+            line = sc.nextLine();
+        }
+
+    }
+
+    private static void process(String line) {
+        String out = "";
+        for(char c: line.toCharArray()){
+            if(c == ' '){
+                out += " ";
+            }else {
+                for(String s: ENCODE){
+                    int index = s.indexOf(c);
+                    if(index != -1 && index != 0){
+                        out += s.charAt(index - 1);
+                        break;
+                    }
+                }
+            }
+        }
+        System.out.println(out);
+    }
+
+}
 
 
 ----------------------------------------------------------
+    UVA 10010	Where's Waldorf?
+
+import java.util.*;
+
+public class Main {
+    private static Scanner sc = new Scanner(System.in);;
+
+    public static void main(String[] args) throws Exception {
+       int testCase = Integer.valueOf(sc.nextLine());
+        for(int test = 1; test <= testCase; test++){
+            int m = sc.nextInt();
+            int n = sc.nextInt();
+            sc.nextLine();
+
+            char [][] array = new char[m][n];
+            for(int i = 0; i < m; i++ ){
+                String line = sc.nextLine().trim();
+                for(int j = 0; j < n; j++){
+                    array[i][j] = Character.toLowerCase(line.charAt(j));
+                }
+            }
+
+            int k = Integer.valueOf(sc.nextLine());
+            String[] words = new String[k];
+            for(int i = 0; i < k; i++){
+                words[i] = sc.nextLine();
+            }
+            for(String w: words){
+                System.out.println(getResult(array, w));
+            }
+
+            if(test < testCase){
+                sc.nextLine();
+                System.out.println("");
+            }
+        }
+
+    }
+
+    private static String getResult(char[][] array, String word) {
+        for(int row = 0; row < array.length; row++){
+            for(int col = 0; col < array[0].length; col++){
+                String left = getLeft(array, row, col, word.length());
+                String right = getRight(array, row, col, word.length());
+                String top = getTop(array, row, col, word.length());
+                String bottom = getBottom(array, row, col, word.length());
+
+                String topLeft = getTopLeft(array, row, col, word.length());
+                String topRight = getTopRight(array, row, col, word.length());
+                String bottomLeft = getBottomLeft(array, row, col, word.length());
+                String bottomRight = getBottomRight(array, row, col, word.length());
+
+                if(left.equalsIgnoreCase(word) || right.equalsIgnoreCase(word)
+                        || top.equalsIgnoreCase(word) || bottom.equalsIgnoreCase(word)
+                        || topLeft.equalsIgnoreCase(word) || topRight.equalsIgnoreCase(word)
+                        || bottomLeft.equalsIgnoreCase(word) || bottomRight.equalsIgnoreCase(word)
+                        ){
+                    return String.valueOf( (row + 1) + " " + (col + 1));
+                }
+            }
+        }
+        return "";
+    }
+
+    private static String getBottomRight(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = row, j = col; i < array.length && j < array[0].length;  i++, j++){
+            out += array[i][j];
+                if(out.length() == length){
+                    break;
+                }
+        }
+        return out;
+    }
+
+    private static String getBottomLeft(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = row, j = col; i  < array.length && j >= 0 ;  i++, j--){
+            out += array[i][j];
+                if(out.length() == length){
+                    break;
+                }
+        }
+        return out;
+    }
+
+    private static String getTopRight(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = row, j = col; i  >= 0 && j < array[0].length;  i--, j++){
+            out += array[i][j];
+            if(out.length() == length){
+                break;
+            }
+        }
+        return out;
+    }
+
+    private static String getTopLeft(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = row, j = col; i  >= 0 && j >= 0;  i--, j--){
+            out += array[i][j];
+            if(out.length() == length){
+                break;
+            }
+
+        }
+        return out;
+    }
+
+    private static String getBottom(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = row; i < array.length; i++){
+            out += array[i][col];
+            if(out.length() == length){
+                break;
+            }
+        }
+        return out;
+    }
+
+    private static String getTop(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = row; i >= 0; i--){
+            out += array[i][col];
+            if(out.length() == length){
+                break;
+            }
+        }
+        return out;
+    }
+
+    private static String getRight(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = col; i < array[0].length; i++){
+            out += array[row][i];
+            if(out.length() == length){
+                break;
+            }
+        }
+        return out;
+    }
+
+    private static String getLeft(char[][] array, int row, int col, int length) {
+        String out = "";
+        for(int i = col; i >= 0; i--){
+            out += array[row][i];
+            if(out.length() == length){
+                break;
+            }
+        }
+        return out;
+    }
+
+}
+----------------------------------------------------------
+    print all subset of a set from 1 to n
+package algorithm;
+
+
+import java.util.*;
+
+public class Main {
+
+    public static int[] ARRAY;
+    private static Scanner sc = new Scanner(System.in);
+
+
+    public static void main(String[] args) throws Exception {
+        int n = sc.nextInt();
+        ARRAY = new int[n];
+        for (int i = 1; i <= n; i++) {
+            ARRAY[i - 1] = i;
+        }
+        int[] array = new int[n];
+        backTrack(array, 0);
+
+    }
+
+    public static boolean backTrack(int[] array, int size) {
+        if (size == array.length) {
+            return true;
+        }
+
+        for (int i = 0; i <= 1; i++) {
+            size++;
+            array[size - 1] = i;
+
+            if (backTrack(array, size)) {
+                printAnswer(array);
+            }
+
+            size--;
+        }
+        return false;
+    }
+
+    private static void printAnswer(int[] array) {
+        System.out.print("{ ");
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == 1) {
+                System.out.print(ARRAY[i] + " ");
+            }
+        }
+        System.out.print("}");
+        System.out.println("");
+    }
+}
+
+----------------------------------------------------------
+print all permutation of a set from 1 to n
+
+
+public class Main {
+
+    public static List<Integer> list;
+    private static Scanner sc = new Scanner(System.in);
+
+
+    public static void main(String[] args) throws Exception {
+        int n = sc.nextInt();
+        list = new ArrayList<Integer>();
+        for (int i = 1; i <= n; i++) {
+            list.add(i);
+        }
+        List<Integer> current = new ArrayList<Integer>();
+        backTrack(current, list);
+
+    }
+
+    public static boolean backTrack(List<Integer> current, List<Integer> left) {
+        if (left.size() == 0) {
+            return true;
+        }
+
+        for (int i = 0; i < left.size(); i++){
+            int number = left.get(i);
+            current.add(number);
+            left.remove(i);
+
+            if(backTrack(current, left)){
+                printAnswer(current);
+            }
+
+            current.remove(current.size() - 1);
+            left.add(i, number);
+        }
+        return false;
+    }
+
+    private static void printAnswer(List<Integer> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i) + " ");
+        }
+        System.out.println("");
+    }
+}
+----------------------------------------------------------
+UVA 100 3n + 1 in Ruby
+class Main
+
+  def print(first, second)
+    maxN = first >= second ? first : second
+    minN = first <= second ? first : second
+    rel = calculate(minN)
+    for i in minN..maxN
+      current = calculate(i)
+      rel = current > rel ? current : rel
+    end
+    puts("#{first} #{second} #{rel}")
+  end
+
+  def calculate(var)
+    count = 1
+    while var != 1 do
+      if var % 2 == 0 then
+        var = var/2
+      else
+        var = 3 * var + 1
+      end
+      count += 1
+    end
+    return count
+  end
+
+end
+
+main = Main.new
+line = gets.strip
+while true do
+  if line.empty?
+    break
+  end
+  n = line.split(' ')
+  main.print(n.first.to_i, n.last.to_i)
+  line = gets.strip
+end
 
 
 ----------------------------------------------------------
+    UVA 10041 Vito' family
+public class Main {
 
+    private static Scanner sc = new Scanner(System.in);
 
-----------------------------------------------------------
-
+    public static void main(String[] args) throws Exception {
+        int testCase = sc.nextInt();
+        while (testCase-- > 0) {
+            int n = sc.nextInt();
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            while (n-- > 0) {
+                int num = sc.nextInt();
+                list.add(num);
+            }
+            Collections.sort(list);
+            double pos = list.get(list.size()/2);
+            double rel = 0;
+            for (Integer integer : list) {
+                rel += Math.abs(integer - pos);
+            }
+            System.out.println((int) rel);
+        }
+    }
+}
 ----------------------------------------------------------
 
 

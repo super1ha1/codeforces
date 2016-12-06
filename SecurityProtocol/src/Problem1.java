@@ -260,7 +260,7 @@ public class Problem1 {
             }
         }
 
-        //convert to byte array
+        //convertToLong to byte array
         byte[] cipher = new byte[BUFFER_SIZE];
         for( int i = 0 ; i < cipherList.size(); i++){
             cipher[i] = cipherList.get(i);
