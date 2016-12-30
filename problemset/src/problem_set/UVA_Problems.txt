@@ -2712,5 +2712,220 @@ public class Main {
     }
 }
 ----------------------------------------------------------
+    UVA 260 Il Gioco dellÅfX
+
+import java.util.Scanner;
+
+
+public class Main {
+    private static final Scanner sc = new Scanner(System.in);
+    private static int VISITED = 1;
+    private static int BLACK = 1;
+    private static int WHITE = 0;
+
+    public static void main(String[] args) throws Exception {
+        int count = 1;
+        while (sc.hasNextInt()){
+            int n = sc.nextInt();
+            if(n == 0){
+                break;
+            }
+            int[][] array = getInput(n);
+            compute(array, count++);
+        }
+    }
+
+    private static int[][] getInput(int n) {
+        sc.nextLine();
+        int[][] array = new int[n][n];
+        for(int row = 0; row < n; row++){
+            String line = sc.nextLine();
+            for(int col = 0; col < n; col++){
+                if(line.charAt(col) == 'w'){
+                    array[row][col] = WHITE;
+                }else if(line.charAt(col) == 'b'){
+                    array[row][col] = BLACK;
+                }
+            }
+        }
+        return array;
+    }
+
+    private static void compute(int[][] array, int order) {
+        String result="";
+        if(checkWhiteWin(array)){
+            result = "W";
+        }
+        if(checkBlackWin(array)){
+            result = "B";
+        }
+        System.out.println(order + " " + result);
+    }
+
+    private static boolean checkWhiteWin(int[][] array) {
+        int n = array.length;
+        for (int row = 0; row < n; row++ ){
+            int[][]track = new int[n][n];
+
+            if(array[row][0] == WHITE){
+                markAllNeighborV3(track, array, row, 0, WHITE);
+                for(int i = 0; i < n; i++){
+                    if(track[i][n-1] == VISITED){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkBlackWin(int[][] array) {
+        int n = array.length;
+        for (int col = 0; col < n; col++ ){
+            int[][]track = new int[n][n];
+
+            if(array[0][col] == BLACK){
+                markAllNeighborV3(track, array, 0, col, BLACK);
+                for(int i = 0; i < n; i++){
+                    if(track[n-1][i] == VISITED){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static void markAllNeighborV3(int[][] track, int [][] array,  int ROW, int COL, int color) {
+        int n = array.length;
+        int lowX = (ROW - 1 >= 0 ) ? ROW -1 : 0;
+        int lowY = (COL - 1 >= 0) ? COL -1 : 0;
+        int highX = (ROW + 1 < n) ? ROW + 1 : n-1;
+        int highY = (COL + 1 < n) ? COL + 1 : n-1;
+        track[ROW][COL] = VISITED;
+
+        for(int row = lowX; row <= highX; row++){
+            for(int col = lowY; col <= highY; col++){
+                if(row < ROW && col > COL || (row > ROW && col < COL)){
+                    continue;
+                }else {
+                    if(track[row][col] != VISITED && array[row][col] == color){
+                        markAllNeighborV3(track, array, row, col, color);
+                    }
+                }
+            }
+        }
+    }
+}
+----------------------------------------------------------
+UVA  459 Graph Connectivity Run time error
+
+import java.util.*;
+
+public class Main {
+    private static final Scanner sc = new Scanner(System.in);
+    private static int VISITED = 1;
+    private static int CONNECTED = 1;
+
+    public static void main(String[] args) throws Exception {
+        int testCase = sc.nextInt();
+        sc.nextLine();
+        sc.nextLine();
+        int count = 0;
+
+        while (count < testCase){
+            int n = sc.nextLine().charAt(0) - 'A' + 1;
+            int[][] array = getInput(n);
+            compute(array);
+
+            count++;
+            if(count == testCase){
+                break;
+            }
+        }
+    }
+
+    private static int[][] getInput(int n) {
+        int[][] array = new int[n][n];
+        String line = sc.nextLine();
+
+        while (!line.isEmpty()){
+            int firstChar = line.charAt(0) - 'A';
+            int secondChar = line.charAt(1) - 'A';
+            array[firstChar][secondChar] = CONNECTED;
+            array[secondChar][firstChar] = CONNECTED;
+            line = sc.nextLine();
+        }
+
+        return array;
+    }
+
+    private static void compute(int[][] array) {
+        int n = array.length;
+        List<Set<Integer>> connectedList = new ArrayList<Set<Integer>>();
+        Set<Integer> currentSet = new HashSet<Integer>();
+        for(int i  = 0; i < n; i++){
+            currentSet.add(i);
+        }
+
+        while (true){
+            Set<Integer> set = getAnotherSet(currentSet, array);
+            if(set != null && !set.isEmpty()){
+                currentSet.removeAll(set);
+                connectedList.add(set);
+            }else {
+                break;
+            }
+        }
+        System.out.println(connectedList.size());
+        System.out.println("");
+    }
+
+    private static Set<Integer> getAnotherSet(Set<Integer> currentSet, int[][] array) {
+        Set<Integer> newSet = new HashSet<Integer>();
+        if(currentSet == null || currentSet.isEmpty()){
+            return newSet;
+        }
+
+        int n = array.length;
+        for(int i: currentSet){
+            int[][] track = new int[n][n];
+
+            markAllNeighborV3(track, array, currentSet, i);
+
+            for(int row = 0; row < n; row++){
+                for(int col = 0; col < n; col++){
+                    if(track[row][col] == VISITED){
+                        newSet.add(row);
+                        newSet.add(col);
+                    }
+                }
+            }
+
+            if(!newSet.isEmpty()){
+                return newSet;
+            }
+        }
+        return newSet;
+    }
+
+    private static void markAllNeighborV3(int[][] track, int [][] array, Set<Integer> currentSet, int ROW) {
+        int n = array.length;
+        track[ROW][ROW] = VISITED;
+
+        for(int col = 0; col < n; col++){
+            if(currentSet.contains(col)
+                    && track[ROW][col] != VISITED
+                    && array[ROW][col] == CONNECTED){
+                track[ROW][col] = VISITED;
+                markAllNeighborV3(track, array, currentSet, col);
+            }
+        }
+    }
+}
+
+
+----------------------------------------------------------
+----------------------------------------------------------
 
 

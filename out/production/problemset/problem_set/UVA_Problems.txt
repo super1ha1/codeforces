@@ -471,8 +471,147 @@ public static void main (String args[])  throws Exception// entry point from OS
         System.out.println();
     }
 ----------------------------------------------------------
+    UVA 352 The Seasonal War
+public class Main {
+    public static int NUMBER_OF_TEST = 100;
+    public static BufferedWriter writer;
+    private static final Scanner sc = new Scanner(System.in);
+    private static int VISITED = 1;
+    private static int ON = 1;
 
+    public static void main(String[] args) throws Exception {
+        int order = 0 ;
+        while (sc.hasNextInt()){
+            int n = sc.nextInt();
+            order++;
+            int [][] array = getInput(n);
+            compute(array, order);
+        }
+    }
 
+    private static int[][] getInput(int n) {
+        sc.nextLine();
+        int[][] array = new int[n][n];
+        for(int row = 0; row < n; row++){
+            String line = sc.nextLine();
+            for(int col = 0; col < n; col++){
+                array[row][col] = line.charAt(col) - '0';
+            }
+        }
+        return array;
+    }
+
+    private static void compute(int[][] array, int order) {
+        int count = 0;
+        int n = array.length;
+        int [][] track = new int[n][n];
+
+        for(int row = 0; row < n; row++){
+            for (int col = 0; col < n; col++){
+                if(track[row][col] != VISITED && array[row][col] == ON){
+                    count++;
+                    markAllNeighborV3(track, array, row, col);
+                }
+            }
+        }
+        System.out.println("Image number " + order + " contains " + count + " war eagles.");
+    }
+
+    private static void markAllNeighbor(int[][] track, int [][] array,  int ROW, int COL) {
+        int n = array.length;
+        int row = ROW, col = COL;
+        while (row < n){
+            if(array[row][COL] != ON) break;
+            track[row][COL] = VISITED;
+            row++;
+        }
+
+        row = ROW;
+        while (row > 0){
+            if(array[row][COL] != ON) break;
+            track[row][COL] = VISITED;
+            row--;
+        }
+
+        col = COL;
+        while (col < n){
+            if(array[ROW][col] != ON) break;
+            track[ROW][col] = VISITED;
+            col++;
+        }
+
+        col = COL;
+        while (col > 0){
+            if(array[ROW][col] != ON) break;
+            track[ROW][col] = VISITED;
+            col--;
+        }
+
+        row = ROW;
+        col = COL;
+        while (row < n && col < n){
+            if(array[row][col] != ON) break;
+            track[row][col] = VISITED;
+            row++; col++;
+        }
+
+        row = ROW;
+        col = COL;
+        while (row < n && col > 0){
+            if(array[row][col] != ON) break;
+            track[row][col] = VISITED;
+            row++; col--;
+        }
+
+        row = ROW;
+        col = COL;
+        while (row > 0 && col < n){
+            if(array[row][col] != ON) break;
+            track[row][col] = VISITED;
+            row--; col++;
+        }
+
+        row = ROW;
+        col = COL;
+        while (row > 0 && col > 0){
+            if(array[row][col] != ON) break;
+            track[row][col] = VISITED;
+            row--; col--;
+        }
+    }
+
+    private static void markAllNeighborV2(int[][] track, int [][] array,  int ROW, int COL) {
+        int n = array.length;
+        for(int i = 1; i < n; i++){
+            int lowX = (ROW - i >= 0 ) ? ROW -i : 0;
+            int lowY = (COL - i >= 0) ? COL -i : 0;
+            int highX = (ROW + i < n) ? ROW + i : n-1;
+            int highY = (COL + i < n) ? COL + i : n-1 ;
+            for(int row = lowX, col = lowY; row <= highX && col <= highY; row++, col++){
+                if(array[row][col] == ON){
+                    track[row][col] = VISITED;
+                }
+            }
+        }
+    }
+
+    private static void markAllNeighborV3(int[][] track, int [][] array,  int ROW, int COL) {
+        int n = array.length;
+        int lowX = (ROW - 1 >= 0 ) ? ROW -1 : 0;
+        int lowY = (COL - 1 >= 0) ? COL -1 : 0;
+        int highX = (ROW + 1 < n) ? ROW + 1 : n-1;
+        int highY = (COL + 1 < n) ? COL + 1 : n-1;
+        track[ROW][COL] = VISITED;
+
+        for(int row = lowX; row <= highX; row++){
+            for(int col = lowY; col <= highY; col++){
+                if(track[row][col] != VISITED && array[row][col] == ON){
+                    markAllNeighborV3(track, array, row, col);
+                }
+            }
+        }
+    }
+}
 ----------------------------------------------------------
 
 

@@ -168,3 +168,59 @@
     public static void ListPermuteSet(String s){
         RecPermuteSet("", s);
     }
+
+-------------------------------------------------------------------
+Run selenium test problem
+
+public class Main {
+    public static int NUMBER_OF_TEST = 100;
+    public static BufferedWriter writer;
+
+    public static void main(String[] args) throws Exception {
+//        writer = new BufferedWriter(new FileWriter("D:\\WORK\\CURRENT PROJECT\\HTTPS Compliance\\out_old_selenium_2.txt"));
+//
+//        String PROXY = "stb-dev-proxy.db.rakuten.co.jp:9502";
+//        Proxy proxy = new Proxy();
+//        proxy.setHttpProxy(PROXY)
+//                .setFtpProxy(PROXY)
+//                .setSslProxy(PROXY);
+//        DesiredCapabilities cap = new DesiredCapabilities();
+//        cap.setCapability(CapabilityType.PROXY, proxy);
+//
+//        System.setProperty("webdriver.chrome.driver","D:\\workspace\\chromedriver.exe");
+//        WebDriver driver;
+//        StopWatch timer = new StopWatch();
+//
+//        for(int i = 0; i < NUMBER_OF_TEST; i++){
+//            driver = new ChromeDriver(cap);
+//            timer.start();
+//            driver.get("https://websearch.rakuten.co.jp/Web?qt=work&x=0&y=0&col=OW&svx=101210&ref=top");
+//
+//            // Wait for the required any element
+//            WebDriverWait wait = new WebDriverWait(driver, 10);
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("result-main")));
+//
+//            timer.stop();
+//            long pageLoadTime_ms = timer.getTime();
+//            writeToFile(i + " " + pageLoadTime_ms + "\n");
+//
+//            driver.close();
+//            timer.reset();
+//        }
+//
+//        if(writer != null){
+//            writer.close();
+//        }
+        for(int i = 0; i < 64; i++){
+            System.out.println("msg_tracker_0" + (i < 10 ? "0" + i : i ) + ",");
+        }
+    }
+
+    private static void writeToFile(String s) throws Exception{
+        writer.write(s);
+    }
+}
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
