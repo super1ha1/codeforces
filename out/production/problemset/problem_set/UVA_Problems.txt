@@ -613,6 +613,83 @@ public class Main {
     }
 }
 ----------------------------------------------------------
+    UVA 572 Oil Deposits
+
+import java.util.*;
+
+public class Main {
+    private static final Scanner sc = new Scanner(System.in);
+    private static final int NONE = 0;
+    private static final int OIL = 1;
+    private static final int VISITED = 1;
+
+    public static void main(String[] args) throws Exception {
+        while (sc.hasNextInt()){
+            String line = sc.nextLine();
+            String[] lines = line.trim().split(" ");
+            int m = Integer.parseInt(lines[0]);
+            int n = Integer.parseInt(lines[1]);
+            if(m == 0 && n == 0){
+                break;
+            }
+            int[][] array = getInput(m, n);
+            compute(array);
+        }
+    }
+
+    private static void compute(int[][] array) {
+        int count = 0;
+        int m = array.length;
+        int n = array[0].length;
+
+        int [][] track = new int[m][n];
+        for(int row = 0; row < m; row++){
+            for(int col = 0; col < n; col++ ){
+                if(track[row][col] != VISITED &&
+                        array[row][col] == OIL){
+                    count++;
+                    markAll(array, track, row, col);
+                }
+            }
+        }
+        System.out.println(count);
+    }
+
+    private static void markAll(int[][] array, int[][] track, int ROW, int COL) {
+        int m = array.length;
+        int n = array[0].length;
+        int lowX = ROW - 1 >= 0 ? ROW -1 : 0;
+        int lowY = COL - 1 >= 0 ? COL -1 : 0;
+        int highX = ROW + 1 >= m ? m -1 : ROW + 1;
+        int highY = COL + 1 >= n ? n -1 : COL + 1;
+
+        track[ROW][COL] = VISITED;
+        for(int row = lowX; row <= highX; row++){
+            for(int col = lowY; col <= highY; col++){
+                if(track[row][col] != VISITED
+                        && array[row][col] == OIL){
+                    markAll(array, track, row, col);
+                }
+            }
+        }
+    }
+
+    private static int[][] getInput(int m, int n) {
+        int[][] array = new int[m][n];
+        for(int i = 0; i < m; i++){
+            String line = sc.nextLine();
+            for(int col = 0; col < n; col++){
+                if(line.charAt(col) == '*'){
+                    array[i][col] = NONE;
+                }else if(line.charAt(col) == '@'){
+                    array[i][col] = OIL;
+                }
+            }
+        }
+        return array;
+    }
+
+}
 
 
 ----------------------------------------------------------
