@@ -1,0 +1,24 @@
+02/12 JAVA IO
+Charset charset = Charset.forName("US-ASCII");
+        Path file = Paths.get("./problemset/src/problem_set/UVA_Problems.txt");
+        String expected;
+        StringBuilder sb = new StringBuilder();
+        try{
+            BufferedReader reader = Files.newBufferedReader(file, charset);
+            String line;
+            while ( (line = reader.readLine()) != null){
+                sb.append(line + "\n");
+            }
+
+        }catch (IOException x){
+            System.err.format("IO Exception %s%n", x);
+        }
+        expected = sb.toString();
+        System.out.println("Expected: " + expected);
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+
+--------------------------------------------------------------
