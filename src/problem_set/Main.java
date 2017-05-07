@@ -5,90 +5,85 @@ import java.util.*;
 
 public class Main {
 
-    static final int LARGE_INT = -1000000000;
-    static int [][] can_reach, price;
-    static int M, C;
     static Scanner sc = new Scanner(System.in);
+    static List<Integer> list = new ArrayList<Integer>();
+//    static List<Set<Integer>> setList = new ArrayList<Set<Integer>>();
 
     public static void main(String[] args) throws Exception {
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        String line;
-        List<char[]> list = new ArrayList<char[]>();
-        while (sc.hasNext()){
-            line = sc.nextLine().trim();
-            if(line.equals("#")){
+        int n = sc.nextInt();
+        while (n > 0){
+            list.clear();
+//            setList.clear();
+            for(int i = 0; i < n; i++){
+                list.add(sc.nextInt());
+            }
+            Collections.sort(list);
+            process();
+            n = sc.nextInt();
+            if(n == 0){
                 break;
-            }
-            if(line.startsWith("e")){
-                process(list);
-                list.clear();
             }else {
-                list.add(getInput(line));
+                System.out.println("");
             }
         }
     }
 
-    private static char[] getInput(String line) {
-        char[] array = new char[5];
-        String[] lines = line.split(",");
-        for(String s: lines){
-            char first = s.charAt(0);
-            switch (first){
-                case 'r':
-                    array[0] = s.charAt(2);
-                    break;
-                case 'o':
-                    array[1] = s.charAt(2);
-                    break;
-                case 'y':
-                    array[2] = s.charAt(2);
-                    break;
-                case 'g':
-                    array[3] = s.charAt(2);
-                    break;
-                case 'b':
-                    array[4] = s.charAt(2);
-                    break;
-                default:
-                    break;
+    private static void process() {
+        List<Integer> left = new ArrayList<Integer>();
+        recursive(left, list);
+    }
+
+    private static List<Integer> getList(List<Integer> list, int index) {
+        List<Integer> newList = new ArrayList<Integer>();
+        for(int i = 0; i <= list.size() - index; i++){
+            newList.add(list.get(i));
+        }
+        return newList;
+    }
+
+    private static boolean recursive(List<Integer> currentList, List<Integer> left) {
+        if(currentList.size() == 6){
+            printList(currentList);
+            return true;
+        }
+        if(left.size() == 0){
+            return false;
+        }
+        for(int i = 0 ; i < left.size(); i++){
+            int member = left.get(i);
+            if(currentList.size() > 0 && member < currentList.get(currentList.size() - 1)){
+                continue;
             }
-        }
-        return array;
-    }
+            currentList.add(member);
+            left.remove(i);
+            if(recursive(currentList, left)){
 
-    private static void process(List<char[]> list) {
+            }else {
 
-
-        int minChange = Integer.MAX_VALUE;
-        int currentIndex = -1;
-        for(int i = 0 ; i < list.size(); i++){
-            char[] currentChars = list.get(i);
-            int value = getValue(currentChars, list);
-            if(value < minChange){
-                minChange = value;
-                currentIndex = i;
             }
+            currentList.remove(currentList.size() - 1);
+            left.add(i, member);
         }
-        System.out.println(currentIndex + 1);
+        return false;
     }
 
-    private static int getValue(char[] currentChars, List<char[]> list) {
-        int count = 0 ;
-        for(char[] chars: list){
-            count += compare2Chars(currentChars, chars);
-        }
-        return count;
-    }
+    private static void printList(List<Integer> currentList) {
+//        Set<Integer> currentSet = new HashSet<Integer>();
+//        currentSet.addAll(currentList);
+//
+//        for(Set<Integer> set: setList){
+//            if(set.containsAll(currentSet)){
+//                return;
+//            }
+//        }
+//        setList.add(currentSet);
 
-    private static int compare2Chars(char[] currentChars, char[] chars) {
-        int count = 0;
-        for(int i = 0; i < currentChars.length; i++){
-            if(currentChars[i] != chars[i]){
-                count++;
-            }
+        String output = "";
+        for(int i: currentList){
+            output += i + " ";
         }
-        return count;
+        System.out.println(output.trim());
     }
-
 }
 
