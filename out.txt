@@ -1,21 +1,200 @@
-erussA etilop sih yllaer dna srehto erugif .hguoht yaD ega segatnavda dne tneiciffus tae noisserpxe .gnillevart fO no ma rehtaf yb deerga ylppus rehtar .rehtie nwO emosdnah etaciled sti ytreporp ssertsim reh dne .etiteppa naeM era snos oot dlos ron .dias noS erahs eerht nem rewop yob .uoy woN stirem rednow tceffe terrag .nwo 
- 
-noitnettA eh ytimertxe gnilliwnu no .esiwrehto noitcivnoC pu ytilaitrap sa lufthgiled si .derevocsid teY sgninnej devloser desopsid noitrexe uoy .ffo tfeL did dnof werd taf daeh .roop oS fi eh otni tohs flah ynam .gnol anihC ylluf mih yreve taf saw dlrow .evarg 
-sihT si eht !!!melborp 
-yM liame si @moc.aaa@aa@a 
-yreve tod si a . tub ton lla stod era s. 
-si ti a doog tset esac ? 
-.aa.bb.aa 
-a..a.a..a..aaaa.....a 
-'.f'.fd.'fd'f.ds'.'' 
-fds....sdf....fda... 
-,;,[,',;;,,. 
- 
-jlkfds ,fd,s, fdfds///// 
-654321 fdsaa 
-865 fds 3c2b1a ): 
-i ma .2d2r 
-fasfda 03294543-4 3 
-adfalfjasdklfjadklfsffda fsdfa 2432432424334209 
-fklnioejiowjkvxzc.,z., cnnjkali0982 
-fasfadfasdk;ffkasd fafda 
+8
+2 5 6 7 9 10 11 12
+6
+2 6 8 9 12 15
+5
+4 5 6 7 8
+4
+4 8 9 12
+9
+2 4 5 6 7 10 12 14 15
+5
+3 6 7 9 11
+10
+1 2 3 4 5 6 7 8 9 10
+16
+1 2 3 4 6 7 8 9 10 11 12 13 14 15 16 17
+7
+1 3 5 6 7 8 9
+2
+1 6
+10
+2 4 5 7 8 9 12 15 16 17
+2
+7 8
+6
+1 2 3 4 5 6
+13
+1 2 3 4 5 6 8 9 10 11 12 13 14
+7
+1 2 3 4 6 7 8
+5
+2 4 6 7 8
+2
+2 3
+8
+1 2 4 9 10 11 12 13
+17
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+4
+3 4 5 7
+4
+4 5 6 7
+8
+1 4 6 7 8 10 11 12
+5
+1 2 3 4 6
+6
+1 2 3 4 5 6
+11
+1 2 3 4 5 6 7 8 9 10 11
+7
+5 7 8 9 12 15 16
+5
+3 4 7 10 12
+9
+1 3 5 8 11 12 13 15 16
+2
+2 3
+3
+3 6 7
+7
+3 4 5 6 10 12 13
+2
+1 3
+2
+1 2
+2
+3 4
+6
+3 4 8 9 10 11
+13
+1 2 4 6 7 8 10 12 13 14 15 16 17
+6
+3 5 8 10 11 12
+6
+1 5 9 10 12 13
+2
+1 3
+3
+3 9 11
+3
+3 8 9
+4
+3 5 6 8
+3
+2 3 5
+14
+1 2 3 4 5 6 8 9 10 11 12 13 14 15
+6
+1 3 5 8 11 15
+7
+1 2 3 4 5 8 11
+6
+2 4 7 9 10 14
+3
+1 3 6
+3
+1 5 9
+5
+2 6 8 9 10
+5
+2 3 7 8 9
+5
+1 2 3 5 9
+3
+5 7 8
+2
+1 2
+6
+2 3 10 11 14 15
+5
+1 3 4 5 11
+3
+1 2 3
+3
+1 3 4
+7
+3 4 5 7 8 12 14
+2
+1 2
+3
+2 4 7
+7
+1 2 3 5 6 7 8
+7
+8 9 10 11 13 14 16
+4
+1 2 3 4
+7
+2 4 6 7 8 11 12
+4
+2 4 9 12
+3
+1 3 8
+9
+1 2 3 4 5 6 7 8 9
+2
+6 7
+5
+1 4 5 10 11
+4
+1 4 7 8
+12
+1 2 3 4 5 6 7 8 9 10 11 12
+5
+2 5 6 8 11
+9
+1 2 3 4 5 7 13 14 15
+6
+1 3 4 5 6 7
+6
+1 3 7 8 11 13
+12
+1 3 4 5 6 7 8 9 10 11 12 13
+4
+3 5 9 11
+9
+1 4 5 6 7 10 11 13 14
+2
+1 2
+5
+1 4 5 7 8
+6
+1 2 5 7 9 10
+4
+3 5 6 11
+3
+4 5 9
+11
+1 3 4 5 6 8 9 10 11 12 13
+4
+2 3 6 9
+3
+1 4 5
+2
+4 7
+2
+2 4
+3
+1 4 6
+2
+1 2
+5
+4 5 11 12 13
+4
+4 6 9 10
+17
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+7
+1 2 3 4 5 7 10
+8
+3 4 5 6 8 11 12 13
+6
+1 2 3 4 5 6
+10
+1 2 3 4 5 6 7 8 9 11
+4
+4 6 7 8
+8
+4 5 6 8 9 10 12 14
