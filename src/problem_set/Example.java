@@ -1,69 +1,27 @@
 package problem_set;
 
 public class Example {
+    public interface Customer {
+        public void changePersonalName(String firstName, String lastName);
+        public void postalAddress(PostalAddress postalAddress);
+        public void relocateTo(PostalAddress changedPostalAddress);
+        public void changeHomeTelephone(Telephone telephone);
+        public void disconnectHomeTelephone();
+        public void changeMobileTelephone(Telephone telephone);
+        public void disconnectMobileTelephone();
+        public void primaryEmailAddress(EmailAddress emailAddress);
+        public void secondaryEmailAddress(EmailAddress emailAddress);
+    }
+
     @Transactional
-    public void saveCustomer(
+    public void changeCustomerPersonalName(
             String customerId,
-            String customerFirstName, String customerLastName,
-            String streetAddress1, String streetAddress2,
-            String city, String stateOrProvince,
-            String postalCode, String country,
-            String homePhone, String mobilePhone,
-            String primaryEmailAddress, String secondaryEmailAddress) {
-        Customer customer = customerDao.readCustomer(customerId);
-
+            String customerFirstName,
+            String customerLastName) {
+        Customer customer = customerRepository.customerOfId(customerId);
         if (customer == null) {
-            customer = new Customer();
-            customer.setCustomerId(customerId);
+            throw new IllegalStateException("Customer does not exist.");
         }
-
-        if (customerFirstName != null) {
-            customer.setCustomerFirstName(customerFirstName);
-        }
-
-        if (customerLastName != null) {
-            customer.setCustomerLastName(customerLastName);
-        }
-
-        if (streetAddress1 != null) {
-            customer.setStreetAddress1(streetAddress1);
-        }
-
-        if (streetAddress2 != null) {
-            customer.setStreetAddress2(streetAddress2);
-        }
-
-        if (city != null) {
-            customer.setCity(city);
-        }
-
-        if (stateOrProvince != null) {
-            customer.setStateOrProvince(stateOrProvince);
-        }
-
-        if (postalCode != null) {
-            customer.setPostalCode(postalCode);
-        }
-
-        if (country != null) {
-            customer.setCountry(country);
-        }
-
-        if (homePhone != null) {
-            customer.setHomePhone(homePhone);
-        }
-
-        if (mobilePhone != null) {
-            customer.setMobilePhone(mobilePhone);
-        }
-
-        if (primaryEmailAddress != null) {
-            customer.setPrimaryEmailAddress(primaryEmailAddress);
-        }
-
-        if (secondaryEmailAddress != null) {
-            customer.setSecondaryEmailAddress (secondaryEmailAddress);
-        }
-        customerDao.saveCustomer(customer);
+        customer.changePersonalName(customerFirstName, customerLastName);
     }
 }
