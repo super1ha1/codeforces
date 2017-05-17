@@ -1,8 +1,6 @@
 package problem_set;
 
-
 public class Example {
-
     @Transactional
     public void saveCustomer(
             String customerId,
@@ -12,25 +10,60 @@ public class Example {
             String postalCode, String country,
             String homePhone, String mobilePhone,
             String primaryEmailAddress, String secondaryEmailAddress) {
-
         Customer customer = customerDao.readCustomer(customerId);
+
         if (customer == null) {
             customer = new Customer();
             customer.setCustomerId(customerId);
         }
 
-        customer.setCustomerFirstName(customerFirstName);
-        customer.setCustomerLastName(customerLastName);
-        customer.setStreetAddress1(streetAddress1);
-        customer.setStreetAddress2(streetAddress2);
-        customer.setCity(city);
-        customer.setStateOrProvince(stateOrProvince);
-        customer.setPostalCode(postalCode);
-        customer.setCountry(country);
-        customer.setHomePhone(homePhone);
-        customer.setMobilePhone(mobilePhone);
-        customer.setPrimaryEmailAddress(primaryEmailAddress);
-        customer.setSecondaryEmailAddress (secondaryEmailAddress);
+        if (customerFirstName != null) {
+            customer.setCustomerFirstName(customerFirstName);
+        }
+
+        if (customerLastName != null) {
+            customer.setCustomerLastName(customerLastName);
+        }
+
+        if (streetAddress1 != null) {
+            customer.setStreetAddress1(streetAddress1);
+        }
+
+        if (streetAddress2 != null) {
+            customer.setStreetAddress2(streetAddress2);
+        }
+
+        if (city != null) {
+            customer.setCity(city);
+        }
+
+        if (stateOrProvince != null) {
+            customer.setStateOrProvince(stateOrProvince);
+        }
+
+        if (postalCode != null) {
+            customer.setPostalCode(postalCode);
+        }
+
+        if (country != null) {
+            customer.setCountry(country);
+        }
+
+        if (homePhone != null) {
+            customer.setHomePhone(homePhone);
+        }
+
+        if (mobilePhone != null) {
+            customer.setMobilePhone(mobilePhone);
+        }
+
+        if (primaryEmailAddress != null) {
+            customer.setPrimaryEmailAddress(primaryEmailAddress);
+        }
+
+        if (secondaryEmailAddress != null) {
+            customer.setSecondaryEmailAddress (secondaryEmailAddress);
+        }
         customerDao.saveCustomer(customer);
     }
 }
