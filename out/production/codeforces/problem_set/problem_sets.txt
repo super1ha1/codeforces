@@ -1,0 +1,1166 @@
+    158B	Taxi
+ int n = sc.nextInt();
+        int [] arr = new int[n];
+        for ( int i = 0 ; i < n ; i ++){
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        int rel = 0 ;
+        int i = 0, j = n-1 ;
+        while(i < j ){
+            if (arr[i] + arr[j] <= 4){
+                arr[j] += arr[i];
+                i++;
+            }else{
+                rel++;
+                j--;
+            }
+        }
+        System.out.println(rel + 1);
+  ------------------------------------------------
+    266A	Stones on the Table
+
+ private static int rel = 0 ;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        String s = sc.next();
+        if (n == 1){
+            rel = 0 ;
+        }else {
+            count(s, 0);
+        }
+        System.out.println(rel);
+    }
+    public static void count(String s, int index){
+        if( index >= s.length()- 1){
+            return;
+        }
+        char[] arr = s.toCharArray();
+        if( arr[index] == arr[index+ 1]){
+            rel++;
+            count(new String(updateCharArray(arr, index+1)), index);
+        }else {
+            count(s, index+1);
+        }
+
+    }
+    public static char[] updateCharArray(char [] original, int index){
+        char[] newCharr = new char[original.length - 1];
+
+        for ( int i = 0 ;i < index; i ++){
+            newCharr[i] =original[i];
+        }
+        for ( int i = index + 1; i < original.length; i++){
+            newCharr[i-1] = original[i];
+        }
+//        String s = new String(newCharr);
+//        System.out.println(s );
+        return newCharr;
+    }
+---------------------------------------------------
+    Div without * or /
+    public static int div(int n, int m){
+           int a = n > 0 ? n : -1 * n ;
+           int b = m > 0 ? m : -1 * m ;
+           if ( a < b ){
+               return  0;
+           }else if( a == b){
+               return n * m > 0 ? 1 : -1;
+           }else {
+               int rel = 0 ;
+               while( a >= b){
+                   a -= b;
+                   rel++;
+               }
+               return n * m > 0 ? rel : -1 * rel;
+           }
+       }
+-------------------------------------------------------
+    339A - Helpful Maths
+public static String updateStr(String s){
+        int [] arr = new int[s.length()/2 + 1];
+        char [] chars= s.toCharArray();
+        int index = 0 ;
+         for ( int i = 0 ; i < s.length(); i+= 2){
+             arr[index] = chars[i];
+             index++;
+         }
+        Arrays.sort(arr);
+
+        char [] newChars = new char[chars.length];
+        index = 0 ;
+        for( int i = 0 ; i < newChars.length; i ++){
+            if( i %2 == 0){
+                newChars[i] = (char) arr[index];
+                index++;
+            }else{
+                newChars[i] = '+';
+            }
+        }
+        return new String(newChars);
+    }
+
+-------------------------------------------------------
+    82A	Double Cola
+ Scanner sc = new Scanner(System.in);
+        String rel = null;
+        int b, mod, p;
+        int n = sc.nextInt();
+        if( n <= 5){
+            mod = (n -1 ) ;
+        }else{
+            p = findP(n);
+//            System.out.println("p: " + p);
+            b = (int)  (n - ( (Math.pow(2, p) -1  )  * 5) );
+//            System.out.println("b: " + b);
+            mod = (int) (b/ Math.pow(2, p));
+//            System.out.println("mod: " + mod);
+        }
+
+
+
+        switch (mod){
+            case 0:
+                rel = "Sheldon";
+                break;
+            case 1:
+                rel = "Leonard";
+                break;
+            case 2:
+                rel = "Penny";
+                break;
+            case 3:
+                rel = "Rajesh";
+                break;
+            case 4:
+                rel = "Howard";
+                break;
+        }
+        System.out.println(rel);
+    }
+    public static int findP(int n){
+        double rel = ( Math.log(n/5 + 1)/Math.log(2) );
+        return  (int) rel;
+    }
+-------------------------------------------------------
+    119A	Epic Game
+     Scanner sc = new Scanner(System.in);
+        int a, b, n, rel = 0 , gcd;
+        a = sc.nextInt();
+        b = sc.nextInt();
+        n = sc.nextInt();
+
+        while (n > 0 ){
+            gcd = findGCD(a, n);
+            n-= gcd;
+            rel++;
+            if( n == 0) break;
+            gcd = findGCD(b,n);
+            n -= gcd;
+            rel++;
+        }
+
+        rel++;
+        System.out.println(rel%2);
+    }
+    public static int findGCD(int a, int b){
+        if ( b == 0) {
+            return a;
+        }else{
+            return findGCD(b, a % b);
+        }
+
+    }
+-------------------------------------------------------
+        58A	Chat room
+ public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+
+        HashSet<Integer> H = new HashSet<Integer>();
+        HashSet<Integer> E = new HashSet<Integer>();
+        HashSet<Integer> L1 = new HashSet<Integer>();
+        HashSet<Integer> L2 = new HashSet<Integer>();
+        HashSet<Integer> O = new HashSet<Integer>();
+
+        findHello(s, 'h', H);
+        findHello(s, 'l', L1);
+        findHello(s, 'l', L2);
+        findHello(s, 'e', E);
+        findHello(s, 'o', O);
+
+        int last = s.lastIndexOf("l");
+        int first = s.indexOf("l");
+
+        boolean rel = true;
+        if(first < 0 || last < 0 || first == last){
+            rel = false;
+        }else{
+            L1.remove(last);
+            L2.remove(first);
+        }
+        rel = rel &&  check(H, E) && check(E, L1) && check(L1, L2) && check(L2, O);
+        if(rel){
+            System.out.println("YES");
+        }else {
+            System.out.println("NO");
+        }
+
+
+    }
+    public static void findHello(String s, char c, HashSet<Integer> H){
+        char [] chars = s.toCharArray();
+        for ( int i = 0 ; i < chars.length; i++){
+            if( chars[i] == c){
+                H.add(i);
+            }
+        }
+    }
+    public static boolean check(HashSet<Integer> S1, HashSet<Integer> S2){
+        boolean rel = true;
+        if( S1.isEmpty() || S2.isEmpty() )
+            return false;
+        for (Integer s2 : S2){
+            rel = true;
+            for ( Integer s1: S1){
+                if(s1 > s2)  rel = false;
+            }
+            if (rel ){
+                break;
+            }
+        }
+        return rel;
+    }
+
+
+-------------------------------------------------------  14/07
+    110A	Nearly Lucky Number 1
+Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        char [] chars = s.toCharArray();
+        int count = 0 ;
+        for ( int i = 0 ; i < chars.length; i++){
+            if ( chars[i] == '4' ||
+                    chars[i] == '7'){
+                count++;
+            }
+        }
+        String digit = String.valueOf(count);
+        char [] arr = digit.toCharArray();
+        boolean val = true;
+        for (char c: arr){
+            if( c != '4' && c!= '7'){
+                val = false;
+            }
+        }
+        if(val){
+            System.out.println("YES");
+        }else{
+            System.out.println("NO");
+
+        }
+
+------------------------------------------------------
+    467A	George and AccommodationN 2
+   Scanner sc = new Scanner(System.in);
+        int n, p, q, rel = 0 ;
+        n = sc.nextInt();
+        for ( int i = 0 ; i < n ; i ++){
+            p = sc.nextInt();
+            q = sc.nextInt();
+            if ( q - p >= 2 ){
+                rel++;
+            }
+        }
+        System.out.println(rel);
+------------------------------------------------------
+    122A	Lucky Division 3
+  Scanner sc = new Scanner(System.in);
+        int [] arr = {
+          4, 7,
+                44, 77, 47, 74,
+                444, 447, 474, 477, 744,  747 , 774,777
+        };
+        String s = sc.next();
+        char [] chars = s.toCharArray();
+
+        int count = Integer.valueOf(s);
+        boolean val = true, val2 = false, finalVal;
+        for (char c: chars){
+            if( c != '4' && c!= '7'){
+                val = false;
+            }
+        }
+
+        for ( int i : arr){
+            if ( count % i == 0){
+                val2 = true;
+            }
+        }
+//        if( count % 4 == 0 || count % 7 == 0){
+//            val2 = true;
+//        }
+        finalVal = val || val2;
+        if(finalVal){
+            System.out.println("YES");
+        }else{
+            System.out.println("NO");
+
+        }
+------------------------------------------------------
+    271A	Beautiful Year 4
+ public static final int N = 9001;
+    public static void main(String[] args) {
+      Scanner sc = new Scanner( System.in);
+        int [] arr = new int[8050];
+        for ( int i = 0 ; i < 8050; i++){
+            int a = i + 1000;
+            if( check(a)){
+                arr[i] = 1;
+//                System.out.println(a);
+            }
+        }
+        int n = sc.nextInt();
+        for (int i = n-1000 ; i < 8050; i++){
+            int a = i + 1000;
+            if (a > n &&  arr[i] == 1){
+                System.out.println(a);
+                break;
+            }
+        }
+
+
+    }
+    public static boolean check (int a){
+        String s = String.valueOf(a);
+        char [] chars= s.toCharArray();
+        boolean val = true;
+        for (int i = 0 ; i < chars.length ; i++ ){
+            if( !checkEach(a, i) )
+                val = false;
+        }
+        return val;
+    }
+    public static boolean checkEach(int a, int index){
+        String s = String.valueOf(a);
+        char [] chars= s.toCharArray();
+        boolean val = true;
+        for (int i = 0 ; i < chars.length ; i++ ){
+            if( i == index  ){
+                continue;
+            }else {
+                if( chars[i] == chars[index])
+                    val = false;
+            }
+
+        }
+        return val;
+    }
+
+------------------------------------------------------
+        472A - Design Tutorial: Learn from Math 5
+ Scanner sc = new Scanner( System.in);
+        int [] arr = new int[N];
+        arr[2] = 1 ;
+        for ( int i = 2 ; i < N; i++){
+            if( arr[i] == 0){
+                arr[i] = 1;
+            }
+            for( int j = i+i; j < N ; j += i ){
+                arr[j] = -1;
+            }
+        }
+
+        int n = sc.nextInt();
+        for (int i = 2 ; i < N; i++){
+            if( arr[i] == -1 && arr[n- i] == -1){
+                System.out.println(i + " " + (n-i) );
+                break;
+            }
+        }
+------------------------------------------------------
+    136A - Presents
+ Scanner sc = new Scanner( System.in);
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int n = sc.nextInt();
+        for( int i = 1 ;i <= n ; i ++){
+            int m = sc.nextInt();
+            map.put(m, i);
+        }
+        for ( int i = 1; i <= n; i++){
+            System.out.print(map.get(i) + " ");
+        }
+------------------------------------------------------
+    379A - New Year Candles
+ public static void main(String[] args) {
+        Scanner sc = new Scanner( System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        System.out.print(getHour(a, b));
+
+    }
+
+    public static int getHour(int a , int b){
+        int mod, rel;
+        mod = a % b;
+        rel = a /b ;
+        if ( rel == 0) return  mod;
+        else return (a - mod)   + getHour(rel + mod, b);
+    }
+
+------------------------------------------------------
+    460 A. Vasya and Socks
+ public static void main(String[] args) {
+        Scanner sc = new Scanner( System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        System.out.print(getHour(a, b));
+
+    }
+
+    public static int getHour(int a , int b){
+        int mod, rel;
+        mod = a % b;
+        rel = a /b ;
+        if ( rel == 0) return  mod;
+        else return a   + getHour(rel , b);
+    }
+
+------------------------------------------------------
+    263A - Beautiful Matrix
+ public static void main(String[] args) {
+        Scanner sc = new Scanner( System.in);
+        int row = 0 , col = 0 , n;
+        for ( int i = 1; i <= 5; i ++){
+            for ( int j = 1; j <= 5; j++){
+                n = sc.nextInt();
+                if( n == 1){
+                    row = i;
+                    col = j ;
+                }
+            }
+        }
+
+        System.out.print(Math.abs(row -3 ) + Math.abs(col -3));
+
+    }
+------------------------------------------------------
+    41A	Translation
+ public static  boolean check(String s, String t){
+        boolean rel = false;
+        int i = 0 ;
+        char [] s1 = s.toCharArray();
+        char [] t1 = t.toCharArray();
+        if( s.length() == t.length()){
+            int n = s.length() ;
+            while (i <= n - 1 && s1[i] == t1[n-1 - i] ){
+                i++;
+
+            }
+            if( i == n  ){
+                rel = true;
+            }
+        }
+
+        return rel;
+    }
+------------------------------------------------------
+        451A - Game With Sticks
+ Scanner sc = new Scanner( System.in);
+        int col = sc.nextInt();
+        int row = sc.nextInt();
+        int result = 0 ;
+        while (row >0 && col > 0){
+            int n = col * row;
+            int dec = row + col - 1;
+//            int add = n % dec == 0 ? 0 : 1;
+//            int rel = add + ( n / dec);
+
+            result ++;
+            row--;
+            col--;
+        }
+//        System.out.println("rel : " + result);
+        if( result % 2 == 1 ){
+            System.out.println("Akshat");
+        }else {
+            System.out.println("Malvika");
+
+        }
+
+------------------------------------------------------
+        MAXIMUM SUB ARRAY INTRO ALGO, CHAPTER 4, P72
+Brut force algo O(n^2)
+ public static void main(String[] args) {
+        int [] arr = {6, 9, 7 , 12, 15, 19, 14 , 16};
+        int n = arr.length;
+        int max = 0, left = -1, right = -1;
+        int i, j;
+        for (  i = 0 ; i < n; i++){
+            int sum = 0;
+            for(  j = i ; j < n; j++){
+                 sum = arr[j] - arr[i];
+                if( sum > max){
+                    max = sum;
+                    left = i;
+                    right = j;
+                }
+            }
+
+        }
+        System.out.println("sum: " + max + " left: " + left + " right: " + right);
+    }
+
+Divide and conquer
+ public static final int N = -1000001;
+    public static void main(String[] args) {
+        int [] arr = {6, 9, 7 , 12, 15, 19, 14 , 16};
+        int [] A = new int[arr.length-1];
+        for (int i = 0 ; i < arr.length -1 ; i++){
+            A[i] = arr[i+1] - arr[i];
+        }
+        int max = divide(A, 0, A.length-1 );
+        System.out.println("sum: " + max );
+    }
+    public static int divide(int[] A, int low, int high){
+        if( low == high){
+            return A[low];
+        }else {
+            int mid = (int) (low + high)/2;
+            int leftSum = divide(A, low, mid);
+            int rightSum = divide(A, mid +1, high);
+            int crossSum = crossSum(A, low, high);
+            if( leftSum >= rightSum && leftSum >= crossSum)
+                return leftSum;
+            else if ( rightSum >= leftSum && rightSum >= crossSum)
+                return rightSum;
+            else return crossSum;
+        }
+    }
+
+    private static int crossSum(int[] A, int low, int high) {
+        int leftMax = N, rightMax = N;
+        int sum = 0;
+        int i, j;
+        int mid = (int) (low + high)/2;
+        for ( i = mid; i >= low; i-- ){
+            sum += A[i];
+            if( sum > leftMax){
+                leftMax = sum;
+            }
+        }
+        sum = 0;
+        for (j = mid+1; j <= high; j++ ){
+            sum+= A[j];
+            if(sum > rightMax){
+                rightMax = sum;
+            }
+        }
+        System.out.println("Cross max: " + (leftMax + rightMax));
+        return leftMax + rightMax;
+    }
+------------------------------------------------------
+            DYNAMIC PROGRAMMING TUT 4, Q1
+ public static final int N = 100;
+    public static  int [] Soln;
+
+    public static void main(String[] args) throws Exception{
+        Soln = new int[N];
+        Soln[0] = 0;
+        Soln[1] = 1;
+        for(int i = 2 ; i <= 9; i++){
+            Soln[i] = -1;
+        }
+        System.out.println(fib4(9));
+
+    }
+
+
+    public  static int fib1(int n) {
+        {
+            if (n == 0 || n == 1) return n;
+            Soln[n - 1] = fib1(n - 1);  //no testing
+            return (Soln[n] = Soln[n - 1] + Soln[n - 2]);
+//            return Soln[n];
+
+        }
+    }
+    public  static int fib2(int n) {
+        {
+            if (n == 0 || n == 1) return n;
+            Soln[n - 1] = fib2(n - 1);  //no testing
+            return (Soln[n - 1] + Soln[n - 2]);
+//            return Soln[n];
+
+        }
+    }
+    public  static int fib3(int n) {
+        {
+            if (n == 0 || n == 1) return n;
+            Soln[n - 2] = fib3(n - 2);  //no testing
+            return (Soln[n] = Soln[n - 1] + Soln[n - 2]);
+//            return Soln[n];
+        }
+    }
+    public  static int fib4(int n) {
+        {
+            if (n == 0 || n == 1) return n;
+            if( Soln[n-2] == N)
+                Soln[n - 2] = fib4(n - 2);  //no testing
+            Soln[n-1] = fib4(n-1);
+            return  Soln[n - 1] + Soln[n - 2];
+        }
+    }
+------------------------------------------------------
+            Q2
+ public  static int fib(int n){
+        if( n == 0 || n== 1) return n;
+        Double temp = Math.sqrt(5);
+        Double A = (1 + temp)/2;
+        Double B = (1 - temp)/2;
+        Double fib = (Math.pow(A, n) + Math.pow(B,n))/temp;
+        return (int) ((fib - Math.floor(fib) >= 0.5 ) ? Math.ceil(fib) : Math.floor(fib));
+    }
+------------------------------------------------------
+            Q3
+   public static void main(String[] args) throws Exception{
+        String s = "ATTGAGA";
+//        Set symbol = new HashSet<Character>();
+//        symbol.add('A');
+//        symbol.add('T');
+//        symbol.add('G');
+//        Set A =new HashSet<Integer>();
+//        Set T =new HashSet<Integer>();
+//        Set G =new HashSet<Integer>();
+//        SIP(s, symbol, A, T, G);
+//        printSet(A);
+//        printSet(T);
+//        printSet(G);
+//        SIP(s);
+    }
+    public static void SIP(String s, Set symbol, Set A, Set T, Set G){
+        char [] chars = s.toCharArray();
+        for( int i = 0 ; i < chars.length; i ++){
+           switch (chars[i]){
+               case 'A':
+                   A.add(i+1);
+                   break;
+               case 'T':
+                   T.add(i+1);
+                   break;
+               case 'G':
+                   G.add(i+1);
+                   break;
+               default:
+                   break;
+           }}}
+    public static void printSet(Set<Integer> set){
+        for(Integer i: set){
+            System.out.print(i + " ");
+        }
+        System.out.print("\n");
+    }
+    public static void SIP(String s){
+        char [] chars = s.toCharArray();
+        Set symbol= new HashSet<Character>();
+        HashMap<Character, Set> map = new HashMap<Character, Set>();
+        for( int i = 0 ; i < chars.length; i ++){
+            if(!symbol.contains(chars[i])){
+                symbol.add(chars[i]);
+                Set newSet = new HashSet<Integer>();
+                newSet.add(i+1);
+                map.put(chars[i], newSet);
+            }else {
+                Set existSet = map.get(chars[i]);
+                existSet.add(i+1);
+            }
+        }
+        for(Character c : map.keySet()){
+            printSet(map.get(c));
+        }
+    }
+------------------------------------------------------
+
+------------------------------------------------------
+
+------------------------------------------------------
+
+    public static  int solution(int[] A) {
+        int N = A.length;
+        if( N == 0)
+            return 0;
+        HashMap<Integer, Integer>map = new HashMap<Integer, Integer>();
+        int result = 0 ;
+        for ( int i = 0 ; i < N; i++){
+            if( map.containsKey(A[i])){
+                int current = map.get(A[i]);
+                map.put(A[i], current+1);
+                result += current;
+            }else {
+                map.put(A[i], 1);
+            }
+        }
+        return result;
+    }
+    public static int factorial(int n) {
+        int fact = 1; // this  will be the result
+        for (int i = 1; i <= n; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+        public  static  int solution(int[] A, int X) {
+            // write your code in Java SE 8
+                int N = A.length;
+                if (N == 0) {
+                    return -1;
+                }
+                int l = 0;
+                int r = N - 1;
+
+                while (l < r  ) {
+                    int m = (l + r + 1) / 2;
+                    if (A[m] > X ) {
+                        r = m - 1;
+                    } else {
+                        l = m ;
+                    }
+                }
+                if ( (r == l) && (A[r] == X) ) {
+                    return r;
+                }
+                return -1;
+            }
+---------------------------------------------------------------------------------------------
+public static String solution(String S) {
+        // write your code in Java SE 8
+        String result = S  ;
+        if( S == null){
+            return null;
+        }
+        if( S.length() == 0)
+            return "";
+
+        int []array = new int[N];
+        reset(array);
+        printArray(array);
+        setArray(array, S);
+        printArray(array);
+        int count = count(array);
+        System.out.println("cout: " + count);
+        while (count > 0){
+            int random = (int )(Math.random() * count + 1);
+            System.out.println("random: " + random);
+            int choice = getChoice(array, random, count);
+            System.out.println("choice: " + choice);
+
+            result = applyChange(result, choice);
+            System.out.println("after resule: : " + result);
+
+            reset(array);
+            setArray(array, result);
+            printArray(array);
+            count = count(array);
+        }
+        return result;
+    }
+
+    private static String applyChange(String ori, int choice) {
+        String result = null;
+        if( choice == 1 ){
+           result = ori.replace("AB", "AA");
+        }else if( choice == 2  ) {
+            result = ori.replace("BA", "AA");
+
+        }else if( choice == 3  ){
+            result = ori.replace("CB", "CC");
+
+        }else if( choice == 4  ){
+            result = ori.replace("BC", "CC");
+
+        }else if( choice == 5   ){
+            result = ori.replace("AA", "A");
+
+        }else if( choice == 6  ){
+            result = ori.replace("CC", "C");
+
+        }
+        return result;
+    }
+
+    private static int getChoice(int[] array, int random, int largeCount) {
+        int count = 0;
+        for ( int i = 0 ; i < N; i++){
+            if( array[i] == 1){
+                count++;
+                if( count == random){
+                    return i+1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private static int count(int[] array) {
+        int count = 0 ;
+        for ( int i = 0 ; i < N; i++){
+            if( array[i] == 1){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static void reset(int[] array) {
+        for ( int i = 0 ; i < N; i++){
+            array[i] = -1;
+        }
+    }
+
+    private static void printArray(int[] array) {
+        for ( int i = 0 ; i < N; i++){
+            System.out.println(" " + array[i]);
+        }
+        System.out.println("\n");
+
+    }
+
+
+    public static void setArray(int[] array, String S) {
+        if( S.contains("AB")){
+            array[0] = 1;
+        }
+        if( S.contains("BA")) {
+            array[1] = 1;
+        }
+        if( S.contains("CB")){
+            array[2] = 1;
+        }
+        if( S.contains("BC")){
+            array[3] = 1;
+        }
+        if( S.contains("AA")){
+            array[4] = 1;
+        }
+        if( S.contains("CC")){
+            array[5] = 1;
+        }
+    }
+-------------------------------------------------------------------------------------
+        Rakuten interview
+ static  int LARGE = 2147483647;
+
+    public static void main(String [] args){
+        int result = solution( 0, 2, 4, 3, -4, 1, 2, 6);
+        System.out.println("Result: " + result);
+    }
+
+    public static  int solution(int K, int L, int M, int N,
+                                int P, int Q, int R, int S) {
+        // write your code in Java SE 8
+        int firstArea = getOneRectangleArea(K, L, M, N);
+        int secondArea = getOneRectangleArea(P, Q, R, S);
+        int intersectionArea = getIntersection(K, L, M, N, P, Q, R, S);
+        if( firstArea == -1 || secondArea == -1
+                || firstArea + secondArea - LARGE > 0){
+            return -1;
+        }
+        return firstArea + secondArea - intersectionArea;
+    }
+
+    private static int getIntersection(int x1, int y1, int x2, int y2,
+                                       int x3, int y3,
+                                       int x4, int y4) {
+        int height = 0 ,width = 0;
+        if( x2 >= x3 && x4 >= x1 ){ //condition for width intersect
+            if( x1 <= x3 && x2 <= x4 ){
+                width = x2 - x3;
+            }else  if( x3 <= x1 && x4 <= x2){
+                width = x4 - x1;
+            }else if( x3 <= x1 && x2 <= x4 ){
+                width = x2 - x1;
+            }else  if( x1 <= x3 && x4<= x2){
+                width = x4 - x3;
+            }
+        }
+
+        if( y2 >= y3 && y4 >= y1 ){ //condition for height intersect
+            if( y1 <= y3 && y2 <= y4 ){
+                height = y2 - y3;
+            }else  if( y3 <= y1 && y4 <= y2){
+
+                height = y4 - y1;
+            }else if( y3 <= y1 && y2 <= y4 ){
+
+                height = y2 - y1;
+            }else  if( y1 <= y3 && y4<= y2){
+                height = y4 - y3;
+
+            }
+        }
+
+        return width* height - LARGE > 0 ? -1 : width* height;
+    }
+
+    public static int getOneRectangleArea(int K, int L, int M, int N){
+        int width = M -K;
+        int height = N - L;
+        return width* height - LARGE > 0 ? -1 : width* height;
+    }
+----------------------------------------------------------------------------------------
+                A. The Text Splitting
+                http://codeforces.com/contest/612/problem/A
+                *note :  for ( int i = 0; i <= n/p; i++){ * should be <=, not only <
+  int n , p, q;
+        String s;
+        char [] chars;
+        Scanner sc = new Scanner(System.in);
+
+
+            n = sc.nextInt();
+            p = sc.nextInt();
+            q = sc.nextInt();
+            s = sc.next();
+            chars = s.toCharArray();
+            int p_div = -1, q_div = -1;
+            for ( int i = 0; i <= n/p; i++){
+                p_div = i;
+                if( (n - p * p_div) % q == 0 ){
+                    q_div = (n - p * p_div) / q;
+                    break;
+                }
+            }
+            if (q_div != -1) {
+                System.out.println( q_div + p_div);
+                for( int i = 0 ; i < q_div; i ++){
+                    System.out.println(s.substring(q * i, q * i + q));
+                }
+                for( int i = 0 ; i < p_div; i++){
+                    System.out.println(s.substring(p * i + q * q_div, q * q_div + p * i + p ));
+                }
+            }else
+                System.out.println(-1);
+
+------------------------------------------------------------------------------------------------------------------------
+                B. HDD is Outdated Technology
+                http://codeforces.com/contest/612/problem/B
+                Note: overflow may happen, need to use Big Int
+
+                int n ;
+                Map<Integer , Integer> map = new HashMap<>();
+                Scanner sc = new Scanner(System.in);
+                n = sc.nextInt();
+                int num;
+                for ( int i = 1; i <= n; i++){
+                    num = sc.nextInt();
+                    map.put(num, i);
+                }
+                BigInteger sum = BigInteger.valueOf(0);
+                for( int i = 1; i < n; i++){
+                    sum = sum.add(BigInteger.valueOf(Math.abs(map.get(i + 1) - map.get(i))));
+                }
+                System.out.println(sum);
+------------------------------------------------------------------------------------------------------------------------
+            A. Bulbs http://codeforces.com/contest/615/problem/A
+ Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n, m;
+        while (sc.hasNextInt()){
+            n = sc.nextInt();
+            m = sc.nextInt();
+            int a ;
+            int [] array = new int[m];
+
+            while (sc.hasNextInt()){
+                a = sc.nextInt();
+                array[a - 1 ] = 1;
+            }
+
+            boolean yes = true;
+            for ( int i  =0 ; i < m; i++){
+                if(array[i] == 0){
+                    yes = false;
+                    break;
+                }
+            }
+            String s = yes ? "YES" : "NO" ;
+            System.out.println(s);
+
+------------------------------------------------------------------------------------------------------------------------
+        A. Comparing Two Long Integers
+http://codeforces.com/contest/616/problem/A
+//        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String strLine = in.readLine();
+        BigInteger first = BigInteger.valueOf(new Long(strLine));
+        String secondLIne = in.readLine();
+        BigInteger second = BigInteger.valueOf(new Long(secondLIne));
+
+        PrintWriter printWriter = new PrintWriter(System.out);
+        int compare = first.compareTo(second);
+        if( compare < 0){
+            printWriter.write("<");
+        }else if( compare == 0){
+            printWriter.write("=");
+        }else if( compare > 0) {
+            printWriter.write(">");
+        }
+        printWriter.close();
+
+        -----------------------------------------
+        Accept answer
+          //        Scanner sc = new Scanner(System.in);
+        //        Scanner sc = new Scanner(new FileReader("in.txt"));
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                String firstLine = in.readLine();
+                String secondLIne = in.readLine();
+
+                long len1 = firstLine.length();
+                long len2 = secondLIne.length();
+                if( len1 > len2){
+                    String s = "";
+                    for ( int i = 0 ; i < len1 - len2; i++ ){
+                        s += "0";
+                    }
+                    secondLIne = s + secondLIne;
+                }else if( len1 < len2){
+                    String s = "";
+                    for ( int i = 0 ; i < len2 - len1; i++ ){
+                        s += "0";
+                    }
+                    firstLine= s + firstLine;
+                }
+
+                PrintWriter printWriter = new PrintWriter(System.out);
+                int compare = firstLine.compareTo(secondLIne);
+                if (compare < 0) {
+                    printWriter.write("<");
+                } else if (compare == 0) {
+                    printWriter.write("=");
+                } else if (compare > 0) {
+                    printWriter.write(">");
+                }
+                printWriter.close();
+            }
+
+
+------------------------------------------------------------------------------------------------------------------------
+            B. Dinner with Emma
+            http://codeforces.com/contest/616/problem/B
+
+       Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n, m;
+        n = sc.nextInt();
+        m = sc.nextInt();
+
+        long [] min = new long[n];
+        long [][] array = new long [n][m];
+        for ( int i = 0 ; i < n; i++){
+            for(int j = 0 ; j < m; j++){
+                array[i][j] = sc.nextLong();
+                if( j == 0 ) min[i] = array[i][j];
+                if( array[i][j] < min[i])
+                    min[i] = array[i][j];
+            }
+        }
+        int max_index = -1;
+        long max_value = -1;
+        for ( int i = 0 ;i < n; i++){
+            if( i == 0 ){
+                max_value = min[i];
+                max_index = i;
+            }
+            if( min[i] > max_value){
+                max_value = min[i];
+                max_index = i;
+            }
+        }
+        System.out.println(max_value);
+    }
+------------------------------------------------------------------------------------------------------------------------
+        D. Longest k-Good Segment
+http://codeforces.com/contest/616/problem/D
+
+    public static void main (String args[])  throws Exception// entry point from OS
+    {
+        //        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(new FileReader("in.txt"));
+        int n , k;
+        n = sc.nextInt();
+        k = sc.nextInt();
+        int [] array = new int[n];
+        int l = -1, r = -1;
+        for( int i  = 0 ; i < n; i++){
+            array[i] = sc.nextInt();
+        }
+        int [][] value = new int[n][n];
+        for ( int i = 0 ; i < n; i++){
+            int tempL = -1, tempR = -1;
+            for ( int j = i ; j < n; j++){
+
+                if(j == 0){
+                    value[i][j] = 1;
+                    continue;
+                }
+                int currentVal = check(array,n,  i, j);
+                value[i][j] = value[i][j-1] + currentVal;
+                if( value[i][j] == k){
+                    tempL = i + 1;
+                    tempR = j+1;
+                    break;
+                }
+            }
+            System.out.println(tempL + " " + tempR);
+
+            if( tempR - tempL > r - l){
+                l = tempL + 1;
+                r = tempR + 1;
+            }
+
+        }
+        System.out.println(l + " " + r);
+    }
+
+    private static int check(int[] array, int n,  int i, int j) {
+        Set<Integer> set = new HashSet<>();
+        for ( int k = i ; k < j; k++){
+            set.add(array[k]);
+        }
+        if( set.contains(array[j]))
+            return 0;
+        return 1;
+    }
+
+------------------------------------------------------------------------------------------------------------------------
+http://codeforces.com/contest/628/problem/A A. Tennis Tournament
+ public static void main(String[] args){
+       Scanner sc = new Scanner(System.in);
+        int n, b,p;
+        n = sc.nextInt();
+        b = sc.nextInt();
+        p = sc.nextInt();
+        int bottleEachMatch = 2 * b + 1;
+
+        int matches = findMatch(n);
+        System.out.println( (matches * bottleEachMatch) + " " + ( n * p));
+    }
+
+    private static int findMatch(int n) {
+        int matches = 0 ;
+        while (n > 1){
+            int k = n /2;
+            int left = n % 2;
+            matches += k ;
+            n = left + k;
+        }
+        return matches;
+    }
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------

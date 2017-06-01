@@ -1,0 +1,252 @@
+05/03 programming Abstraction: Lecture 7
+----------------------------------------------------------
+    read a file, put all word with same set of character into a group
+
+    public static void main(String[] args){
+
+        BufferedReader reader = readFile("doc.txt");
+        Map<String, Set<String>> words = new HashMap<>();
+
+        try {
+            while (true){
+                String line = reader.readLine();
+                if( line == null) break;
+                line.trim().replaceAll("( )+", " ");
+                for ( String word: line.split(" ")){
+                    String key = sortString(word);
+                    if(words.keySet().contains(key)){
+                        words.get(key).add(word);
+                    }else {
+                        Set<String> newSet = new HashSet<>();
+                        newSet.add(word);
+                        words.put(key, newSet);
+                    }
+                }
+            }
+            System.out.println("total size: " + words.size());
+            String maxKey = "";
+            int maxSize = 0;
+            for( String key: words.keySet()){
+                System.out.print("key: " + key);
+                for( String s: words.get(key)){
+                    System.out.print(" " + s);
+                }
+                if(words.get(key).size() > maxSize){
+                    maxKey = key;
+                    maxSize = words.get(key).size();
+                }
+                System.out.println();
+            }
+            System.out.println("max: " + maxKey + " size: " + maxSize);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String sortString( String s){
+        char [] array = removeNonChar(s);
+
+        for( int i = 0 ; i < array.length; i++){
+            int minIndex = i;
+            for( int j = i+1 ; j < array.length; j++){
+                if(array[j] < array[minIndex])
+                    minIndex = j;
+            }
+            swap(array, i, minIndex);
+        }
+        return new String(array);
+    }
+
+    public static char [] removeNonChar(String s){
+        char [] array = s.toLowerCase().toCharArray();
+        String rel = "";
+        for( int i = 0 ; i < array.length; i++){
+            if( Character.isLetter(array[i])){
+                if('a' <= array[i] && array[i] <= 'z') {
+                    rel += array[i];
+                }
+            }
+        }
+        return rel.toCharArray();
+    }
+
+    public static void swap(char [] array, int i, int j ){
+        char temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    public static BufferedReader readFile (String name){
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader((name)));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return reader;
+    }
+
+-----------------------------------------------------------------------
+    Recursive palindrome
+     public static void main(String[] args){
+
+            Scanner sc = new Scanner(System.in);
+            while (true){
+                String line = sc.nextLine();
+                if(line.equals("")) break;
+                System.out.println(isPalindrome(line));
+            }
+
+        }
+
+        public static boolean isPalindrome(String s){
+            if( s.length() <= 1){
+                return  true;
+            }else {
+                return (s.charAt(0) == s.charAt(s.length() -1) && isPalindrome(s.substring(1, s.length() -1)));
+            }
+        }
+
+-----------------------------------------------------------------------------------------
+    Recursive Binary Search
+
+   * Wrong base case: if (high < low) return -1;
+
+ public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        int [] array = {1, 2, 3, 4, 9 , 10, 15, 20, 25};
+        System.out.println(binarySearch(array, 0, array.length -1, 25));
+
+    }
+
+    public static int binarySearch (int[] array, int low, int high, int key){
+        if(array.length == 0 ) return -1;
+        if( high < low ) return  -1;
+
+        int mid = low + (high - low) /2;
+        if( array[mid] == key)
+            return mid;
+        else if( array[mid] < key){
+            return binarySearch(array, mid+1, high, key);
+        }else return binarySearch(array, low, mid -1, key);
+    }
+
+-----------------------------------------------------------------------------------------
+    calculate combination C(n, k) pick k from n people
+    * base case:
+        k ==0 : finish pick, pick 0 more people
+        k == n: exclude all people, now either no pick or pick every one
+
+public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println(C(10, 8));
+    }
+
+    public static int C(int n, int k){
+        if( k == 0 || k == n){
+            return 1;
+        }else
+            return C(n-1, k-1) + C(n-1, k);
+    }
+-----------------------------------------------------------------------------------------
+06/03git
+    Lecture 9: String permutation
+    public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        listPermute("abc");
+    }
+
+    public static void recPermute( String soFar, String rest){
+        if( rest.equals("")){
+            System.out.println(soFar);
+        }else {
+            for( int i = 0 ; i < rest.length(); i++){
+                String next = soFar + rest.charAt(i);
+                String remain = rest.substring(0, i) + rest.substring(i+1);
+                recPermute(next, remain);
+            }
+        }
+    }
+
+    public static void listPermute(String s){
+        recPermute("", s);
+    }
+
+-----------------------------------------------------------------------------------------
+N Queen problem
+  public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int [][] board = new int[n][n];
+        if(solve(board, 0)){
+            printBoard(board);
+        }
+
+    }
+
+    public static void printBoard(int[][] board){
+        for( int i = 0 ; i < board.length; i++){
+            for( int j = 0; j < board.length; j++){
+                if( board[i][j] == 1){
+                    System.out.print("[#]");
+                }else{
+                    System.out.print("[.]");
+                }
+            }
+            System.out.println();
+        }
+    }
+    public static boolean solve (int[][] board, int col){
+        if(col >= board.length)
+            return true;
+        for( int row = 0; row < board.length; row++){
+            if(isSafe(board, row, col)){
+                board[row][col] = 1;
+                if( solve(board, col +1))
+                    return true;
+                board[row][col] = 0;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isSafe(int[][] board, int currentRow, int currentCol){
+        int [][] check = new int[board.length][board.length];
+
+        for( int col = 0 ; col < currentCol; col++){
+            for( int row = 0; row < board.length; row++){
+                if( board[row][col] == 1){
+                    markCheck(check, row, col);
+                }
+            }
+        }
+        return check[currentRow][currentCol] != -1;
+    }
+
+    public static void markCheck(int[][] check, int row, int col){
+        for(int i = 0; i < check.length; i++){
+            for( int j =0 ;j < check.length; j++){
+                if(i == row || j == col ||
+                        Math.abs(i - row) == Math.abs(j - col)){
+                    check[i][j] = -1;
+                }
+            }
+        }
+    }
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+

@@ -1,72 +1,13 @@
-  default: {
-      pageOptions: {
-          'query': query,
-          'detailedAttribution': true,
-          'attributionHref': '//portal.faq.rakuten.co.jp/cgi-bin/rakuten_portal.cfg/php/enduser/std_adp.php?p_faqid=8244',
-          'domainLinkAboveDescription': true,
-          'siteLinks': true,
-          'numRepeated': 3,
-          'hl': 'ja',
-          'oe': 'utf8',
-          'location': true,
-          'ie': 'utf8',
-          'linkTarget': '_blank',
-          'adPage': pageNumber,
-          'resultsPageBaseUrl': 'http://macross-search.stg.jpe2.rpaas.net/Web?',
-          'domainName': 'rpaas.net',
-          'resultsPageQueryParam': 'qt',
-          'surfixChannel': '+csa_use_rs_topbottom'
-      },
-      adblock1: {
-          'minTop': 7,
-          'longerHeadlines': true,
-          'fontSizeTitle': 18,
-          'fontSizeAnnotation': 15,
-          'fontSizeDescription': 13,
-          'fontSizeDomainLink': 14,
-          'colorTitleLink': '#0E1CB3',
-          'colorDomainLink': '#00802A',
-          'colorText': '#3F3F3F',
-          'lineHeightTitle': 20,
-          'verticalSpacing': 12,
-          'lineHeightDescription': 20,
-          'lineHeightDomainLink': 25,
-          'colorAttribution': '#676767',
-          'colorBackground': 'rgb(255, 255, 255)',
-      },
-      adblock2: {
-          'number': 3,
-          'fontSizeTitle': 18,
-          'fontSizeAnnotation': 15,
-          'fontSizeDescription': 13,
-          'fontSizeDomainLink': 14,
-          'colorTitleLink': '#0E1CB3',
-          'colorDomainLink': '#00802A',
-          'colorText': '#3F3F3F',
-          'lineHeightTitle': 20,
-          'verticalSpacing': 12,
-          'lineHeightDescription': 20,
-          'lineHeightDomainLink': 25,
-          'colorAttribution': '#676767',
-          'colorBackground': 'rgb(255, 255, 255)',
-      },
-      adblock3: {
-          'fontSizeTitle': 13,
-          'colorTitleLink': '#0E1CB3',
-          'relatedSearches': 10,
-          'columns': 2,
-          'columnSpacing': 16,
-          'detailedAttribution': false,
-      },
-      adblock4: {
-          'fontSizeTitle': 13,
-          'colorTitleLink': '#0E1CB3',
-          'relatedSearches': 2,
-          'columns': 2,
-          'columnSpacing': 16,
-          'detailedAttribution': false,
-      },
-      extension: {
-          'border': 'none',
-      },
-  },
+1
+12 11
+1 2
+3 1
+4 1
+5 1
+6 1
+7 1
+8 2
+9 2
+10 2
+11 2
+12 2
