@@ -7,105 +7,67 @@ public class Main {
 
     static final int LARGE_INT = -1000000000;
     static int [][] can_reach, price;
-    static int n, k, sum = 0;
+    static int first, k, tempMax = Integer.MIN_VALUE;
     static List<List<Integer>> adList = new ArrayList<List<Integer>>();
     static List<Integer> resultList = new ArrayList<Integer>();
     static List<Integer> tempList = new ArrayList<Integer>();
+    static List<Integer> notConnectedList = new ArrayList<Integer>();
     static int[] visisted;
     //    static Scanner sc = new Scanner(System.in);
 
+    private static Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-
-        int testCase = sc.nextInt();
-        while (testCase-- > 0){
-            n = sc.nextInt();
-            k = sc.nextInt();
-            adList.clear();
-            visisted = new int[n+1];
-            for(int i = 0 ; i <= n ; i++){
-                List<Integer> newList = new ArrayList<Integer>();
-                adList.add(newList);
+        int count = 1;
+        while (sc.hasNext()){
+            int numberOfPair = sc.nextInt();
+            if(numberOfPair == 0){
+                break;
             }
-            for(int i = 0 ; i < k; i++){
+            map.clear();
+            while (numberOfPair-- > 0){
                 int first = sc.nextInt();
                 int second = sc.nextInt();
-                adList.get(first).add(second);
-                adList.get(second).add(first);
-            }
-            processInput();
-            printResult();
-        }
-    }
-
-    private static void printResult() {
-        Collections.sort(resultList);
-        System.out.println(resultList.size());
-        String output = "";
-        for(int i: resultList){
-            output += i + " ";
-        }
-        System.out.println(output.trim());
-    }
-
-
-
-    private static void processInput() {
-        int maxValue = Integer.MIN_VALUE;
-        List<Integer> currentList = new ArrayList<Integer>();
-        for(int i = 1; i < adList.size(); i++){
-
-            tempList.clear();
-            currentList.clear();
-
-            recursive(i, currentList);
-
-            if(tempList.size() > maxValue){
-                maxValue = tempList.size();
-                resultList.clear();
-                resultList.addAll(tempList);
-
-                //take all alone node
-                for(int j = 1 ; j <= n; j++){
-                    if(visisted[j] != 1){
-                        resultList.add(j);
-                    }
+                if(!map.keySet().contains(first)) {
+                    map.put(first, new ArrayList<Integer>());
                 }
+                map.get(first).add(second);
+
+                if(!map.keySet().contains(second)){
+                    map.put(second, new ArrayList<Integer>());
+                }
+                map.get(second).add(first);
+            }
+
+            while (true){
+                int start = sc.nextInt();
+                int ttl = sc.nextInt();
+                if(start == 0 && ttl == 0){
+                    break;
+                }
+                process(start, ttl, count++);
             }
         }
-
     }
 
-    private static void recursive(int nodeIndex, List<Integer> currentList) {
-        if(currentList.size() == n || visisted[nodeIndex] == 1 ){
-            return;
-        }
-
-        visisted[nodeIndex] = 1;
-        currentList.add(nodeIndex);
-
-        if(okToMark(nodeIndex)){
-            tempList.add(nodeIndex);
-        }else {
-
-        }
-
-        for(int neighbor: adList.get(nodeIndex)){
-            if(visisted[neighbor] != 1){
-                //mark as black
-                recursive(neighbor, currentList);
-            }
-        }
-
+    private static void process(int start, int ttl, int count) {
+        int node = getCount(start, ttl);
+        System.out.println("Case " + count + ": " + node + " nodes not reachable from node " + start + " with TTL = " + ttl + ".");
     }
 
-    private static boolean okToMark(int nodeIndex) {
-        for(int neighbor: adList.get(nodeIndex)){
-            if(visisted[neighbor] == 1 && tempList.contains(neighbor)){
-                return false;
+    private static int getCount(int start, int ttl) {
+        Set<Integer> set = new HashSet<Integer>();
+        Queue<Integer> queue = new LinkedList<Integer>();
+        for(int i: map.get(start)){
+            queue.add(i);
+            set.add(i);
+        }
+        while (!queue.isEmpty()){
+            for(int i: map.get(queue.poll())){
+                set.add(i);
             }
         }
-        return true;
+        return map.keySet().size() - set.size();
     }
 
 
