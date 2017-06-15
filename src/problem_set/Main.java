@@ -16,6 +16,7 @@ public class Main {
     //    static Scanner sc = new Scanner(System.in);
 
     private static Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+    private static Map<Integer, Map<Integer, Set<Integer>>> visitedMap = new HashMap<Integer, Map<Integer, Set<Integer>>>();
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         int count = 1;
@@ -56,10 +57,27 @@ public class Main {
     }
 
     private static int getCount(int start, int maxDepth) {
+        if(!visitedMap.keySet().contains(start)){
+            visitedMap.put(start, new HashMap<Integer, Set<Integer>>());
+        }
+        Map<Integer, Set<Integer>> oldMap = visitedMap.get(start);
+        for(int i = 1; i <= maxDepth; i++){
+            if(!oldMap.keySet().contains(i)){
+                oldMap.put(i, new HashSet<Integer>());
+            }
+        }
+
         Set<Integer> set = new HashSet<Integer>();
         Queue<Integer> queue = new LinkedList<Integer>();
         queue.add(start);
+        set.add(start);
         int elementToDepthIncrease = 1, nextElementToDepthIncrease = 0, currentDepth = 0;
+        if(oldMap.get(maxDepth).size() > 0){
+            Set<Integer> previousSet = oldMap.get(maxDepth);
+            queue.addAll(previousSet);
+            set.addAll(previousSet);
+        }
+
         while (!queue.isEmpty()){
             int currentNode = queue.poll();
             List<Integer> neighbors = map.get(currentNode);
@@ -82,6 +100,9 @@ public class Main {
             }
         }
 
+        Map<Integer, Set<Integer>> currentMap = visitedMap.get(start) != null ? visitedMap.get(start) : new HashMap<Integer, Set<Integer>>();
+        currentMap.put(maxDepth, set);
+        visitedMap.put(start, currentMap);
         return map.keySet().size() - set.size();
     }
 
