@@ -1,144 +1,51 @@
 package problem_set;
 
-import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
-
-    static final int LARGE_INT = -1000000000;
-    static int [][] can_reach, price;
-    static int first, k, tempMax = Integer.MIN_VALUE;
-    static List<List<Integer>> adList = new ArrayList<List<Integer>>();
-    static List<Integer> resultList = new ArrayList<Integer>();
-    static List<Integer> tempList = new ArrayList<Integer>();
-    static List<Integer> notConnectedList = new ArrayList<Integer>();
-    static int[][] visit;
-    static int min = Integer.MAX_VALUE;
-    //    static Scanner sc = new Scanner(System.in);
-
-    private static Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+//    private static Scanner sc;
+    private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) throws Exception {
-//        int [] input = {2,3,6};
-//        int [] input = {4,1,2};
-//        int [] input = {3,3,8};
-//        int [] input = {5,2,8};
-        int [] input = {3,5,14};
-        calculate(input[0], input[1], input[2]);
-        System.out.println(min);
-    }
+//        sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 
-    private static void calculate(int row, int col, int people) {
-        int[][] visit = new int[row][col];
-        backTrack(visit, people);
-    }
-
-    private static boolean backTrack(int [][] visit, int people) {
-        if(people == 0 || full(visit)){
-            min = Math.min(min, takeMin(visit));
-            return true;
+        int count = 0;
+        while (true){
+            int N = sc.nextInt();
+            if(N == 0){
+                break;
+            }
+            if(count > 0){
+                System.out.println("");
+            }
+            process(N);
+            count++;
         }
-        for(int i = 0; i < visit.length; i++){
-            for(int j = 0; j < visit[0].length; j++){
-                if(visit[i][j] == 0){
-                    visit[i][j] = 1;
-                    if(takeMin(visit) < min){
-                        if(backTrack(visit, people -1)){
+    }
 
-                        }
-                    }
-                    visit[i][j] = 0;
-                }
+    private static void process(int N) {
+        boolean hasResult = false;
+        for(int i = 1234; i <= 98765; i++){
+            int j = i * N;
+            if(j > 98765){
+                break;
+            }
+            if(check(i, j)){
+                hasResult = true;
+                System.out.println(String.format("%05d / %05d = %d", j, i, N));
             }
         }
-        return false;
-    }
-
-    private static boolean full(int[][] visit) {
-        for(int i = 0; i < visit.length; i++){
-            for(int j = 0; j < visit[0].length; j++){
-                if(visit[i][j] == 0){
-                   return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private static int takeMin(int[][] visit) {
-        Set<Point> set = new HashSet<Point>();
-        for(int i = 0; i < visit.length; i++){
-            for(int j = 0; j < visit[0].length; j++){
-                if(visit[i][j] == 1){
-                    int top = i > 0 ? i-1 : 0;
-                    int bottom = i + 1 < visit.length ? i+ 1 : i;
-                    int left = j > 0 ? j-1 : 0;
-                    int right = j + 1 < visit[0].length ? j + 1 : j;
-                    for(int row = top; row <= bottom; row++){
-                        for(int col = left; col <= right; col++){
-                            if(!(row == i && col == j) && !((Math.abs(row - i) == 1 && Math.abs(col - j) == 1)) && visit[row][col] == 1){
-                                set.add(new Point(i, j, row, col));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return set.size();
-    }
-
-    static class Point {
-        public int x1;
-        public int y1;
-        public int x2;
-        public int y2;
-
-        public Point(int x1, int y1, int x2, int y2) {
-            this.x1 = x1;
-            this.y1 = y1;
-            this.x2 = x2;
-            this.y2 = y2;
-        }
-
-        @Override
-        public int hashCode() {
-            return this.x1 + this.x2 + this.y1 + this.y2;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if(obj == this) return true;
-            if ((obj == null) || (obj.getClass() != this.getClass()))
-                return false;
-            Point that = (Point) obj;
-
-            return (
-                            that.x1 == this.x1 &&
-                            that.x2 == this.x2 &&
-                            that.y1 == this.y1 &&
-                            that.y2 == this.y2
-            );
+        if(!hasResult){
+            System.out.println(String.format("There are no solutions for %d.", N));
         }
     }
-    private static void process(int start, int ttl, int count) {
-        int node = getCount(start, ttl);
-        System.out.println("Case " + count + ": " + node + " nodes not reachable from node " + start + " with TTL = " + ttl + ".");
+
+    private static boolean check(int i, int j) {
+        String figure = String.format("%05d%05d", i, j);
+        char[] array = figure.toCharArray();
+        Arrays.sort(array);
+        String sortedStr = new String(array);
+        return "0123456789".equals(sortedStr);
     }
-
-    private static int getCount(int start, int ttl) {
-        Set<Integer> set = new HashSet<Integer>();
-        Queue<Integer> queue = new LinkedList<Integer>();
-        for(int i: map.get(start)){
-            queue.add(i);
-            set.add(i);
-        }
-        while (!queue.isEmpty()){
-            for(int i: map.get(queue.poll())){
-                set.add(i);
-            }
-        }
-        return map.keySet().size() - set.size();
-    }
-
-
 }
 
