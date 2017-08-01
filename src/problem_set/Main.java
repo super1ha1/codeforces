@@ -5,117 +5,52 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static int max = 0;
-    private static char[][] array;
+    private static int[][] result;
     public static void main(String[] args) throws Exception {
-//        Scanner sc = new Scanner(System.in);
-        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-
-        while (true){
+        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+        int testCase = sc.nextInt();
+        for(int i = 0; i < testCase; i++){
+            result = new int[1025][1025];
+            int d = sc.nextInt();
             int n = sc.nextInt();
-            if(n == 0){
-                break;
+            for(int j = 0; j < n; j++){
+                int x  = sc.nextInt();
+                int y = sc.nextInt();
+                int size = sc.nextInt();
+                update(result, x, y,  size, d);
             }
-            sc.nextLine();
-            array = new char[n][n];
-            for(int i = 0; i < n; i++){
-                String line = sc.nextLine();
-                array[i] = line.trim().toCharArray();
-            }
-            System.out.println(process(array));
+            process(result);
         }
     }
 
-    private static int process(char[][] array) {
-        max = 0;
-        int len = array.length;
-        int[][] matrix = new int[len][len];
-        updateArray(matrix, 0);
-        return max;
-    }
-
-    private static boolean updateArray(int[][] matrix, int count) {
-        if(count == matrix.length * matrix.length){
-            return true;
-        }
-        for(int i = 0; i <= 1; i++){
-            int row = count / matrix.length;
-            int col = count % matrix.length;
-            matrix[row][col] = i;
-            if(updateArray(matrix, count + 1)){
-                //calculate
-                if(valid(matrix)){
-                    max = Math.max(max, count(matrix));
-                }
-            }
-            matrix[row][col] = 0;
-        }
-        return false;
-    }
-
-    private static boolean valid(int[][] matrix) {
-        for(int i = 0 ; i < matrix.length; i++){
-            for(int j = 0; j < matrix.length; j++){
-                if(matrix[i][j] == 1 && !cellValid(matrix, i, j)){
-                    return false;
+    private static void process(int[][] result) {
+        int maxValue = -1;
+        int currentX = -1, currentY = -1;
+        for(int i = 0; i < result.length; i++){
+            for(int j = 0; j < result[0].length; j++){
+                if(result[i][j] > maxValue){
+                    maxValue = result[i][j];
+                    currentX = i;
+                    currentY = j;
                 }
             }
         }
-        return true;
+        System.out.println(currentX + " " + currentY + " " + maxValue);
     }
 
-    private static boolean cellValid(int[][] matrix, int row, int col) {
-        if(array[row][col] == 'X'){
-            return false;
-        }
-        //check same row
-        for(int i = col -1; i >= 0; i--){
-            if(array[row][i] == 'X'){
-                break;
-            }
-            if(matrix[row][i] == 1){
-                return false;
-            }
-        }
-        for(int i = col + 1; i < matrix.length; i++){
-            if(array[row][i] == 'X'){
-                break;
-            }
-            if(matrix[row][i] == 1){
-                return false;
+    private static void update(int[][] result, int x, int y, int size, int d) {
+        int lowX = x - d >= 0 ? x - d : 0;
+        int highX = x + d <= 1024 ? x + d : 1024;
+        int lowY = y - d >= 0 ? y - d : 0;
+        int highY = y + d <= 1024 ? y + d : 1024;
+        for(int i = lowX; i <= highX ; i++){
+            for(int j = lowY; j <= highY; j ++){
+                result[i][j] += size;
             }
         }
 
-        //check same col
-        for(int i = row - 1; i >= 0; i--){
-            if(array[i][col] == 'X'){
-                break;
-            }
-            if(matrix[i][col] == 1){
-                return false;
-            }
-        }
-        for(int i = row + 1; i < matrix.length; i++){
-            if(array[i][col] == 'X'){
-                break;
-            }
-            if(matrix[i][col] == 1){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static int count(int[][] matrix) {
-        int count = 0;
-        for(int i = 0 ; i < matrix.length; i++){
-            for(int j = 0; j < matrix.length; j++){
-                if(matrix[i][j] == 1){
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
 }
