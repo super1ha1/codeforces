@@ -42,7 +42,7 @@ public class Main {
             int row = count / matrix.length;
             int col = count % matrix.length;
             matrix[row][col] = i;
-            if(updateArray(matrix, count++)){
+            if(updateArray(matrix, count + 1)){
                 //calculate
                 if(valid(matrix)){
                     max = Math.max(max, count(matrix));
