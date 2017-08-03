@@ -1,106 +1,121 @@
 package problem_set;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    private static Map<String, Character> map = createMap();
 
-    private static Map<String,Character> createMap() {
-        Map<String, Character> map = new HashMap<String, Character>();
-        map.put(".-",'A');
-        map.put(".---",'J');
-        map.put("...",'S');
-        map.put(".----",'1');
-        map.put(".-.-.-",'.');
-        map.put("---...",':');
-        map.put("-...",'B');
-        map.put("-.-",'K');
-        map.put("-",'T');
-        map.put("..---",'2');
-        map.put("--..--",',');
-        map.put("-.-.-.",';');
-        map.put("-.-.",'C');
-        map.put(".-..",'L');
-        map.put("..-",'U');
-        map.put("...--",'3');
-        map.put("..--..",'?');
-        map.put("-...-",'=');
-        map.put("-..",'D');
-        map.put("--",'M');
-        map.put("...-",'V');
-        map.put("....-",'4');
-        map.put(".----.",'\'');
-        map.put(".-.-.",'+');
-        map.put(".",'E');
-        map.put("-.",'N');
-        map.put(".--",'W');
-        map.put(".....",'5');
-        map.put("-.-.--",'!');
-        map.put("-....-",'-');
-        map.put("..-.",'F');
-        map.put("---",'O');
-        map.put("-..-",'X');
-        map.put("-....",'6');
-        map.put("-..-.",'/');
-        map.put("..--.-",'_');
-        map.put("--.",'G');
-        map.put(".--.",'P');
-        map.put("-.--",'Y');
-        map.put("--...",'7');
-        map.put("-.--.",'(');
-        map.put(".-..-.",'"');
-        map.put("....",'H');
-        map.put("--.-",'Q');
-        map.put("--..",'Z');
-        map.put("---..",'8');
-        map.put("-.--.-",')');
-        map.put(".--.-.",'@');
-        map.put("..",'I');
-        map.put(".-.",'R');
-        map.put("-----",'0');
-        map.put("----.",'9');
-        map.put(".-...",'&');
-        return map;
-    }
+    private static int[][][] array;
+    private static final int NOT_APPLICABLE = -1;
 
     public static void main(String[] args) throws Exception {
+
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        int testCase = sc.nextInt();
-        sc.nextLine();
-        for(int i = 0; i < testCase; i++){
-            String line = sc.nextLine();
-            process(line, i + 1);
-            if(i + 1 < testCase){
-                System.out.println("");
+        while (sc.hasNextInt()){
+            int T = sc.nextInt();
+            int R = sc.nextInt();
+            int H = sc.nextInt();
+            array = new int[T][R][H];
+
+            //get travel
+            for(int travel = 0; travel < T; travel++){
+                int price = sc.nextInt();
+
+                // update price
+                for(int restaurant = 0; restaurant < R; restaurant++){
+                    for(int hotel = 0; hotel < H; hotel++){
+                        if(array[travel][restaurant][hotel] >= 0) {
+                            array[travel][restaurant][hotel] += price;
+                        }
+                    }
+                }
+
+                //update can match
+                for(int restaurant = 0; restaurant < R; restaurant++){
+                    int match = sc.nextInt();
+                    if(match == 1){
+                        for(int hotel = 0; hotel < H; hotel++){
+                            array[travel][restaurant][hotel] = NOT_APPLICABLE;
+                        }
+                    }
+                }
             }
+
+            //get restaurant
+            for(int restaurant = 0; restaurant < R; restaurant ++){
+                int price = sc.nextInt();
+
+                //update price
+                for(int travel = 0; travel < T; travel++){
+                    for(int hotel = 0; hotel < H; hotel++){
+                        if(array[travel][restaurant][hotel] >= 0) {
+                            array[travel][restaurant][hotel] += price;
+                        }
+                    }
+                }
+
+                //update match
+                for(int hotel = 0; hotel < H; hotel++){
+                    int match = sc.nextInt();
+                    if(match == 1){
+                        for(int travel = 0; travel < T; travel++){
+                            array[travel][restaurant][hotel] = NOT_APPLICABLE;
+                        }
+                    }
+                }
+            }
+
+            //get hotel
+            for(int hotel = 0; hotel < H; hotel++){
+                int price = sc.nextInt();
+
+                //update price
+                for(int travel = 0; travel < T; travel++){
+                    for(int restaurant = 0; restaurant < R; restaurant++){
+                        if(array[travel][restaurant][hotel] >= 0) {
+                            array[travel][restaurant][hotel] += price;
+                        }
+                    }
+                }
+
+                //update match
+                for(int travel = 0; travel < T; travel++){
+                    int match = sc.nextInt();
+                    if(match == 1){
+                        for(int restaurant = 0; restaurant < R; restaurant++){
+                            array[travel][restaurant][hotel] = NOT_APPLICABLE;
+                        }
+                    }
+                }
+            }
+
+            //process input
+            process(array, T, R, H);
+
         }
     }
 
-    private static void process(String line, int n) {
-        String output = "";
-        String[] splitWord = line.split("  ");
-        for(int i  = 0; i < splitWord.length; i++){
-            String word = splitWord[i];
-            String[] chars = word.split(" ");
-            for(int j = 0; j < chars.length; j++){
-                String c = chars[j];
-                if(map.keySet().contains(c)){
-                    output += map.get(c);
-                }else {
-//                    System.out.println("Not recognize: index: " + j +  " str: " + c);
+    private static void process(int[][][] array, int T, int R, int H) {
+        int minPrice = Integer.MAX_VALUE;
+        int currentTravel = -1, currentRestaurant = -1, currentHotel = -1;
+        for(int travel = 0; travel < T; travel++) {
+            for (int restaurant = 0; restaurant < R; restaurant++) {
+                for (int hotel = 0; hotel < H; hotel++) {
+                    if (array[travel][restaurant][hotel] > NOT_APPLICABLE && array[travel][restaurant][hotel] < minPrice) {
+                        minPrice = array[travel][restaurant][hotel];
+                        currentTravel = travel;
+                        currentRestaurant = restaurant;
+                        currentHotel = hotel;
+                    }
                 }
             }
-            if(i + 1 < splitWord.length){
-                output += " ";
-            }
         }
-        System.out.println("Message #" + n);
-        System.out.println(output);
+        if(currentTravel > -1 && currentRestaurant > -1 && currentHotel > -1){
+            System.out.println(currentTravel + " " + currentRestaurant + " " + currentHotel + ":" + minPrice);
+        }else {
+            System.out.println("Don't get married!");
+        }
     }
 
 }
