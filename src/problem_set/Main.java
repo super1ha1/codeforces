@@ -13,9 +13,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-//        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         int testCase = sc.nextInt();
         while (testCase-- > 0){
@@ -33,15 +33,47 @@ public class Main {
                 map.put(i, new ArrayList<>());
             }
 
-            for(int i = 0 ; i < k ; i++){
+            for(int i = 0 ; i < k ; i++) {
                 int first = sc.nextInt();
                 int second = sc.nextInt();
                 map.get(first).add(second);
                 map.get(second).add(first);
             }
+            //separated connect component first
+            List<List<Integer>> diffList = separateList(map);
 
-            process(map);
+            process(diffList, map);
         }
+    }
+
+    private static List<List<Integer>> separateList(Map<Integer, List<Integer>> map) {
+        int size = map.keySet().size();
+        int[] mark = new int[size + 1];
+        int count = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        List<List<Integer>> diffList = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        for(int i = 1;i <= size; i++){
+            if(mark[i] == 0){
+                list = new ArrayList<>();
+                diffList.add(list);
+                count++;
+            }
+            if(mark[i] != 0){
+                continue;
+            }
+            queue.clear();
+            queue.add(i);
+            while (!queue.isEmpty()){
+                int currentIndex  = queue.poll();
+                if(mark[currentIndex] == 0){
+                    queue.addAll(map.get(currentIndex).stream().filter(index -> !queue.contains(index) && mark[index] == 0).collect(Collectors.toList()));
+                    mark[currentIndex] = count;
+                    list.add(currentIndex);
+                }
+            }
+        }
+        return diffList;
     }
 
     private static void noConnection(int n) {
@@ -56,22 +88,35 @@ public class Main {
         System.out.println(output);
     }
 
-    private static void process(Map<Integer, List<Integer>> map) throws Exception{
+    private static void process(List<List<Integer>> diffList, Map<Integer, List<Integer>> map) throws Exception {
+        List<Integer> finalList = new ArrayList<>();
+        for(List<Integer> currentList: diffList){
+            finalList.addAll(updateList(currentList, map));
+        }
+        System.out.println(finalList.size());
+        System.out.println(finalList.stream().sorted().map(String::valueOf).collect(Collectors.joining(" ")));
+    }
+
+    private static List<Integer> updateList(List<Integer> currentList, Map<Integer, List<Integer>> map) throws Exception {
         int size = map.keySet().size();
         resultList.clear();
-        for(int i = 1 ; i <= size; i++){
-//            System.out.println("DFS: " + i);
-            if(map.get(i).size() == 0){
-                //if node has no connection, x process further
-                continue;
+        if(currentList.size() == 1){
+            resultList.addAll(currentList);
+        } else {
+            for(int i: currentList){
+//                System.out.println("DFS: " + i);
+                if(map.get(i).size() == 0){
+                    //if node has no connection, x process further
+                    continue;
+                }
+                colors = new int[size + 1];
+                Queue<Integer> queue = new LinkedList<>();
+                queue.add(i);
+                List<Integer> list = new ArrayList<>();
+                recursiveDFS(queue, map, list);
             }
-            colors = new int[size + 1];
-            Queue<Integer> queue = new LinkedList<>();
-            queue.add(i);
-            recursiveDFS(queue, map, new ArrayList<>());
         }
-        System.out.println(resultList.size());
-        System.out.println(resultList.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+        return new ArrayList<>(resultList);
     }
 
     private static boolean recursiveDFS(Queue<Integer> queue, Map<Integer, List<Integer>> map, List<Integer> visitedList) throws Exception {
@@ -84,7 +129,6 @@ public class Main {
         List<Integer> list = map.get(currentIndex).stream().filter(integer -> !queue.contains(integer) && !visitedList.contains(integer)).collect(Collectors.toList());
         queue.addAll(list);
 //        System.out.println("Current queue: " + queue.stream().map(String::valueOf).collect(Collectors.joining(" ")));
-        //not visit yet
 
         if (isOkToColorBlack(currentIndex, map)) {
             //set white
@@ -118,11 +162,12 @@ public class Main {
 
         List<Integer> list = new ArrayList<>();
         for(int index = 1; index <= size; index++){
-            if(colors[index] != -1){
+            if(colors[index] == 1){
                 list.add(index);
             }
         }
         if(list.size() > resultList.size()){
+//            System.out.println("MAX CASE HERE");
             resultList.clear();
             resultList.addAll(list);
         }
