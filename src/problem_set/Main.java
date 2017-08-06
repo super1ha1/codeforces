@@ -63,7 +63,7 @@ public class Main {
         int size = map.keySet().size();
         resultList.clear();
         for(int i = 1 ; i <= size; i++){
-//            System.out.println("DFS: " + i);
+            System.out.println("DFS: " + i);
             if(map.get(i).size() == 0){
                 //if node has no connection, x process further
                 continue;
@@ -84,26 +84,42 @@ public class Main {
         }
         int currentIndex = queue.poll();
         if(visited[currentIndex] == 0) {
-            //not visit yet
+            System.out.println("Visit: " + currentIndex + "------------------------");
+            List<Integer> list = map.get(currentIndex).stream().filter(integer -> visited[integer] == 0 && !queue.contains(integer)).collect(Collectors.toList());
+            queue.addAll(list);
+            System.out.println("Current queue: " + queue.stream().map(String::valueOf).collect(Collectors.joining(" ")));
             visited[currentIndex] = 1;
+            //not visit yet
+
             if (isOkToColorBlack(currentIndex, map)) {
-                //missing greedy case: either can try black or white, have to try both > achieve complete search
-                colors[currentIndex] = 1;
-//                System.out.println("Visit: " + currentIndex + " color: " + colors[currentIndex]);
-                queue.addAll(map.get(currentIndex).stream().filter(i -> visited[i] == 0 && !queue.contains(i)).collect(Collectors.toList()));
-                if(recursiveDFS(queue, map)){
+                //set white
+                colors[currentIndex] = -1;
+                System.out.println("Mark: " + currentIndex + " color: " + colors[currentIndex]);
+
+                if(recursiveDFS(new LinkedList<>(queue), map)){
                     //measure result
                     measureResult(map.keySet().size());
                 }
+                visited[currentIndex] = 0;
+
+                //set black
+                colors[currentIndex] = 1;
+                System.out.println("Mark: " + currentIndex + " color: " + colors[currentIndex]);
+                if(recursiveDFS(new LinkedList<>(queue), map)){
+                    //measure result
+                    measureResult(map.keySet().size());
+                }
+                visited[currentIndex] = 0;
+
             } else {
                 //white only
                 colors[currentIndex] = -1;
-//                System.out.println("Visit: " + currentIndex + " color: " + colors[currentIndex]);
-                queue.addAll(map.get(currentIndex).stream().filter(i -> visited[i] == 0 && !queue.contains(i)).collect(Collectors.toList()));
-                if(recursiveDFS(queue, map)){
+                System.out.println("Mark: " + currentIndex + " color: " + colors[currentIndex]);
+                if(recursiveDFS(new LinkedList<>(queue), map)){
                     //measure result
                     measureResult(map.keySet().size());
                 }
+                visited[currentIndex] = 0;
             }
             return false;
         }else {
@@ -112,7 +128,7 @@ public class Main {
     }
 
     private static void measureResult(int size) {
-//        System.out.println("Measure result here: " + IntStream.range(0, colors.length).filter(i -> i > 0).mapToObj(i -> String.valueOf(colors[i])).collect(Collectors.joining(" ")));
+        System.out.println("Measure result here: " + IntStream.range(0, colors.length).filter(i -> i > 0).mapToObj(i -> String.valueOf(colors[i])).collect(Collectors.joining(" ")));
 
         List<Integer> list = new ArrayList<>();
         for(int index = 1; index <= size; index++){
