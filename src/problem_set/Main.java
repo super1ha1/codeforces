@@ -1,17 +1,12 @@
 package problem_set;
 
-import java.io.File;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Main {
 
-    private static Map<Integer, List<Integer>> map = new HashMap<>();
     private static int[] colors;
     private static List<Integer> resultList = new ArrayList<>();
+    private static Map<Integer, List<String>> map = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
 
@@ -19,31 +14,52 @@ public class Main {
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        while (sc.hasNext()) {
+        int M = sc.nextInt();
+        while (M-- > 0){
             int n = sc.nextInt();
-            int convert = convert(n);
-            System.out.println(n + " converts to " + convert);
+            int m = sc.nextInt();
+            sc.nextLine();
+            map.clear();
+            for(int i = 0; i < m; i++){
+                processEachLine(sc.nextLine());
+            }
+            sortMap(map);
+            if(M > 0){
+                System.out.println("");
+            }
         }
     }
 
-    private static int convert(int n) {
-        byte[] array =  ByteBuffer.allocate(4).putInt(n).array();
-        byte[] reverse = new byte[4];
-        for(int i  = 0; i < 4; i++){
-            reverse[i] = array[3 - i];
+    private static void sortMap(Map<Integer, List<String>> map) {
+        List<Integer> list = new ArrayList<>(map.keySet());
+        Collections.sort(list);
+        for(int i = 0; i < list.size(); i++){
+            for(String s: map.get(list.get(i))){
+                System.out.println(s);
+            }
         }
-        int reverInt = ByteBuffer.wrap(reverse).getInt();
-        return reverInt;
     }
 
-    private static int convert2(int n) {
-        byte[] array =  BigInteger.valueOf(n).toByteArray().clone();
-        byte[] reverse = new byte[4];
-        for(int i  = 0; i < 4; i++){
-            reverse[i] = array[3 - i];
+    private static void processEachLine(String line) {
+        int value = getSortedness(line);
+        if(!map.keySet().contains(value)){
+            map.put(value, new ArrayList<>());
         }
-        int reverInt = new BigInteger(reverse).intValue();
-        return reverInt;
+        map.get(value).add(line);
     }
+
+    private static int getSortedness(String line) {
+        char[] array = line.trim().toCharArray();
+        int count = 0;
+        for(int i = 0; i < array.length - 1; i++){
+            for(int j = i + 1; j < array.length; j++){
+                if(array[j] < array[i]){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
 }
 
