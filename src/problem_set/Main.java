@@ -1,31 +1,39 @@
 package problem_set;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
 
-    private static Map<Integer, Map<Character, Integer>> map = new HashMap<>();
-    private static List<Character> list = Arrays.asList('i','v','x','l','c');
-    private static int[][] totalChar = new int[101][5];
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        while (sc.hasNext()){
+
+        int testCase = sc.nextInt();
+        while (testCase-- > 0){
             int n = sc.nextInt();
-            int k = sc.nextInt();
-            int sum = n;
-            int left = n / k;
-            int leftOver = n - left * k;
-            while (left > 0){
-                sum += left;
-                left = left + leftOver;
-                int newLeft = left/k;
-                leftOver = left - newLeft * k;
-                left = newLeft;
+            int m = sc.nextInt();
+            int sum = 0;
+            int round = n/m;
+            int left = n - round * m;
+            int newTotal = round + left;
+            sum += round;
+            while (newTotal > 1){
+                round = newTotal / m;
+                left = newTotal - round * m;
+                newTotal = round + left;
+                sum += round;
+                if(newTotal > 1 && newTotal < m){
+                    break;
+                }
             }
-            System.out.println(sum);
+
+            if(newTotal == 1){
+                System.out.println(sum);
+            }else {
+                System.out.println("cannot do this");
+            }
         }
     }
 }
