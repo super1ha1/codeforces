@@ -3,11 +3,10 @@ package problem_set;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
 
-    private static Map<Integer, List<Integer>> map = new HashMap<>();
-    private static Set<Integer> resultSet = new HashSet<>();
     private static BitSet bitSet = new BitSet(10000010);
     private static List<Long> primeList = new ArrayList<>();
     private static long size_ll;
@@ -17,33 +16,39 @@ public class Main {
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
         generatePrime(10000000);
-        long testCase = sc.nextLong();
-        while (testCase-- > 0){
-            long low = sc.nextLong();
-            long high = sc.nextLong();
-            long maxIndex = -1;
-            long maxValue = -1;
-            for(long i = low; i <= high; i++){
-                List<Long> factors = primeFactors(i);
-                long value = getValue(factors);
-                if(value > maxValue){
-                    maxIndex = i;
-                    maxValue = value;
-                }
-            }
-            System.out.println(String.format("Between %d and %d, %d has a maximum of %d divisors.", low, high, maxIndex, maxValue));
+        while (sc.hasNext()){
+            int n = sc.nextInt();
+            int c = sc.nextInt();
+            List<Long> resultList = getList(n, c);
+            System.out.println(n + " " + c + ": " +
+                    resultList.stream().sorted()
+                            .map(String::valueOf)
+                            .collect(Collectors.joining(" ")));
+            System.out.println("");
         }
     }
 
-    private static long getValue(List<Long> factors) {
-        Set<Long> set = new HashSet<>(factors);
-        long result = 1;
-        for(Long currentLong: set){
-            List<Long> newList = factors.stream().filter(i -> Objects.equals(i, currentLong)).collect(Collectors.toList());
-            result = result * (newList.size() + 1);
+    private static List<Long> getList(int n, int c) {
+        List<Long> newList = primeList.stream().filter(i -> i <= n).collect(Collectors.toList());
+        newList.add(0, 1L);
+        int currentSize = newList.size();
+        if(currentSize % 2 == 0){
+            if(currentSize <= 2 * c){
+                return newList;
+            }
+            int mid = currentSize/2;
+            return IntStream.range(1, currentSize).filter(i -> i >= mid - c + 1 && i <= mid + c)
+                    .mapToObj(i -> newList.get(i -1)).collect(Collectors.toList());
+        }else {
+            if(currentSize <= 2 * c -1){
+                return newList;
+            }
+            int mid = (currentSize + 1)/2;
+            return IntStream.range(1, currentSize).filter(i -> i >= mid - c  + 1 && i <= mid + c -1)
+                    .mapToObj(i -> newList.get(i -1)).collect(Collectors.toList());
         }
-        return result;
     }
+
 
     private static List<Long> primeFactors(long n){
         List<Long> factors = new ArrayList<>();
