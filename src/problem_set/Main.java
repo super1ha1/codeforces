@@ -15,7 +15,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        generatePrime(10000000);
+        generatePrime(1000);
         while (sc.hasNext()){
             int n = sc.nextInt();
             int c = sc.nextInt();
