@@ -13,12 +13,26 @@ public class Main {
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int testCase = sc.nextInt();
-        while (testCase-- > 0) {
-            int n = sc.nextInt();
-            double value = 1.0 * n;
-            double result = (((((567 * value)/9) + 7492) * 235)/47) - 498;
-            System.out.println((Math.abs((int)result)/10) %10);
+        int count = 0;
+        while (sc.hasNext()){
+            int R = sc.nextInt();
+            int N = sc.nextInt();
+            if(R == 0 && N == 0 ) {
+                break;
+            }
+            count++;
+            int left = R - N;
+            if(left <= 0){
+                System.out.println("Case " +  count + ": 0");
+            }else {
+                double need = (left * 1.0)/N;
+                if(need > 26.0){
+                    System.out.println("Case " +  count + ": impossible");
+                }else {
+                    int result = (int) Math.ceil(need);
+                    System.out.println("Case " +  count + ": " + result);
+                }
+            }
         }
     }
 }
