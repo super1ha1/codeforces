@@ -2,96 +2,135 @@ package problem_set;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Main {
 
-    private static BitSet bitSet = new BitSet(10000010);
-    private static List<Long> primeList = new ArrayList<>();
-    private static long size_ll;
+    private static Map<Integer, Integer> map = new HashMap<>();
+    private static int currentComponent = 0;
     public static void main(String[] args) throws Exception {
 
-        Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+//        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        generatePrime(1000);
-        while (sc.hasNext()){
-            int n = sc.nextInt();
-            int c = sc.nextInt();
-            List<Long> resultList = getList(n, c);
-            System.out.println(n + " " + c + ": " +
-                    resultList.stream().sorted()
-                            .map(String::valueOf)
-                            .collect(Collectors.joining(" ")));
-            System.out.println("");
-        }
-    }
 
-    private static List<Long> getList(int n, int c) {
-        List<Long> newList = primeList.stream().filter(i -> i <= n).collect(Collectors.toList());
-        newList.add(0, 1L);
-        int currentSize = newList.size();
-        if(currentSize % 2 == 0){
-            if(currentSize <= 2 * c){
-                return newList;
-            }
-            int mid = currentSize/2;
-            return IntStream.range(1, currentSize).filter(i -> i >= mid - c + 1 && i <= mid + c)
-                    .mapToObj(i -> newList.get(i -1)).collect(Collectors.toList());
-        }else {
-            if(currentSize <= 2 * c -1){
-                return newList;
-            }
-            int mid = (currentSize + 1)/2;
-            return IntStream.range(1, currentSize).filter(i -> i >= mid - c  + 1 && i <= mid + c -1)
-                    .mapToObj(i -> newList.get(i -1)).collect(Collectors.toList());
-        }
-    }
+        int testCase = sc.nextInt();
+        sc.nextLine();
+        sc.nextLine();
+        while (testCase-- > 0){
+            List<String> input = new ArrayList<>();
+            List<String> eachQuery = new ArrayList<>();
 
-
-    private static List<Long> primeFactors(long n){
-        List<Long> factors = new ArrayList<>();
-        int currentIndex = 0;
-        long dfp = primeList.get(currentIndex);
-        while (n != 1 && dfp * dfp <= n){
-            while (n % dfp == 0){
-                n = n/dfp;
-                factors.add(dfp);
-            }
-            dfp = primeList.get(++currentIndex);
-        }
-        if(n != 1){
-            factors.add(n);
-        }
-        return factors;
-    }
-
-    private static boolean isPrime(long n){
-        if(n < size_ll){
-            return bitSet.get((int) n);
-        }
-        for(long i: primeList){
-            if(n % i == 0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static void generatePrime(long upbound) {
-        size_ll = upbound + 1;
-        primeList.clear();
-        bitSet.clear();
-        bitSet.flip(0,bitSet.size());
-        bitSet.set(0, false);
-        bitSet.set(1, false);
-        for(long i = 2; i <= size_ll; i++){
-            if(bitSet.get((int) i)){
-                for(long j = i * i; j <= size_ll; j += i){
-                    bitSet.set((int) j, false);
+            while (true){
+                if(sc.hasNext()){
+                    String line = sc.nextLine().trim();
+                    if(line.length() == 0){
+                        break;
+                    }else if(line.matches("[A-Z]*")){
+                        input.add(line);
+                    }else if(line.matches("\\d.*\\d")){
+                        eachQuery.add(line);
+                    }
+                }else {
+                    break;
                 }
-                primeList.add(i);
+            }
+
+            if(input.size() == 0 || eachQuery.size() == 0){
+                continue;
+            }
+
+            int[][] array = processArray(input);
+            for(String s: eachQuery){
+                processEachQuery(s, array);
+            }
+
+            if(testCase > 0){
+                System.out.println("");
+            }
+        }
+    }
+
+    private static void processEachQuery(String s, int[][] array) {
+        if(!s.matches("\\d.*\\d")){
+            return;
+        }
+        String[] matches = s.split(" ");
+        int row = Integer.valueOf(matches[0]) - 1;
+        int col = Integer.valueOf(matches[1]) - 1;
+
+        int n = array.length;
+        int m = array[0].length;
+        if(row < 0 || row >= n || col < 0 || col >= m){
+            System.out.println("0");
+        }
+
+        int value = array[row][col];
+        if(value < 1 || !map.keySet().contains(value)){
+            System.out.println("0");
+        }
+        System.out.println(map.get(value));
+    }
+
+    private static int[][] processArray(List<String> input) {
+        int n = input.size();
+        int m = input.get(0).length();
+        int [][] array = new int[n][m];
+        for(int i = 0; i < n; i++){
+            String line = input.get(i);
+            for(int j = 0; j < m; j++){
+                if(line.charAt(j) == 'L'){
+                    array[i][j] = -1;
+                }else if (line.charAt(j) == 'W'){
+                    array[i][j] = 0;
+                }
+            }
+        }
+        map.clear();
+        currentComponent = 0;
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(array[i][j] == 0){ // not visit yet
+                    currentComponent++;
+                    array[i][j] = currentComponent;
+                    dfs(i, j, array);
+                }
+            }
+        }
+        for(int i = 1; i <= currentComponent; i++){
+            map.put(i, countValue(i, array));
+        }
+        return array;
+    }
+
+    private static int countValue(int value, int[][] array) {
+        int n = array.length;
+        int m = array[0].length;
+        int count = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(array[i][j] == value){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private static void dfs(int i, int j, int[][] array) {
+        int n = array.length;
+        int m = array[0].length;
+        int lowX = i - 1 >= 0 ? i -1 : 0;
+        int highX = i + 1 <= n -1 ? i + 1 : n-1;
+        int lowY = j - 1 >= 0 ? j -1 : 0;
+        int highY = j + 1 <= m -1 ? j + 1 : m -1;
+
+        for(int row = lowX; row <= highX; row++){
+            for(int col = lowY; col <= highY; col++){
+                if(array[row][col] == 0){
+                    array[row][col] = currentComponent;
+                    dfs(row, col, array);
+                }
             }
         }
     }
