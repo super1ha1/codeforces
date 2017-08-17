@@ -1,6 +1,5 @@
 package problem_set;
 
-import java.io.File;
 import java.util.*;
 
 public class Main {
@@ -9,8 +8,8 @@ public class Main {
     private static int currentComponent = 0;
     public static void main(String[] args) throws Exception {
 
-//        Scanner sc = new Scanner(System.in);
-        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         int testCase = sc.nextInt();
@@ -29,6 +28,8 @@ public class Main {
                         input.add(line);
                     }else if(line.matches("\\d.*\\d")){
                         eachQuery.add(line);
+                    }else {
+                        break;
                     }
                 }else {
                     break;
@@ -62,11 +63,13 @@ public class Main {
         int m = array[0].length;
         if(row < 0 || row >= n || col < 0 || col >= m){
             System.out.println("0");
+            return;
         }
 
         int value = array[row][col];
         if(value < 1 || !map.keySet().contains(value)){
             System.out.println("0");
+            return;
         }
         System.out.println(map.get(value));
     }
