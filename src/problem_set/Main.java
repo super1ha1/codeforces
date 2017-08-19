@@ -2,12 +2,10 @@ package problem_set;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class Main {
 
-    private static int numComponent, height, width;
+    private static int numComponent, n, sum;
     private static int[][] array;
     private static char[][] chars;
     private static List<String> queryList = new ArrayList<>();
@@ -18,92 +16,77 @@ public class Main {
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
-            String line = sc.nextLine().trim();
-            if(line.equals("%")){
-                process();
-            }else {
-                queryList.add(line);
-            }
-            if(!sc.hasNext()){
-                process();
+            n = sc.nextInt();
+            if(n == 0){
                 break;
             }
+            if(n == 1){
+                System.out.println("good");
+                continue;
+            }
+
+            sc.nextLine();
+            array = new int[n][n];
+
+            for(int i = 1; i < n; i++){
+                String line = sc.nextLine().trim();
+                String[] lines = line.split(" ");
+                for(int j = 0; j < lines.length - 1; j += 2){
+                    int first = Integer.valueOf(lines[j]);
+                    int second = Integer.valueOf(lines[j + 1]);
+                    array[first - 1][second -1] = i;
+                }
+            }
+
+            if(process()){
+                System.out.println("good");
+            }else {
+                System.out.println("wrong");
+            }
         }
     }
 
-    private static void process() {
-        height = queryList.size();
-        if(height == 0){
-            return;
-        }
-        width = queryList.get(0).split(" ").length;
-        array = new int[height][width];
-        chars = new char[height][width];
-        for(int i = 0; i < height; i++){
-            String line = queryList.get(i);
-            String[] temp = line.split(" ");
-            for(int j = 0; j < width; j++){
-                chars[i][j] = temp[j].charAt(0);
-            }
-        }
-
-        numComponent = 0;
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                if(array[i][j] == 0){
-                    floodfill(i, j, ++numComponent);
+    private static boolean process() {
+        for(int partition = 0; partition < n; partition++){
+            numComponent = n + partition;
+            sum = 0;
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    if(array[i][j] == partition){
+                        floodfill(i, j, ++numComponent, partition);
+                    }
                 }
             }
-        }
-
-        int[] maxValue = new int[width];
-        for(int j = 0; j < width; j++){
-            for(int i = 0; i < height; i++){
-                if(array[i][j] > maxValue[j]){
-                    maxValue[j] = array[i][j];
-                }
+            if(numComponent > n + partition + 1){
+                return false;
+            }
+            if(sum != n){
+                return false;
             }
         }
-
-        List<String> resultList = new ArrayList<>();
-        for(int i = 0; i < height; i++){
-            String currentRow = "";
-            for(int j = 0; j < width; j++){
-                int maxLen = String.valueOf(maxValue[j]).length();
-                int currentLen = String.valueOf(array[i][j]).length();
-                while (currentLen < maxLen){
-                    currentRow += " ";
-                    currentLen++;
-                }
-                currentRow += array[i][j];
-                if(j < width - 1) {
-                    currentRow += " ";
-                }
-            }
-            resultList.add(currentRow);
-        }
-
-        for(String s: resultList){
-            System.out.println(s);
-        }
-        System.out.println("%");
-        queryList.clear();
+        return true;
     }
 
-    private static void floodfill(int row, int col, int color) {
+    private static void floodfill(int row, int col, int color, int partition) {
         array[row][col] = color;
+        sum++;
 
-        //neigh bor
-        int lowX = row - 1 >= 0 ? row - 1 : 0;
-        int lowY = col - 1 >= 0 ? col - 1 : 0;
-        int highX = row + 1  <= height - 1 ? row + 1 : height -1;
-        int highY = col + 1 <= width - 1 ? col + 1 : width -1;
+        int lowX = row -1 >= 0 ? row -1 : 0;
+        int lowY = col -1 >= 0 ? col -1 : 0;
+        int highX = row + 1 <= n -1 ? row + 1 : n -1;
+        int highY = col + 1 <= n -1 ? col + 1 : n -1;
 
+        //same row
         for(int i = lowX; i <= highX; i++){
-            for(int j = lowY; j <= highY; j++){
-                if(array[i][j] == 0 && chars[i][j] == chars[row][col]){
-                    floodfill(i, j, numComponent);
-                }
+            if(array[i][col] == partition){
+                floodfill(i, col, color, partition);
+            }
+        }
+
+        //same colmn
+        for(int j = lowY; j <= highY; j++){
+            if(array[row][j] == partition){
+                floodfill(row, j, color, partition);
             }
         }
     }
