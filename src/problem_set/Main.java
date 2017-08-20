@@ -2,6 +2,7 @@ package problem_set;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -12,6 +13,7 @@ public class Main {
     private static List<Integer> primeList = new ArrayList<>();
     private static long sieve_ll;
     private static BitSet bitSet = new BitSet(10000010);
+    private static int first, second;
     public static void main(String[] args) throws Exception {
 
         sieve(10000000);
@@ -21,14 +23,36 @@ public class Main {
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
-            n = Long.valueOf(sc.nextLine().trim());
-            if(n == 0){
+            first = sc.nextInt();
+            second = sc.nextInt();
+
+            if(first == 0 && second == 0){
                 break;
             }
-            if(n < 0){
-                n = (-1) * n;
+
+            List<List<Integer>> resultList = new ArrayList<>();
+            List<Integer> updatedList = primeList.stream().filter(i -> i >= first && i <= second).collect(Collectors.toList());
+            int i = 0;
+            while (i <= updatedList.size() -3){
+                int distance = updatedList.get(i + 1) - updatedList.get(i);
+                int j = i + 1;
+                while (j <= updatedList.size() - 2 && updatedList.get(j + 1) - updatedList.get(j) == distance){
+                    j++;
+                }
+                if(j > i + 1){
+                    List<Integer> newList = new ArrayList<>();
+                    for(int index = i; index <= j; index++){
+                        newList.add(updatedList.get(index));
+                    }
+                    resultList.add(newList);
+                    i = j;
+                }else {
+                    i = i + 1;
+                }
             }
-            process();
+            for(List<Integer> l: resultList){
+                System.out.println(l.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+            }
         }
 
     }
@@ -47,25 +71,6 @@ public class Main {
                 primeList.add((int)i);
             }
         }
-    }
-
-    private static void process() {
-        long result = -1;
-
-        if(isPrime(n)){
-            result = -1;
-        }else {
-            Set<Long> divisorList = new HashSet<>(primeFactor(n));
-            if(divisorList.size() > 1){
-                result = divisorList.stream().mapToLong(Long::valueOf).max().getAsLong();
-            }else {
-                result = -1;
-            }
-            if(result == n){
-                result = -1;
-            }
-        }
-        System.out.println(result);
     }
 
     private static List<Long> primeFactor(long n) {
