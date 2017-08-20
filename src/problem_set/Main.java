@@ -16,14 +16,17 @@ public class Main {
 
         sieve(10000000);
 
-//        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
             n = Long.valueOf(sc.nextLine().trim());
             if(n == 0){
                 break;
+            }
+            if(n < 0){
+                n = (-1) * n;
             }
             process();
         }
