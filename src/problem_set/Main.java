@@ -18,9 +18,9 @@ public class Main {
 
         sieve(10000000);
 
-        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
             first = sc.nextInt();
@@ -29,9 +29,11 @@ public class Main {
             if(first == 0 && second == 0){
                 break;
             }
+            int min = Math.min(first, second);
+            int max = Math.max(first, second);
 
             List<List<Integer>> resultList = new ArrayList<>();
-            List<Integer> updatedList = primeList.stream().filter(i -> i >= first && i <= second).collect(Collectors.toList());
+            List<Integer> updatedList = primeList.stream().filter(i -> i >= min && i <= max).collect(Collectors.toList());
             int i = 0;
             while (i <= updatedList.size() -3){
                 int distance = updatedList.get(i + 1) - updatedList.get(i);
@@ -51,7 +53,12 @@ public class Main {
                 }
             }
             for(List<Integer> l: resultList){
-                System.out.println(l.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+                String s = l.stream().map(String::valueOf).collect(Collectors.joining(" "));
+                System.out.println(s);
+                if (s.equals("12641 12647 12653")){
+//                    System.out.println(first + " " + second);
+                }
+
             }
         }
 
