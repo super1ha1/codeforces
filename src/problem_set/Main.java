@@ -14,13 +14,15 @@ public class Main {
     private static long sieve_ll;
     private static BitSet bitSet = new BitSet(10000010);
     private static int first, second;
+    private static List<List<Integer>> determinatePrime = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
         sieve(10000000);
+        process(32000);
 
-//        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
             first = sc.nextInt();
@@ -32,36 +34,36 @@ public class Main {
             int min = Math.min(first, second);
             int max = Math.max(first, second);
 
-            List<List<Integer>> resultList = new ArrayList<>();
-            List<Integer> updatedList = primeList.stream().filter(i -> i >= min && i <= max).collect(Collectors.toList());
-            int i = 0;
-            while (i <= updatedList.size() -3){
-                int distance = updatedList.get(i + 1) - updatedList.get(i);
-                int j = i + 1;
-                while (j <= updatedList.size() - 2 && updatedList.get(j + 1) - updatedList.get(j) == distance){
-                    j++;
-                }
-                if(j > i + 1){
-                    List<Integer> newList = new ArrayList<>();
-                    for(int index = i; index <= j; index++){
-                        newList.add(updatedList.get(index));
-                    }
-                    resultList.add(newList);
-                    i = j;
-                }else {
-                    i = i + 1;
-                }
-            }
+            List<List<Integer>> resultList = determinatePrime.stream()
+                    .filter(list -> list.get(0) >= min && list.get(list.size() -1) <= max)
+                    .collect(Collectors.toList());
+
             for(List<Integer> l: resultList){
                 String s = l.stream().map(String::valueOf).collect(Collectors.joining(" "));
                 System.out.println(s);
-                if (s.equals("12641 12647 12653")){
-//                    System.out.println(first + " " + second);
-                }
-
             }
         }
 
+    }
+
+    private static void process(int bound) {
+        List<Integer> updatedList = primeList.stream().filter(i -> i >= 0 && i <= bound).collect(Collectors.toList());
+        int i = 0;
+        while (i <= updatedList.size() -3) {
+            int distance = updatedList.get(i + 1) - updatedList.get(i);
+            int j = i + 1;
+            while (j <= updatedList.size() - 2 && updatedList.get(j + 1) - updatedList.get(j) == distance){
+                j++;
+            }
+            if(j > i + 1) {
+                List<Integer> newList = new ArrayList<>();
+                for (int index = i; index <= j; index++) {
+                    newList.add(updatedList.get(index));
+                }
+                determinatePrime.add(newList);
+            }
+            i = j;
+        }
     }
 
     private static void sieve(long size) {
