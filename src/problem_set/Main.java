@@ -6,65 +6,38 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    private static long numComponent, n, sum;
-    private static int[][] array;
-    private static char[][] chars;
-    private static List<String> queryList = new ArrayList<>();
     private static List<Integer> primeList = new ArrayList<>();
     private static long sieve_ll;
-    private static BitSet bitSet = new BitSet(10000010);
-    private static int first, second;
-    private static List<List<Integer>> determinatePrime = new ArrayList<>();
+    private static BitSet bitSet = new BitSet(20000010);
+    private static int n;
+    private static List<Map.Entry<Integer, Integer>> twinPrimes = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
-        sieve(10000000);
-        process(32000);
+        sieve(20000000);
+        processTwinPrime();
 
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
-            first = sc.nextInt();
-            second = sc.nextInt();
-
-            if(first == 0 && second == 0){
-                break;
-            }
-            int min = Math.min(first, second);
-            int max = Math.max(first, second);
-
-            List<List<Integer>> resultList = determinatePrime.stream()
-                    .filter(list -> list.get(0) >= min && list.get(list.size() -1) <= max)
-                    .collect(Collectors.toList());
-
-            for(List<Integer> l: resultList){
-                String s = l.stream().map(String::valueOf).collect(Collectors.joining(" "));
-                System.out.println(s);
+            int n = sc.nextInt();
+            Map.Entry<Integer, Integer> entry = twinPrimes.get(n - 1);
+            if(entry != null){
+                System.out.println(String.format("(%d, %d)", entry.getKey(), entry.getValue()));
             }
         }
 
     }
 
-    private static void process(int bound) {
-        List<Integer> updatedList = primeList.stream().filter(i -> i >= 0 && i <= bound).collect(Collectors.toList());
-        int i = 0;
-        while (i <= updatedList.size() -3) {
-            int distance = updatedList.get(i + 1) - updatedList.get(i);
-            int j = i + 1;
-            while (j <= updatedList.size() - 2 && updatedList.get(j + 1) - updatedList.get(j) == distance){
-                j++;
+    private static void processTwinPrime() {
+        for(int i = 0; i < primeList.size() - 1; i++){
+            if(primeList.get(i + 1) - primeList.get(i) == 2){
+                twinPrimes.add(new AbstractMap.SimpleEntry<>(primeList.get(i), primeList.get(i + 1)));
             }
-            if(j > i + 1) {
-                List<Integer> newList = new ArrayList<>();
-                for (int index = i; index <= j; index++) {
-                    newList.add(updatedList.get(index));
-                }
-                determinatePrime.add(newList);
-            }
-            i = j;
         }
     }
+
 
     private static void sieve(long size) {
         sieve_ll = size + 1;
