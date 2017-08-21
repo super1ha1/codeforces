@@ -1,61 +1,70 @@
 package problem_set;
 
-import java.io.File;
-import java.math.BigDecimal;
 import java.util.*;
 
 public class Main {
 
-    private static int j;
-    private static double value;
-    private static long numerator, denominator;
+    private static long  n;
+    private static long sieve_ll;
+    private static List<Long> primesList = new ArrayList<>();
+    private static BitSet bitSet = new BitSet(10000010);
     public static void main(String[] args) throws Exception {
 
+        sieve(1000000);
         Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-            int count = 0;
-            while (sc.hasNext()){
-            j = sc.nextInt();
-            if(j == -1){
+        while (sc.hasNext()){
+            n = sc.nextInt();
+            if(n == 0){
                 break;
             }
-            value = sc.nextDouble();
-            if(j < 0){
-                continue;
-            }
-            count++;
-            String str = String.format("%.9f", value);
-            while (str.lastIndexOf('0') == str.length() - 1){
-                str = str.substring(0, str.length() - 1);
-            }
-            String fraction = str.split("\\.")[1];
-            int k = fraction.length() - j;
-            String repeated = fraction.substring(k);
-            str = str + repeated;
-            value = Double.valueOf(str);
+            System.out.println(eulerPhi(n));
+        }
+    }
 
-            if(j == 0){
-                numerator = (long) (Math.pow(10, k) * value);
-                denominator = (long) (Math.pow(10, k));
-            }else {
-                long firstPart = (long)(Math.pow(10, k + j) * value);
-                long secondPart = (long) (Math.pow(10, k) * value);
-                numerator =  firstPart - secondPart;
-                denominator = (long) (Math.pow(10, k + j) - Math.pow(10, k));
+    private static void sieve(long bound) {
+        sieve_ll = bound + 1;
+        bitSet.set(0, bitSet.size(), true);
+        bitSet.set(0, false);
+        bitSet.set(1, false);
+
+        for(long i = 2; i <= sieve_ll; i++){
+            if(bitSet.get((int)i)){
+                for(long j = i * i; j <= sieve_ll; j += i){
+                    bitSet.set((int)j, false);
+                }
+                primesList.add(i);
             }
-            long gcd = gcd(numerator, denominator);
-            numerator = numerator/gcd;
-            denominator = denominator/gcd;
-            System.out.println(String.format("Case %d: %d/%d", count, numerator, denominator));
+        }
+    }
+
+    private static long eulerPhi(long n) {
+        Set<Long> uniqueSet = new HashSet<>(primeFactors(n));
+        long result = n;
+        for(long i: uniqueSet){
+            result = result - result/i;
+        }
+        return result;
+    }
+
+    private static List<Long> primeFactors(long n) {
+        List<Long> factorsList = new ArrayList<>();
+        int index = 0;
+        long factor = primesList.get(index);
+        while (n != 1 && factor * factor <= n){
+            while (n % factor == 0){
+                n = n /factor;
+                factorsList.add(factor);
+            }
+            factor = primesList.get(++index);
         }
 
+        if(n != 1){
+            factorsList.add(n);
+        }
+        return factorsList;
     }
-
-    private static long gcd(long a, long b) {
-        return b == 0 ? a : gcd(b, a % b);
-    }
-
 }
 
