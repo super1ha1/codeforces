@@ -4,13 +4,16 @@ import java.util.*;
 
 public class Main {
 
-    private static long  n;
+    private static long  n, counter;
     private static long sieve_ll;
     private static List<Long> primesList = new ArrayList<>();
     private static BitSet bitSet = new BitSet(10000010);
+    private static Map<Long, Long> map = new HashMap<>();
+    private static List<Long> valueList = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
         sieve(1000000);
+        processList(12158598919L);
         Scanner sc = new Scanner(System.in);
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
@@ -20,8 +23,45 @@ public class Main {
             if(n == 0){
                 break;
             }
+            long index = getIndex(n);
+            if(index > -1) {
+                if(index == 0){
+                    long number = map.get(index);
+                }else {
+                    long before = map.get(index -1);
+                    long number = map.get(index);
+                }
+            }
             System.out.println(eulerPhi(n));
         }
+    }
+
+    private static long getIndex(long n) {
+        for(long value: valueList){
+            if(value > n){
+                return value;
+            }
+        }
+        return -1;
+    }
+
+    private static void processList(long n) {
+        counter = 2;
+        map.put(2L, 1L);
+        for(int i = 2; i <= 1000000; i++){
+            long euler = eulerPhi(i);
+            counter = counter + euler;
+            map.put(counter, (long) i);
+            if(counter > n){
+                break;
+            }
+        }
+        valueList.addAll(map.keySet());
+        Collections.sort(valueList);
+    }
+
+    private static long gcd(long a, long b) {
+        return b == 0 ? a : gcd(b, a % b);
     }
 
     private static void sieve(long bound) {
