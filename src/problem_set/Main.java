@@ -1,5 +1,6 @@
 package problem_set;
 
+import java.io.File;
 import java.util.*;
 
 public class Main {
@@ -10,35 +11,75 @@ public class Main {
     private static BitSet bitSet = new BitSet(10000010);
     private static Map<Long, Long> map = new HashMap<>();
     private static List<Long> valueList = new ArrayList<>();
+    private static int indexRange;
     public static void main(String[] args) throws Exception {
 
         sieve(1000000);
         processList(12158598919L);
         Scanner sc = new Scanner(System.in);
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//                Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
-            n = sc.nextInt();
+            n = sc.nextLong();
             if(n == 0){
                 break;
             }
-            long index = getIndex(n);
-            if(index > -1) {
-                if(index == 0){
-                    long number = map.get(index);
-                }else {
-                    long before = map.get(index -1);
-                    long number = map.get(index);
+            if(n == 1){
+                System.out.println("0/1");
+                continue;
+            } else if(n == 2){
+                System.out.println("1/1");
+                continue;
+            }
+            long nextRangeN = getNextRangeN(n);
+            if(nextRangeN > -1) {
+                if(nextRangeN == 2){
+                    //cannot reach here
+                } else { //nextRangeN > n
+                    long nextNumber = map.get(nextRangeN);
+                    long previousNumber = nextNumber - 1;
+                    long lowerBound = valueList.get(indexRange - 1);
+                    Map.Entry<Integer, Integer> pair = null;
+                    if(lowerBound == n){
+                        pair = getLastPair(previousNumber );
+                    }else if(lowerBound < n){
+                        pair = getPair(nextNumber, n - lowerBound);
+                    }
+                    if(pair != null){
+                        System.out.println(String.format("%d/%d", pair.getKey(), pair.getValue()));
+                    }
                 }
             }
-            System.out.println(eulerPhi(n));
         }
     }
 
-    private static long getIndex(long n) {
-        for(long value: valueList){
+    private static Map.Entry<Integer, Integer> getLastPair(long previousNumber) {
+        for(long i = previousNumber - 1; i >= 1; i--){
+            if(gcd(i, previousNumber) == 1){
+                return new AbstractMap.SimpleEntry<>((int)i, (int) previousNumber);
+            }
+        }
+        return null;    }
+
+    private static Map.Entry<Integer, Integer> getPair(long previousNumber, long lowerBound) {
+        int count = 0;
+        for(int i = 1; i < previousNumber; i++){
+            if(gcd(i, previousNumber) == 1){
+                count++;
+                if(count == lowerBound){
+                    return new AbstractMap.SimpleEntry<>(i, (int) previousNumber);
+                }
+            }
+        }
+        return null;
+    }
+
+    private static long getNextRangeN(long n) {
+        for(int i = 0; i < valueList.size(); i++){
+            long value = valueList.get(i);
             if(value > n){
+                indexRange = i;
                 return value;
             }
         }
