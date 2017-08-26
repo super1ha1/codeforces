@@ -1,36 +1,45 @@
 package problem_set;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
-    private static List<String> list = new ArrayList<>();
-    private static List<BigInteger> fibonaci = new ArrayList<>();
+    private static List<Map.Entry<Long, Long>> bees = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
-        caculateFibonaci(5000);
+        prepareBee();
 
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
         while (sc.hasNext()) {
-            int n = sc.nextInt();
+            long n = sc.nextLong();
             if(n < 0){
+                break;
+            }
+            if(n >= bees.size()){
                 continue;
             }
-            System.out.println(String.format("The Fibonacci number for %d is %d", n, fibonaci.get(n)));
+            System.out.println(String.format("%d %d", bees.get((int)n).getKey(),
+                    bees.get((int)n).getKey() + bees.get((int)n).getValue()));
         }
     }
 
-    public static void caculateFibonaci(int max){
-        fibonaci.add(BigInteger.ZERO);
-        fibonaci.add(BigInteger.ONE);
-        for(int i = 2; i <= max; i++){
-            fibonaci.add(fibonaci.get(i-1).add(fibonaci.get(i-2)));
+    private static void prepareBee() {
+        bees.add(new AbstractMap.SimpleEntry<>(0L, 1L));
+        int index = 0;
+        while (true){
+            index++;
+            Map.Entry<Long, Long> previous = bees.get(index -1);
+            long nextMale = previous.getKey() + previous.getValue();
+            long nextFemale = previous.getKey() + 1;
+            bees.add(new AbstractMap.SimpleEntry<>(nextMale, nextFemale));
+
+            if(nextMale > Integer.MAX_VALUE || nextFemale > Integer.MAX_VALUE){
+                break;
+            }
         }
     }
+
 }
 
