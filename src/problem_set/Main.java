@@ -1,5 +1,6 @@
 package problem_set;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,60 +8,29 @@ import java.util.Scanner;
 public class Main {
 
     private static List<String> list = new ArrayList<>();
+    private static List<BigInteger> fibonaci = new ArrayList<>();
     public static void main(String[] args) throws Exception {
+
+        caculateFibonaci(5000);
 
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
         while (sc.hasNext()) {
-            String line = sc.nextLine().trim();
-            if(line.matches("\\d+")){
-                list.add(line);
-            }else {
-                process();
-                list.clear();
+            int n = sc.nextInt();
+            if(n < 0){
+                continue;
             }
-            if(!sc.hasNext()){
-                process();
-            }
+            System.out.println(String.format("The Fibonacci number for %d is %d", n, fibonaci.get(n)));
         }
     }
 
-    private static void process() {
-        if(list.size() != 3){
-            return;
+    public static void caculateFibonaci(int max){
+        fibonaci.add(BigInteger.ZERO);
+        fibonaci.add(BigInteger.ONE);
+        for(int i = 2; i <= max; i++){
+            fibonaci.add(fibonaci.get(i-1).add(fibonaci.get(i-2)));
         }
-        long b = Long.valueOf(list.get(0));
-        long p = Long.valueOf(list.get(1));
-        long m = Long.valueOf(list.get(2));
-        while (b >= m){
-            b = b % m;
-        }
-        if( b == 0 || b == 1){
-            System.out.println(b);
-            return;
-        }
-        long mod1 = find(b, m);
-        long left = p % mod1;
-        long result = 1;
-        for(int i = 0; i < left; i++){
-            result = (result * b) % m;
-        }
-        System.out.println(result);
     }
-
-    private static long find(long b, long m) {
-        int i = 1;
-        long value = (long) Math.pow(b, i);
-        while (value % m != 1){
-            while (value >= m){
-                value = value % m;
-            }
-            i++;
-            value = (value * b) % m;
-        }
-        return i;
-    }
-
 }
 
