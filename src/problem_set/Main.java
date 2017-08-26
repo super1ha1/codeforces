@@ -27,34 +27,30 @@ public class Main {
     }
 
     private static void prepareCount(int bound) {
+        //prepare count value
         countValue[0] = 1;
         countValue[1] = 1;
         countValue[2] = 1;
-
         int currentNumber = 2;
-        int n = 1;
-        long numbersCountLessThanEqualN = 3;
-        result[n] = numbersCountLessThanEqualN;
-
         while (true){
             currentNumber++;
-            long nextRange = primeFactor(currentNumber).size();
-            countValue[currentNumber] = countValue[currentNumber -1] + nextRange;
-
-            if(countValue[currentNumber] <= n){
-                numbersCountLessThanEqualN++;
-                result[n] = numbersCountLessThanEqualN;
-            }else {
-                while (n < countValue[currentNumber]){
-                    result[n] = numbersCountLessThanEqualN;
-                    n++;
-                }
-                numbersCountLessThanEqualN++;
-                result[n] = numbersCountLessThanEqualN;
-            }
-
-            if(n >= bound){
+            countValue[currentNumber] = countValue[currentNumber -1] + primeFactor(currentNumber).size();
+            if(countValue[currentNumber] >= bound){
                 break;
+            }
+        }
+
+        //calculate n
+        long currentN = 1, currentCount = 0;
+        for(int i = 0; i < countValue.length; i++){
+            if(countValue[i] <= currentN){
+                currentCount++;
+            }else {
+                for(long index = currentN; index < countValue[i]; index++){
+                    result[(int)index] = currentCount;
+                }
+                currentN = countValue[i];
+                currentCount = i + 1;
             }
         }
     }
