@@ -11,39 +11,59 @@ public class Main {
     private static long sieve_ll;
     private static Map<Integer, Map.Entry<Integer, Integer>> map = new HashMap<>();
     public static void main(String[] args) throws Exception {
-        sieve(10000010);
+        sieve(10000000);
 //        prepare();
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
         while (sc.hasNext()){
-            long n = sc.nextLong();
-            if(n == 0){
-                break;
-            }
-            if(n < 0){
-                System.out.println(String.format("%d = %d x ", n, -1) + getList(-1 * n));
+            int first = sc.nextInt();
+            int second = sc.nextInt();
+            int min = Math.min(first, second);
+            int max = Math.max(first, second);
+            if(max <= sieve_ll){
+                List<Long> updated = primeList.stream().filter(i -> i >= min && i <= max).collect(Collectors.toList());
+                calculate(updated);
             }else {
-                System.out.println(String.format("%d = ", n)  + getList(n));
+                //get max
+                if(min % 2 == 0){
+                    min++;
+                }
+                int previousPrime = -1;
+                int nextPrime = -1;
+                int counter = min;
+                while (counter <= max){
+                    if(isPrime(counter)){
+
+                    }
+                }
             }
+
         }
     }
 
-    private static String getList(long n) {
-        List<Long> list = primeFactor(n);
-        return list.stream().map(String::valueOf).collect(Collectors.joining(" x "));
-    }
-
-    private static void prepare() {
-        map.put(2, new AbstractMap.SimpleEntry<>(1, 1));
-        for(int i = 4; i <= 100000000; i += 2){
-            BigInteger bigInteger = BigInteger.valueOf(i);
-            int half = i/2;
-            for(int j = half; j <= i; j += 2){
-                if(isPrime(j) && isPrime(i -j)){
-                    map.put(i, new AbstractMap.SimpleEntry<>(i - j, j));
-                }
+    private static void calculate(List<Long> updated) {
+        if(updated.size() <= 1){
+            System.out.println("There are no adjacent primes.");
+            return;
+        }
+        Map.Entry<Long, Long> close = null;
+        Map.Entry<Long, Long> distant = null;
+        long min = Long.MAX_VALUE;
+        long max = Long.MIN_VALUE;
+        for(int i = 0; i < updated.size() - 1; i++){
+            long currentDiff = updated.get(i + 1) - updated.get(i);
+            if(currentDiff > max){
+                max = currentDiff;
+                distant = new AbstractMap.SimpleEntry<Long, Long>(updated.get(i), updated.get(i + 1));
             }
+            if(currentDiff < min){
+                min = currentDiff;
+                close = new AbstractMap.SimpleEntry<Long, Long>(updated.get(i), updated.get(i + 1));
+            }
+        }
+        if(close != null && distant != null){
+            System.out.println(String.format("%d,%d are closest, %d,%d are most distant.", close.getKey(), close.getValue(), distant.getKey(), distant.getValue()));
         }
     }
 
@@ -79,7 +99,7 @@ public class Main {
 
     private static void sieve(long bound){
         sieve_ll = bound + 1;
-        bitSet.set(0, bitSet.size(), true);
+        bitSet.set(0, (int) sieve_ll, true);
         bitSet.set(0, false);
         bitSet.set(1, false);
 
