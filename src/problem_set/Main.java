@@ -1,42 +1,48 @@
 package problem_set;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.List;
-import java.util.Scanner;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    private static BitSet bitSet = new BitSet(100010);
+    private static BitSet bitSet = new BitSet(10000010);
     private static List<Long> primeList = new ArrayList<>();
     private static long sieve_ll;
-    private static int[] array = new int[10010];
+    private static Map<Integer, Map.Entry<Integer, Integer>> map = new HashMap<>();
     public static void main(String[] args) throws Exception {
-        sieve(10010);
-        prepare();
+        sieve(10000010);
+//        prepare();
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
         while (sc.hasNext()){
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            int min = Math.min(a, b);
-            int max = Math.max(a, b);
-            int counter = 0;
-            for(int i = min; i <= max; i++){
-                if(array[i] == 1){
-                    counter++;
-                }
+            long n = sc.nextLong();
+            if(n == 0){
+                break;
             }
-            System.out.println(String.format("%.2f", ((double) counter * 100)/(max - min + 1)));
+            if(n < 0){
+                System.out.println(String.format("%d = %d x ", n, -1) + getList(-1 * n));
+            }else {
+                System.out.println(String.format("%d = ", n)  + getList(n));
+            }
         }
     }
 
+    private static String getList(long n) {
+        List<Long> list = primeFactor(n);
+        return list.stream().map(String::valueOf).collect(Collectors.joining(" x "));
+    }
+
     private static void prepare() {
-        for(int i = 0; i <= 10000; i++){
-            long value = i * i + i + 41;
-            if(isPrime(value)){
-                array[i] = 1;
+        map.put(2, new AbstractMap.SimpleEntry<>(1, 1));
+        for(int i = 4; i <= 100000000; i += 2){
+            BigInteger bigInteger = BigInteger.valueOf(i);
+            int half = i/2;
+            for(int j = half; j <= i; j += 2){
+                if(isPrime(j) && isPrime(i -j)){
+                    map.put(i, new AbstractMap.SimpleEntry<>(i - j, j));
+                }
             }
         }
     }
