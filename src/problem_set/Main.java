@@ -7,45 +7,38 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static BitSet bitSet = new BitSet(10000010);
+    private static BitSet bitSet = new BitSet(100010);
     private static List<Long> primeList = new ArrayList<>();
     private static long sieve_ll;
-
+    private static int[] array = new int[10010];
     public static void main(String[] args) throws Exception {
-        sieve(10000010);
+        sieve(10010);
+        prepare();
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        int testCase = sc.nextInt();
-        while (testCase-- > 0){
-           long n = sc.nextLong();
-           System.out.println(findSmith(n));
-        }
-    }
-
-    private static long findSmith(long n) {
-        n++;
-        while (true){
-            if(!isPrime(n) && sumDigit(n)){
-                return n;
+        while (sc.hasNext()){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int min = Math.min(a, b);
+            int max = Math.max(a, b);
+            int counter = 0;
+            for(int i = min; i <= max; i++){
+                if(array[i] == 1){
+                    counter++;
+                }
             }
-            n++;
+            System.out.println(String.format("%.2f", ((double) counter * 100)/(max - min + 1)));
         }
     }
 
-    private static boolean sumDigit(long n) {
-        int valueN = value(n);
-        List<Long> factors = primeFactor(n);
-        int valueSum = factors.stream().mapToInt(e -> value(e)).sum();
-        return valueN == valueSum;
-    }
-
-    private static int value(long n){
-        int valueN = 0;
-        for(char c: String.valueOf(n).toCharArray()){
-            valueN += Integer.valueOf(String.valueOf(c));
+    private static void prepare() {
+        for(int i = 0; i <= 10000; i++){
+            long value = i * i + i + 41;
+            if(isPrime(value)){
+                array[i] = 1;
+            }
         }
-        return valueN;
     }
 
     private static List<Long> primeFactor(long n) {
