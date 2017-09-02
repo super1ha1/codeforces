@@ -1,6 +1,8 @@
 package problem_set;
 
+import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -8,20 +10,47 @@ public class Main {
     private static List<Long> primeList = new ArrayList<>();
     private static BitSet bitSet = new BitSet(10000010);
 
+    private static Set<Integer> set = new HashSet<>();
+    private static List<Integer> newSet = new ArrayList<>();
     public static void main(String[] args) throws Exception {
-        sieve(10000000);
 
-        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()) {
             int n = sc.nextInt();
-            int k = sc.nextInt();
-            if(n == 0 && k == 0){
+            if(n == 0){
                 break;
             }
-            System.out.println(process(n, k));
+            set.clear();
+            for(int i = 0; i < n; i++){
+                set.add(sc.nextInt());
+            }
+            calculate(2);
+        }
+    }
+
+    private static void calculate(int numbers) {
+        backTrack(2);
+    }
+
+    private static void backTrack(int numberLeft){
+        if(numberLeft == 0){
+            System.out.println(newSet.stream().map(i -> String.valueOf(i)).collect(Collectors.joining(" ")));
+            return;
+        }
+        Set<Integer> currentVisitSet = new HashSet<>(set);
+        for(int value: currentVisitSet){
+
+            //backtrack
+            newSet.add(value);
+            set.remove(value);
+            backTrack(numberLeft -1);
+
+            //revert
+            set.add(value);
+            newSet.remove(Integer.valueOf(value));
         }
     }
 
