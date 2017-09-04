@@ -1,123 +1,113 @@
 package problem_set;
 
-import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 
-    private static long sieve_ll;
-    private static List<Long> primeList = new ArrayList<>();
-    private static BitSet bitSet = new BitSet(10000010);
-
-    private static Set<Integer> set = new HashSet<>();
-    private static List<Integer> newSet = new ArrayList<>();
+    private static Map<Integer, List<Integer>> map = new HashMap<>();
+    private static boolean[] articulation;
+    private static int[] dfs_num, dfs_low, dfs_parent;
+    private static int root, numChildren, n, dfsNumberCounter;
+    private static List<Map.Entry<Integer, Integer>> bridgeList = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
-//        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-
-        while (sc.hasNext()) {
-            int n = sc.nextInt();
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+        while (true){
+            n = sc.nextInt();
             if(n == 0){
                 break;
             }
-            set.clear();
-            for(int i = 0; i < n; i++){
-                set.add(sc.nextInt());
-            }
-            calculate(2);
-        }
-    }
+            sc.nextLine();
+            map.clear();
+            List<String> list = new ArrayList<>();
 
-    private static void calculate(int numbers) {
-        backTrack(2);
-    }
-
-    private static void backTrack(int numberLeft){
-        if(numberLeft == 0){
-            System.out.println(newSet.stream().map(i -> String.valueOf(i)).collect(Collectors.joining(" ")));
-            return;
-        }
-        Set<Integer> currentVisitSet = new HashSet<>(set);
-        for(int value: currentVisitSet){
-
-            //backtrack
-            newSet.add(value);
-            set.remove(value);
-            backTrack(numberLeft -1);
-
-            //revert
-            set.add(value);
-            newSet.remove(Integer.valueOf(value));
-        }
-    }
-
-    private static long process(int n, int k) {
-        if(k == 0){
-            return 0;
-        }
-        if(k == 1){
-            return n;
-        }
-        List<Long> numerator = new ArrayList<>();
-        for(int i = n - k + 1 ; i <= n; i++){
-            numerator.addAll(primeFactors(i));
-        }
-        Collections.sort(numerator);
-
-        List<Long> denominator = new ArrayList<>();
-        for(int i = 2; i <= k; i++){
-            denominator.addAll(primeFactors(i));
-        }
-        Collections.sort(denominator);
-        for(long i: denominator){
-            if(numerator.contains(i)){
-                numerator.remove(Long.valueOf(i));
-            }
-        }
-
-        long value = 1;
-        for(long i: numerator){
-            value = value * i;
-        }
-        return value;
-    }
-
-    private static void sieve(long bound){
-        sieve_ll = bound + 1;
-        bitSet.set(0, bitSet.size(), true);
-        bitSet.set(0, false);
-        bitSet.set(1, false);
-
-        for(long i = 2; i <= sieve_ll; i++){
-            if(bitSet.get((int) i)){
-                for(long j = i * i; j <= sieve_ll; j += i){
-                    bitSet.set((int) j, false);
+            while (true){
+                String line = sc.nextLine().trim();
+                if(line.equalsIgnoreCase("0")){
+                    break;
+                } else {
+                    list.add(line);
                 }
-                primeList.add(i);
             }
+            process(list);
         }
     }
 
-    private static List<Long> primeFactors(long n){
-        List<Long> list = new ArrayList<>();
-        int index = 0;
-        long value = primeList.get(index);
-
-        while (n != 1 && value * value <= n){
-            while (n % value == 0){
-                n = n / value;
-                list.add(value);
+    private static void process(List<String> list) {
+        for(String line: list){
+            String[] strings = line.split(" ");
+            int base = Integer.valueOf(strings[0]) - 1;
+            map.put(base, new ArrayList<>());
+            for(int i = 1; i < strings.length; i++){
+                int current = Integer.valueOf(strings[i]) - 1;
+                if(!map.keySet().contains(current)){
+                    map.put(current, new ArrayList<>());
+                }
+                map.get(base).add(current);
+                map.get(current).add(base);
             }
-            value = primeList.get(++index);
         }
 
-        if(n != 1){
-            list.add(n);
+        dfs_low = new int[n];
+        dfs_num = new int[n];
+        dfs_parent = new int[n];
+        articulation = new boolean[n];
+        dfsNumberCounter = 1;
+
+        for (int i: map.keySet()){
+            if(dfs_num[i] == 0){
+                root = i;
+                numChildren = 0;
+                articulationPointAndBridge(i);
+                articulation[i] = (numChildren > 1);
+            }
         }
-        return list;
+
+        int counter = 0;
+        for(int i = 0; i < n; i++){
+            if(articulation[i]){
+                counter++;
+            }
+        }
+        System.out.println(counter);
+    }
+
+    private static void articulationPointAndBridge(int node) {
+        dfs_num[node] = dfsNumberCounter;
+        dfs_low[node] = dfsNumberCounter;
+        dfsNumberCounter++;
+
+        for(int i: map.get(node)){
+            if(dfs_num[i] == 0){ //not visit yet
+                dfs_parent[i] = node;
+
+                if(node == root){
+                    numChildren++;
+                }
+
+                articulationPointAndBridge(i);
+
+                //check articulation point
+                if(dfs_low[i]  >= dfs_num[node]){
+                    articulation[node] = true;
+                }
+
+                //check bridge
+                if(dfs_low[i]  > dfs_num[node]){
+                    bridgeList.add(new AbstractMap.SimpleEntry<>(node, i));
+                }
+
+                //update low
+                dfs_low[node] = Math.min(dfs_low[i], dfs_low[node]);
+
+            } else { //already visit
+                if(dfs_parent[node] != i){
+                    dfs_low[node] = Math.min(dfs_num[i], dfs_low[node]);
+                }
+            }
+        }
     }
 }
 
