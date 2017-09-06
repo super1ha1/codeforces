@@ -1,14 +1,39 @@
-5
-1 2
-2 3
-3 4
-4 5
-5 1
-0
-5
-1 2
-2 3
-3 4
-4 5
-0
+4
+A B C D E C
+F C H I J J
+K B H I F I
+K C E B J K
+
+4
+A B C D E C
+F C H I J J
+K B H I F I
+K C E B J K
+
+
+10
+B A
+C B
+B C
+D B
+C D
+E D
+F E
+H F
+G H
+E G
+10
+B A
+C B
+B C
+D B
+C D
+E D
+F E
+H F
+G H
+E G
+
+1
+A B C D E C
 0
