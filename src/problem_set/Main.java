@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    private static List<String> list = new ArrayList<>();
     private static Map<Integer, List<Integer>> map = new HashMap<>();
     private static int[] visit;
-    private static Set<Integer> availableChar = new HashSet<>();
     private static List<Integer> resultList = new ArrayList<>();
+
+    private static int n, m;
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
@@ -18,73 +18,46 @@ public class Main {
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (sc.hasNext()){
-            String line = sc.nextLine().trim();
-            if(line.equalsIgnoreCase("#")){
+            n = sc.nextInt();
+            m = sc.nextInt();
+            if (n == 0 && m == 0){
                 break;
-            }else {
-                list.add(line);
             }
+            map.clear();
+            resultList.clear();
+            for(int i = 0; i < m; i++){
+                int first = sc.nextInt() -1;
+                int second = sc.nextInt() -1;
+                if(!map.keySet().contains(first)){
+                    map.put(first, new ArrayList<>());
+                }
+                map.get(first).add(second);
+            }
+            process();
         }
-
-        processInput();
     }
 
-    private static void processInput() {
-        for(String line: list){
-            char[] array = line.toCharArray();
-            for(char c: array){
-                availableChar.add(c - 'A');
-            }
-        }
-        for(int i = 0; i < list.size() -1; i++){
-            String current = list.get(i);
-            String next = list.get(i + 1);
-            updateMap(current, next);
-        }
-
-        visit = new int[26];
-        for(int i: availableChar){
+    private static void process() {
+        visit = new int[n];
+        for(int i = 0; i < n; i++){
             if(visit[i] == 0){
-                topoSort(i);
+                dfs(i);
             }
         }
-
         Collections.reverse(resultList);
-        System.out.println(resultList.stream().map(i -> String.valueOf((char) ('A' + i)))
-                .collect(Collectors.joining("")));
+        System.out.println(resultList.stream().map(i -> String.valueOf(i + 1)).collect(Collectors.joining(" ")));
     }
 
-    private static void topoSort(int node) {
+    private static void dfs(int node) {
         visit[node] = 1;
         if(map.keySet().contains(node)){
             for(int i: map.get(node)){
                 if(visit[i] == 0){
-                    topoSort(i);
+                    dfs(i);
                 }
             }
         }
-
         resultList.add(node);
     }
-
-    private static void updateMap(String current, String next) {
-        int index = 0;
-        while (index < current.length() && index < next.length()
-                && current.charAt(index) == next.charAt(index)) {
-            index++;
-        }
-        if(index == current.length() && current.length() <= next.length()){
-            return;
-        }
-
-        int valueIndex = index - 1 >= 0 ? index - 1 : 0;
-        int firstChar = current.charAt(valueIndex ) - 'A';
-        int second = next.charAt(valueIndex) - 'A';
-        if(!map.keySet().contains(firstChar)){
-            map.put(firstChar, new ArrayList<>());
-        }
-        map.get(firstChar).add(second);
-    }
-
 }
 
