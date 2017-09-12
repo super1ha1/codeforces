@@ -2,81 +2,89 @@ package problem_set;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    private static Map<Integer, Set<Integer>> map = new HashMap<>();
-    private static int[] visit, appear, parent;
-    private static int  dfsNumberCounter, N, M, visitCounter;
-    private static Set<Integer> resultSet = new HashSet<>();
-
+    private static List<String> list = new ArrayList<>();
+    private static Map<Integer, List<Integer>> map = new HashMap<>();
+    private static int[] visit;
+    private static Set<Integer> availableChar = new HashSet<>();
+    private static List<Integer> resultList = new ArrayList<>();
     public static void main(String[] args) throws Exception {
 
-//        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int testCase = sc.nextInt();
-        for(int i  = 1; i <= testCase; i++){
-            map.clear();
-            resultSet.clear();
-            N = sc.nextInt();
-            M = sc.nextInt();
-
-            appear= new int[N];
-            for(int j = 0; j < M; j++) {
-                int first = sc.nextInt() - 1;
-                int second = sc.nextInt() - 1;
-                appear[first] = 1;
-                appear[second] = 1;
-
-                if(!map.keySet().contains(second)){
-                    map.put(second, new HashSet<>());
-                }
-                if(second != first){
-                    map.get(second).add(first);
-                }
+        while (sc.hasNext()){
+            String line = sc.nextLine().trim();
+            if(line.equalsIgnoreCase("#")){
+                break;
+            }else {
+                list.add(line);
             }
-            process(i);
         }
+
+        processInput();
     }
 
-    private static void process(int number) {
-        visit = new int[N];
-        dfsNumberCounter = 0;
-        visitCounter = 0;
-
-        for(int i = 0; i < N; i++){
-            if(appear[i] == 0){
-                resultSet.add(i);
+    private static void processInput() {
+        for(String line: list){
+            char[] array = line.toCharArray();
+            for(char c: array){
+                availableChar.add(c - 'A');
             }
         }
+        for(int i = 0; i < list.size() -1; i++){
+            String current = list.get(i);
+            String next = list.get(i + 1);
+            updateMap(current, next);
+        }
 
-        for(int i = 0; i < N; i++){
+        visit = new int[26];
+        for(int i: availableChar){
             if(visit[i] == 0){
-                visitCounter++;
-                floodFill(i, visitCounter);
+                topoSort(i);
             }
         }
 
-        System.out.println(String.format("Case %d: %d", number, resultSet.size() > 0 ? resultSet.size() : 1));
+        Collections.reverse(resultList);
+        System.out.println(resultList.stream().map(i -> String.valueOf((char) ('A' + i)))
+                .collect(Collectors.joining("")));
     }
 
-    private static void floodFill(int node, int value) {
-        visit[node] = value;
-
-        if(map.keySet().contains(node) && map.get(node).size() > 0){
+    private static void topoSort(int node) {
+        visit[node] = 1;
+        if(map.keySet().contains(node)){
             for(int i: map.get(node)){
                 if(visit[i] == 0){
-                    floodFill(i, value);
+                    topoSort(i);
                 }
             }
-        }else {
-            dfsNumberCounter++;
-            resultSet.add(node);
         }
+
+        resultList.add(node);
     }
 
+    private static void updateMap(String current, String next) {
+        int index = 0;
+        while (index < current.length() && index < next.length()
+                && current.charAt(index) == next.charAt(index)) {
+            index++;
+        }
+        if(index == current.length() && current.length() <= next.length()){
+            return;
+        }
+
+        int valueIndex = index - 1 >= 0 ? index - 1 : 0;
+        int firstChar = current.charAt(valueIndex ) - 'A';
+        int second = next.charAt(valueIndex) - 'A';
+        if(!map.keySet().contains(firstChar)){
+            map.put(firstChar, new ArrayList<>());
+        }
+        map.get(firstChar).add(second);
+    }
 
 }
 
