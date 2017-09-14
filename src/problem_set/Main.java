@@ -1,93 +1,100 @@
 package problem_set;
 
-import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 
-    private static Map<Integer, List<Integer>> map = new HashMap<>();
-    private static Map<Integer, Map<Integer, Integer>> resultMap = new HashMap<>();
-    private static int source;
-    private static int ttl;
-    private static int counter;
+    private static Map<String, List<String>> map = new HashMap<>();
+    private static Map<String, Map<String, Integer>> resultMap = new HashMap<>();
+    private static List<String> finalResultList = new ArrayList<>();
+    private static List<String> resultPrint = new ArrayList<>();
+    private static int  M, N, P;
+
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        counter = 0;
-        while (sc.hasNext()){
-            int n = sc.nextInt();
-            if(n == 0){
-                break;
-            }
+        finalResultList.add("SHIPPING ROUTES OUTPUT");
+        finalResultList.add("");
+        int testCase = sc.nextInt();
+        for (int i = 1; i <= testCase; i++) {
+            M = sc.nextInt();
+            N = sc.nextInt();
+            P = sc.nextInt();
+            sc.nextLine();
+
             map.clear();
             resultMap.clear();
-            for(int i = 0; i < n; i++){
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                if(!map.containsKey(first)){
-                    map.put(first, new ArrayList<>());
-                }
-                if(!map.containsKey(second)){
-                    map.put(second, new ArrayList<>());
-                }
+            resultPrint.clear();
 
+            //getWarehouse
+            String setWareHouse = sc.nextLine().trim();
+            for (String s : setWareHouse.split(" ")) {
+                if (!map.containsKey(s)) {
+                    map.put(s, new ArrayList<>());
+                }
+            }
+
+            //get connection
+            for (int j = 0; j < N; j++) {
+                String connection = sc.nextLine().trim();
+                String[] array = connection.split(" ");
+                String first = array[0];
+                String second = array[1];
                 map.get(first).add(second);
                 map.get(second).add(first);
             }
 
-            while (true){
-                source = sc.nextInt();
-                ttl = sc.nextInt();
-                if(source == 0 && ttl == 0){
-                    break;
-                }
-                counter++;
-                process();
-            }
-        }
-    }
+            //get request
+            for (int j = 0; j < P; j++) {
+                String request = sc.nextLine();
+                String [] array = request.split("[\\s]+");
+                int size = Integer.valueOf(array[0].trim());
+                String source = array[1];
+                String destination = array[2];
 
-    private static void process() {
-        if(!resultMap.containsKey(source)){
-            Queue<Integer> queue = new LinkedList<>();
-            queue.add(source);
-            Map<Integer, Integer> distanceMap = new HashMap<>();
-            distanceMap.put(source, 0);
+                if(!resultMap.containsKey(source)){
+                    Map<String, Integer> distanceMap = new HashMap<>();
+                    distanceMap.put(source, 0);
+                    Queue<String> queue = new LinkedList<>();
+                    queue.add(source);
 
-            while (!queue.isEmpty()){
-                int node = queue.poll();
-
-                if(map.containsKey(node)){
-                    for(int neighbor: map.get(node)){
-                        if(!distanceMap.containsKey(neighbor)){
-                            distanceMap.put(neighbor, distanceMap.get(node) + 1);
-                            queue.add(neighbor);
+                    while (!queue.isEmpty()){
+                        String current = queue.poll();
+                        if(map.containsKey(current)){
+                            for(String neighbor: map.get(current)){
+                                if(!distanceMap.containsKey(neighbor)){
+                                    distanceMap.put(neighbor, distanceMap.get(current) + 1);
+                                    queue.add(neighbor);
+                                }
+                            }
                         }
                     }
+                    resultMap.put(source, distanceMap);
+                }
+
+                Map<String, Integer> actualResult = resultMap.get(source);
+                if(actualResult.containsKey(destination)){
+                    int distance = resultMap.get(source).get(destination);
+                    int result = size * distance * 100;
+                    resultPrint.add(String.format("$%d", result));
+                }else {
+                    resultPrint.add("NO SHIPMENT POSSIBLE");
                 }
             }
-
-            resultMap.put(source, distanceMap);
+            finalResultList.add(String.format("DATA SET  %d", i));
+            finalResultList.add("");
+            if(resultPrint.size() > 0){
+                finalResultList.addAll(resultPrint);
+            }
+            finalResultList.add("");
         }
-       int notVisit = resultMap.get(source).values().stream().reduce(0, (sum, nextValue) -> {
-          if(nextValue > ttl){
-              return sum + 1;
-          }
-          return sum;
-       });
-
-        notVisit += map.keySet().size() - resultMap.get(source).keySet().size();
-
-        if(!map.containsKey(source)){
-            notVisit = map.keySet().size();
+        finalResultList.add("END OF OUTPUT");
+        for (String s: finalResultList){
+            System.out.println(s);
         }
-
-        System.out.println(String.format("Case %d: %d nodes not reachable from node %d with TTL = %d.", counter, notVisit, source, ttl));
     }
-
 }
 
