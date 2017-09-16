@@ -6,145 +6,154 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    private static final Map<Integer, List<String>> lengMap = new HashMap<>();
-    private static final Map<String, List<String>> map = new HashMap<>();
-    private static final Map<String, Map<String, String>> resultMap = new HashMap<>();
-    private static boolean[] updateMapLength = new boolean[20];
+
+    private static int maxAttack;
+    private static List<Set<Integer>> resultList = new ArrayList<>();
+    private static List<Player> list = new ArrayList<>();
+    private static Comparator<Player> playerComparator = Comparator.comparing(o -> o.name);
+
     public static void main(String[] args) throws Exception {
 
-        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int counter = 0;
-        lengMap.clear();
-        map.clear();
-        resultMap.clear();
+        int T = sc.nextInt();
+        sc.nextLine();
+        for(int i = 1; i <= T; i++){
+            resultList.clear();
+            list.clear();
 
-        while (sc.hasNext()) {
-            String word = sc.nextLine().trim();
-            if (word.isEmpty()) {
-                break;
-            } else {
-                if (!lengMap.containsKey(word.length())) {
-                    lengMap.put(word.length(), new ArrayList<>());
-                }
-                lengMap.get(word.length()).add(word);
+            for(int j = 0; j < 10; j++){
+                String line = sc.nextLine().trim();
+                String[] array = line.split("[\\s]+");
+                Player player = new Player(array[0], Integer.valueOf(array[1]), Integer.valueOf(array[2]));
+                list.add(player);
             }
-        }
-
-        while (sc.hasNext()) {
-            String query = sc.nextLine().trim();
-            if (query.isEmpty()) {
-                break;
-            } else {
-                if (counter > 0) {
-                    System.out.println("");
-                }
-                processQuery(query);
-                counter++;
-            }
+            System.out.println(String.format("Case %d:", i));
+            process();
         }
     }
 
-    private static boolean transform(String s, String other) {
-        if(map.containsKey(s) && map.get(s).contains(other)){
-            return false;
-        }
-        int counter = 0;
-        for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) != other.charAt(i)){
-                counter++;
-            }
-        }
-        return counter == 1;
-    }
-
-    private static void processQuery(String s) {
-        String[] array = s.split(" ");
-        String source = array[0];
-        String destination = array[1];
-
-        if(source.equals(destination)){
-            System.out.println(source);
-            return;
-        }
-
-        if(source.length() != destination.length()){
-            System.out.println("No solution.");
-            return;
-        }
-
-        int len = source.length();
-        updateMapLength(len);
-
-        if(!map.containsKey(source) || !map.containsKey(destination)){
-            System.out.println("No solution.");
-            return;
-        }
-
-        if(!resultMap.containsKey(source)){
-            Queue<String> queue = new LinkedList<>();
-            queue.add(source);
-            Map<String, String> parentMap = new HashMap<>();
-            parentMap.put(source, null);
-
-            while (!queue.isEmpty()){
-                String current = queue.poll();
-                if(map.containsKey(current)){
-                    for(String neighbor: map.get(current)){
-                        if(!parentMap.containsKey(neighbor)){
-                            parentMap.put(neighbor, current);
-                            queue.add(neighbor);
-                        }
-                    }
-                }
-            }
-            resultMap.put(source, parentMap);
-        }
-
-        if(resultMap.get(source).containsKey(destination)){
-            List<String> traceList = new ArrayList<>();
-            traceList.add(destination);
-
-            Map<String, String> parentMapLocal = resultMap.get(source);
-            while (true){
-                String parent = parentMapLocal.get(traceList.get(traceList.size() -1));
-                traceList.add(parent);
-                if(parent.equals(source)){
-                    break;
-                }
-            }
-            Collections.reverse(traceList);
-            for(String member: traceList){
-                System.out.println(member);
-            }
+    private static void process() {
+        maxAttack();
+        if(resultList.size() == 1){
+            printResult(setToSortedList(resultList.get(0)));
         }else {
-            System.out.println("No solution.");
+            List<Set<Integer>> maxDefendList = maxDefendList();
+            if(maxDefendList.size() == 1){
+                printResult(setToSortedList(maxDefendList.get(0)));
+            }else {
+                List<List<Player>> finalPlayer = new ArrayList<>();
+                for(Set<Integer> set: maxDefendList){
+                    finalPlayer.add(setToSortedList(set));
+                }
+                finalPlayer.forEach(singleList -> singleList.sort(playerComparator));
+                finalPlayer.sort((o1, o2) -> {
+                    int index = 0;
+                    while (playerComparator.compare(o1.get(index), o2.get(index)) == 0) {
+                        index++;
+                    }
+                    return playerComparator.compare(o1.get(index), o2.get(index));
+                });
+            }
         }
     }
 
-    private static void updateMapLength(int len) {
-        if(updateMapLength[len]){
-           return;
-        }
-        List<String> currentSet = lengMap.get(len);
-        for (String s : currentSet) {
-            for (String other : currentSet) {
-                if (!other.equals(s) && transform(s, other)) {
-                    if (!map.containsKey(s)) {
-                        map.put(s, new ArrayList<>());
-                    }
-                    if (!map.containsKey(other)) {
-                        map.put(other, new ArrayList<>());
-                    }
+    private static List<Player> setToSortedList(Set<Integer> set) {
+        List<Player> localList = set.stream().map(i -> list.get(i)).collect(Collectors.toList());
+        localList.sort(playerComparator);
+        return localList;
+    }
 
-                    map.get(s).add(other);
-                    map.get(other).add(s);
-                }
+    private static void printResult(List<Player> result) {
+
+    }
+
+    private static List<Set<Integer>> maxDefendList() {
+        int maxDefend = Integer.MIN_VALUE;
+        List<Set<Integer>> defendList = new ArrayList<>();
+        for(Set<Integer> set: resultList){
+            int value = getMaxDefend(set);
+            if(value > maxDefend){
+                maxDefend = value;
+                defendList.clear();
+                defendList.add(set);
+            }else if(value == maxDefend){
+                defendList.add(set);
             }
         }
-        updateMapLength[len] = true;
+        return defendList;
+    }
+
+    private static void maxAttack() {
+        maxAttack = Integer.MIN_VALUE;
+        List<Integer> valueList = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            valueList.add(i);
+        }
+        backTrack(new HashSet<>(), valueList);
+    }
+
+    private static int getMaxDefend(Set<Integer> set) {
+        int value = 0;
+        for(Integer player: set){
+            value += list.get(player).defend;
+        }
+        return value;
+    }
+
+    private static void backTrack(Set<Integer> currentSet, List<Integer> leftOverList){
+        if(currentSet.size() == 5){
+            int value = getValue(currentSet);
+            if(value == maxAttack){
+                if(notYetResult(currentSet)){
+                    resultList.add(currentSet);
+                }
+            }else if(value > maxAttack){
+                maxAttack = value;
+                resultList.clear();
+                resultList.add(currentSet);
+            }
+            return;
+        }
+        List<Integer> integrationList = new ArrayList<>(leftOverList);
+        for(Integer player: integrationList){
+            currentSet.add(player);
+            leftOverList.remove(player);
+
+            backTrack(new HashSet<>(currentSet), new ArrayList<>(leftOverList));
+
+            currentSet.remove(player);
+            leftOverList.add(player);
+        }
+    }
+
+    private static boolean notYetResult(Set<Integer> currentSet) {
+        for(Set<Integer> set: resultList){
+            if(set.equals(currentSet)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static int getValue(Set<Integer> currentList) {
+        int value = 0;
+        for(Integer player: currentList){
+            value += list.get(player).attack;
+        }
+        return value;
+    }
+
+    private static class Player {
+        public final String name;
+        public final int attack, defend;
+        public Player(String name, int attack, int defend){
+            this.name = name;
+            this.attack = attack;
+            this.defend = defend;
+        }
     }
 }
 
