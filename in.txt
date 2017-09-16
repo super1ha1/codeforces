@@ -1,37 +1,52 @@
-5
-6 7 5
-AA CC QR FF DD AB
-AA CC
-CC QR
-DD CC
-AA DD
-AA AB
-DD QR
-AB DD
-5   AA AB
-14   DD CC
-1    CC DD
-2   AA   FF
-13  AB  QR
-6 7 5
-AA CC QR FF DD AB
-AA CC
-CC QR
-DD CC
-AA DD
-AA AB
-DD QR
-AB DD
-5   AA AB
-14   DD CC
-1    CC DD
-2   AA   FF
-13  AB  QR
-3 0 1
-AA BB CC
-5  AA  CC
-1 0 1
-AA
-5 AA  CC
-1 0 0
-AA
+3
+
+dip
+lip
+mad
+map
+maple
+may
+pad
+pip
+pod
+pop
+sap
+sip
+slice
+slick
+spice
+stick
+stock
+*
+spice stock
+may pod
+dip dip
+dip lip
+
+dip
+lip
+mad
+map
+maple
+may
+pad
+pip
+pod
+pop
+sap
+sip
+slice
+slick
+spice
+stick
+stock
+*
+spice stock
+may pod
+dip dip
+dip lip
+stick stock
+stock stick
+dip stick
+
+*
