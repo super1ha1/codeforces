@@ -1,52 +1,18 @@
-3
+booster
+rooster
+roaster
+coasted
+roasted
+coastal
+postal
+a
+ab
 
-dip
-lip
-mad
-map
-maple
-may
-pad
-pip
-pod
-pop
-sap
-sip
-slice
-slick
-spice
-stick
-stock
-*
-spice stock
-may pod
-dip dip
-dip lip
-
-dip
-lip
-mad
-map
-maple
-may
-pad
-pip
-pod
-pop
-sap
-sip
-slice
-slick
-spice
-stick
-stock
-*
-spice stock
-may pod
-dip dip
-dip lip
-stick stock
-stock stick
-dip stick
-
-*
+booster roasted
+booster roasted
+coastal postal
+a postal
+a a
+ab a
+ab ab
+booster roasted
