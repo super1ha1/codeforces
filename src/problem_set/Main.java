@@ -1,74 +1,67 @@
 package problem_set;
 
-import java.io.File;
 import java.util.*;
 
 public class Main {
 
-    private static int n, m, k, oldMin, newMin;
-    private static PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> queue = new PriorityQueue<>(Comparator.comparingInt(Map.Entry::getKey));
+    private static int n;
+    private static double newMin;
+    private static PriorityQueue<Map.Entry<Double, Map.Entry<Integer, Integer>>> queue = new PriorityQueue<>(Comparator.comparingDouble(Map.Entry::getKey));
     private static int[] pset;
+    private static List<Map.Entry<Double, Double>> list = new ArrayList<>();
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
+        int testCase = sc.nextInt();
 
-        int counter = 0;
-        while (sc.hasNext()){
+        while (testCase-- > 0){
             n = sc.nextInt();
-            oldMin = 0;
-            for(int i = 0 ;i < n-1; i++){
-                int firstPoint = sc.nextInt();
-                int secondPoint = sc.nextInt();
-                int weight = sc.nextInt();
-                oldMin += weight;
-            }
-
+            list.clear();
             queue.clear();
-            k = sc.nextInt();
-            for(int i = 0; i < k; i++){
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                int weight = sc.nextInt();
-                queue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(first, second)));
-            }
 
-            m = sc.nextInt();
-            for(int i = 0; i < m; i++){
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                int weight = sc.nextInt();
-                queue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(first, second)));
-            }
-
-            if(counter > 0){
-                System.out.println("");
+            for(int j = 0 ; j < n; j++){
+                double x = sc.nextDouble();
+                double y = sc.nextDouble();
+                list.add(new AbstractMap.SimpleEntry<>(x, y));
             }
 
             process();
 
-            System.out.println(oldMin);
-            System.out.println(newMin);
+            System.out.println(String.format("%.2f", newMin));
 
-            counter++;
+            if(testCase > 0){
+                System.out.println("");
+            }
         }
 
     }
 
     private static void process() {
         initSet(n);
-        newMin = 0;
+        newMin = 0.0;
+        for(int i = 0; i < n; i++){
+            for (int j = i + 1; j < n; j++){
+                Map.Entry<Double, Double> first = list.get(i);
+                Map.Entry<Double, Double> second = list.get(j);
+                queue.add(new AbstractMap.SimpleEntry<>(getDistance(first, second), new AbstractMap.SimpleEntry<>(i, j)));
+            }
+        }
         while (!queue.isEmpty()){
-            Map.Entry<Integer, Map.Entry<Integer, Integer>> entry = queue.poll();
+            Map.Entry<Double, Map.Entry<Integer, Integer>> entry = queue.poll();
             Map.Entry<Integer, Integer> pair = entry.getValue();
-            int weight = entry.getKey();
+            double weight = entry.getKey();
 
             if(!isSameSet(pair.getKey(), pair.getValue())){
                 newMin += weight;
                 unionSet(pair.getKey(), pair.getValue());
             }
         }
+    }
+
+    private static Double getDistance(Map.Entry<Double, Double> first, Map.Entry<Double, Double> second) {
+        return Math.sqrt(Math.pow(Math.abs(first.getKey() - second.getKey()), 2)  + Math.pow(Math.abs(first.getValue() - second.getValue()), 2));
     }
 
     private static void initSet(int n) {
