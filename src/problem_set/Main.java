@@ -1,142 +1,137 @@
 package problem_set;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    private static int COL, ROW, numberOfNode;
-    private static int newMin;
-    private static PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> edgeList = new PriorityQueue<>(Comparator.comparingInt(Map.Entry::getKey));
-    private static int[] pset;
-    private static int[][] square;
-    private static Map<Integer, Map.Entry<Integer, Integer>> nodeMap = new HashMap<>();
+    private  int[] attack, defend;
+    private  String[] names;
+    private int[] visit;
+    private int maxAttack, maxDefend;
+    private String minAttackNames, defendNames;
+    private boolean firstTime;
+
     public static void main(String[] args) throws Exception {
+        Main main = new Main();
+        main.run(args);
+    }
+
+    private void run(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+        //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         int testCase = sc.nextInt();
-
+        sc.nextLine();
+        int counter = 0;
         while (testCase-- > 0){
-            COL = sc.nextInt();
-            ROW = sc.nextInt();
-            sc.nextLine();
+            counter++;
+            attack = new int[10];
+            defend = new int[10];
+            names = new String[10];
+            visit = new int[10];
+            firstTime = false;
 
-            square = new int[ROW][COL];
-            numberOfNode = 0;
-            edgeList.clear();
-            nodeMap.clear();
+            for(int i = 0; i < 10; i++){
+                String line = sc.nextLine().trim();
+                String[] array = line.split("[\\s]+");
+                names[i] = array[0];
+                attack[i] = Integer.parseInt(array[1]);
+                defend[i] = Integer.parseInt(array[2]);
+            }
 
-            for (int i = 0; i < ROW; i++) {
-                String line = sc.nextLine();
-                for (int j = 0; j < line.length(); j++) {
-                    switch (line.charAt(j)) {
-                        case '#':
-                            square[i][j] = -1;
-                            break;
-                        case 'S':
-                            square[i][j] = ++numberOfNode;
-                            nodeMap.put(numberOfNode, new AbstractMap.SimpleEntry<>(i, j));
-                            break;
-                        case 'A':
-                            square[i][j] = ++numberOfNode;
-                            nodeMap.put(numberOfNode, new AbstractMap.SimpleEntry<>(i, j));
-                            break;
-                        default:
-                            break;
+            backtrack(0);
+
+            System.out.println(String.format("Case %d:", counter));
+            System.out.println(minAttackNames);
+            System.out.println(defendNames);
+        }
+    }
+
+    private void backtrack(int current) {
+        if(current == 5){
+            if(!firstTime){
+                setUpNewValue();
+                firstTime = true;
+                return;
+            }
+
+            int attackValue = getAttackValueVisit();
+            if(attackValue > maxAttack){
+                setUpNewValue();
+            }else if(attackValue == maxAttack){
+                int defendValue = getDefendValueVisit();
+                if(defendValue > maxDefend){
+                    setUpNewValue();
+                }else if(defendValue == maxDefend){
+                    if(getAttackNamesCurrentVisit().compareTo(minAttackNames) < 0){
+                        setUpNewValue();
                     }
                 }
             }
-
-            bfs();
-            process();
-            System.out.println(newMin);
+            return;
         }
 
-    }
-
-    private static void bfs() {
-        for(int currentNode = 1; currentNode <= numberOfNode; currentNode++){
-            Map.Entry<Integer, Integer> entry = nodeMap.get(currentNode);
-
-            Queue<Map.Entry<Integer, Integer>> queue = new LinkedList<>();
-            queue.add(entry);
-
-            int[][] distanceMap = new int[ROW][COL];
-            for(int i = 0; i < ROW; i++){
-                Arrays.fill(distanceMap[i], -1);
-            }
-
-            distanceMap[entry.getKey()][entry.getValue()] = 0;
-
-            while (!queue.isEmpty()){
-                Map.Entry<Integer, Integer> newNode = queue.poll();
-                int row = newNode.getKey();
-                int col = newNode.getValue();
-                int lowX =  row -1 >= 0 ? row -1 : 0;
-                int lowY =  col -1  >= 0 ? col -1 : 0;
-                int highX = row + 1 <= ROW - 1 ? row + 1 : ROW -1;
-                int highY = col + 1 <= COL - 1 ? col + 1 : COL -1;
-
-                //top down, same col
-                for(int newRow = lowX; newRow <= highX; newRow++){
-                    if(newRow != row && square[newRow][col] != -1 && distanceMap[newRow][col] == -1){
-                        distanceMap[newRow][col] = distanceMap[row][col] + 1;
-                        if(square[newRow][col] > 0){
-                            edgeList.add(new AbstractMap.SimpleEntry<>(distanceMap[newRow][col], new AbstractMap.SimpleEntry<>(currentNode, square[newRow][col])));
-                        }
-                        queue.add(new AbstractMap.SimpleEntry<>(newRow, col));
-                    }
-                }
-
-                //left right, same row
-                for(int newCol = lowY; newCol <= highY; newCol++){
-                    if(newCol != col && square[row][newCol] != -1 && distanceMap[row][newCol] == -1){
-                        distanceMap[row][newCol] = distanceMap[row][col] + 1;
-                        if(square[row][newCol] > 0){
-                            edgeList.add(new AbstractMap.SimpleEntry<>(distanceMap[row][newCol],
-                                            new AbstractMap.SimpleEntry<>(currentNode, square[row][newCol])));
-                        }
-                        queue.add(new AbstractMap.SimpleEntry<>(row, newCol));
-                    }
-                }
+        for(int i = 0; i < 10; i++){
+            if(visit[i] == 0){
+                visit[i] = 1;
+                backtrack(current + 1);
+                visit[i] = 0;
             }
         }
     }
 
-    private static void process() {
-        initSet(numberOfNode);
-        newMin = 0;
+    private void setUpNewValue() {
+        maxAttack = getAttackValueVisit();
+        maxDefend = getDefendValueVisit();
+        minAttackNames = getAttackNamesCurrentVisit();
+        defendNames = getDefendNamesCurrentVisit();
+    }
 
-        while (!edgeList.isEmpty()){
-            Map.Entry<Integer, Map.Entry<Integer, Integer>> entry = edgeList.poll();
-            Map.Entry<Integer, Integer> pair = entry.getValue();
-            int weight = entry.getKey();
-
-            if(!isSameSet(pair.getKey(), pair.getValue())){
-                newMin += weight;
-                unionSet(pair.getKey(), pair.getValue());
+    private int getAttackValueVisit() {
+        int total = 0;
+        for(int i = 0; i < 10; i++){
+            if(visit[i] == 1){
+                total += attack[i];
             }
         }
+        return total;
     }
 
-    private static void initSet(int n) {
-        pset = new int[n + 10];
-        for(int i = 0; i <= n; i++){
-            pset[i] = i;
+    private int getDefendValueVisit() {
+        int total = 0;
+        for(int i = 0; i < 10; i++){
+            if(visit[i] == 0){
+                total += defend[i];
+            }
         }
+        return total;
     }
 
-    private static boolean isSameSet(int i, int j) {
-        return findSet(i) == findSet(j);
+    private String getAttackNamesCurrentVisit() {
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            if(visit[i] == 1){
+                list.add(names[i]);
+            }
+        }
+        Collections.sort(list);
+        return "(" + list.stream().collect(Collectors.joining(", ")) + ")";
     }
 
-    private static int findSet(int i){
-        return (pset[i] == i ? i : (pset[i] = findSet(pset[i])));
-    }
-
-    private static void unionSet(int i, int j){
-        pset[findSet(i)] = findSet(j);
+    private String getDefendNamesCurrentVisit() {
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            if(visit[i] == 0){
+                list.add(names[i]);
+            }
+        }
+        Collections.sort(list);
+        return "(" + list.stream().collect(Collectors.joining(", ")) + ")";
     }
 }
 
