@@ -4,10 +4,12 @@ import java.util.*;
 
 public class Main {
 
-    private int m, n, totalLen, minTotal;
+    private int s, c, minTotal, start;
+    private String startStation;
     private int[] pset = new int[200010];
     private PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> priorityQueue =
                     new PriorityQueue<>(Comparator.comparing(Map.Entry::getKey));
+    private Map<String, Integer> map = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -15,31 +17,57 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-                Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        Scanner sc = new Scanner(System.in);
+//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //         Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (true) {
-            int m = sc.nextInt();
-            int n = sc.nextInt();
-            if (m == 0 && n == 0) {
+            s = sc.nextInt();
+            c = sc.nextInt();
+            if (s == 0 && c == 0) {
                 break;
             }
+            sc.nextLine();
 
-            initSet(m);
+            initSet(s);
             priorityQueue.clear();
-            totalLen = 0;
-            for (int i = 0; i < n; i++) {
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                int weight = sc.nextInt();
-                totalLen += weight;
+            map.clear();
+
+            for (int i = 0; i < s; i++) {
+                String station = sc.nextLine().trim();
+                map.put(station, i);
+            }
+
+            for (int i = 0; i < c; i++) {
+                String[] array = sc.nextLine().trim().split("[\\s]+");
+                int first = map.get(array[0]);
+                int second = map.get(array[1]);
+                int weight = Integer.parseInt(array[2]);
                 priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(first, second)));
             }
 
-            kruska();
-            System.out.println(totalLen - minTotal);
+            startStation = sc.nextLine();
+            if (map.containsKey(startStation)) {
+                start = map.get(startStation);
+                kruska();
+                if (allConnect()) {
+                    System.out.println(minTotal);
+                } else {
+                    System.out.println("Impossible");
+                }
+            } else {
+                System.out.println("Impossible");
+            }
         }
+    }
+
+    private boolean allConnect() {
+        for (int i = 0; i < s; i++) {
+            if (findSet(i) != findSet(start)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void kruska() {
@@ -66,8 +94,8 @@ public class Main {
         return (pset[i] == i ? i : (pset[i] = findSet(pset[i])));
     }
 
-    private void initSet(int m) {
-        for (int i = 0; i < m; i++) {
+    private void initSet(int s) {
+        for (int i = 0; i < s; i++) {
             pset[i] = i;
         }
     }
