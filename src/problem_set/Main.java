@@ -4,12 +4,10 @@ import java.util.*;
 
 public class Main {
 
-    private int s, c, minTotal, start;
-    private String startStation;
+    private int n, m, minTotal, costAirPort, numberAirPort;
     private int[] pset = new int[200010];
     private PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> priorityQueue =
                     new PriorityQueue<>(Comparator.comparing(Map.Entry::getKey));
-    private Map<String, Integer> map = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -21,53 +19,26 @@ public class Main {
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //         Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        while (true) {
-            s = sc.nextInt();
-            c = sc.nextInt();
-            if (s == 0 && c == 0) {
-                break;
-            }
-            sc.nextLine();
+        int testCase = sc.nextInt();
+        for(int current = 1; current <= testCase; current++) {
+            n = sc.nextInt();
+            m = sc.nextInt();
+            costAirPort = sc.nextInt();
 
-            initSet(s);
+            initSet(n);
             priorityQueue.clear();
-            map.clear();
 
-            for (int i = 0; i < s; i++) {
-                String station = sc.nextLine().trim();
-                map.put(station, i);
-            }
-
-            for (int i = 0; i < c; i++) {
-                String[] array = sc.nextLine().trim().split("[\\s]+");
-                int first = map.get(array[0]);
-                int second = map.get(array[1]);
-                int weight = Integer.parseInt(array[2]);
+            for (int i = 0; i < m; i++) {
+                int first = sc.nextInt();
+                int second = sc.nextInt();
+                int weight = sc.nextInt();
                 priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(first, second)));
             }
 
-            startStation = sc.nextLine();
-            if (map.containsKey(startStation)) {
-                start = map.get(startStation);
-                kruska();
-                if (allConnect()) {
-                    System.out.println(minTotal);
-                } else {
-                    System.out.println("Impossible");
-                }
-            } else {
-                System.out.println("Impossible");
-            }
-        }
-    }
+            kruska();
 
-    private boolean allConnect() {
-        for (int i = 0; i < s; i++) {
-            if (findSet(i) != findSet(start)) {
-                return false;
-            }
+            System.out.println(String.format("Case #%d: %d %d", current, minTotal, numberAirPort));
         }
-        return true;
     }
 
     private void kruska() {
@@ -75,11 +46,22 @@ public class Main {
         while (!priorityQueue.isEmpty()) {
             Map.Entry<Integer, Map.Entry<Integer, Integer>> entry = priorityQueue.poll();
             Map.Entry<Integer, Integer> pair = entry.getValue();
-            if (!isSameSet(pair.getKey(), pair.getValue())) {
+            if (!isSameSet(pair.getKey(), pair.getValue()) && entry.getKey() < costAirPort) {
                 minTotal += entry.getKey();
                 unionSet(pair.getKey(), pair.getValue());
             }
         }
+
+        numberAirPort = numberOfSet();
+        minTotal += numberAirPort * costAirPort;
+    }
+
+    private int numberOfSet() {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 1; i <= n; i++) {
+            set.add(findSet(i));
+        }
+        return set.size();
     }
 
     private void unionSet(int i, int j) {
@@ -95,7 +77,7 @@ public class Main {
     }
 
     private void initSet(int s) {
-        for (int i = 0; i < s; i++) {
+        for (int i = 1; i <= s; i++) {
             pset[i] = i;
         }
     }
