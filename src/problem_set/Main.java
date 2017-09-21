@@ -5,10 +5,10 @@ import java.util.*;
 public class Main {
 
     private int n, m, minTotal, costAirPort, numberAirPort;
-    private int[] pset = new int[200010];
+    private int[] pset = new int[10010];
     private PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> priorityQueue =
                     new PriorityQueue<>(Comparator.comparing(Map.Entry::getKey));
-
+    private int[][] distance;
     public static void main(String[] args) throws Exception {
         Main main = new Main();
         main.run(args);
@@ -17,7 +17,7 @@ public class Main {
     private void run(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-        //         Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         int testCase = sc.nextInt();
         for(int current = 1; current <= testCase; current++) {
@@ -27,12 +27,25 @@ public class Main {
 
             initSet(n);
             priorityQueue.clear();
+            distance = new int[n + 10][n + 10];
 
             for (int i = 0; i < m; i++) {
                 int first = sc.nextInt();
                 int second = sc.nextInt();
                 int weight = sc.nextInt();
-                priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(first, second)));
+                int min = Math.min(first, second);
+                int max = Math.max(first, second);
+                if(weight < costAirPort) {
+                    if(distance[min][max] == 0){
+                        distance[min][max] = weight;
+                        priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(min, max)));
+                    }else {
+                        if(weight < distance[min][max]){
+                            distance[min][max] = weight;
+                            priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(min, max)));
+                        }
+                    }
+                }
             }
 
             kruska();
@@ -43,16 +56,18 @@ public class Main {
 
     private void kruska() {
         minTotal = 0;
+        numberAirPort = n;
         while (!priorityQueue.isEmpty()) {
             Map.Entry<Integer, Map.Entry<Integer, Integer>> entry = priorityQueue.poll();
             Map.Entry<Integer, Integer> pair = entry.getValue();
-            if (!isSameSet(pair.getKey(), pair.getValue()) && entry.getKey() < costAirPort) {
+            if (!isSameSet(pair.getKey(), pair.getValue())) {
                 minTotal += entry.getKey();
                 unionSet(pair.getKey(), pair.getValue());
+                numberAirPort--;
             }
         }
 
-        numberAirPort = numberOfSet();
+//        numberAirPort = numberOfSet();
         minTotal += numberAirPort * costAirPort;
     }
 
