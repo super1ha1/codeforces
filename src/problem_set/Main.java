@@ -1,63 +1,102 @@
 package problem_set;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
-    private  String first, second;
-    private int result;
-    private final int[] dx = new int[]{-2, -1,  1,  2,  2, 1, -1, -2};
-    private final int[] dy = new int[]{-1, -2, -2, -1,  1, 2,  2,   1};
+    private int n, m;
+    private Map<Integer, List<Integer>> map = new HashMap<>();
+    private Map<Integer, Map<Integer, Integer>> resultMap = new HashMap<>();
+    private List<String> output = new ArrayList<>();
+
     public static void main(String[] args) throws Exception {
         Main main = new Main();
         main.run(args);
     }
 
     private void run(String[] args) throws Exception {
-                Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        Scanner sc = new Scanner(System.in);
+//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //         Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        while (sc.hasNext()){
-            String line = sc.nextLine().trim();
-            String[] array = line.split("[\\s]+");
-            first = array[0];
-            second = array[1];
-            if(first.equals(second)){
-                result = 0;
-            }else {
-                Queue<String> queue = new LinkedList<>();
-                queue.add(first);
-                Map<String, Integer> distanceMap = new HashMap<>();
-                distanceMap.put(first, 0);
+        while (sc.hasNext()) {
+            map.clear();
+            resultMap.clear();
+            output.clear();
+            output.add("-----");
 
-                while (!queue.isEmpty()){
-                    String current = queue.poll();
-                    for(String neighbor: getPossibleMoves(current)) {
-                        if(!distanceMap.containsKey(neighbor)){
-                            distanceMap.put(neighbor, distanceMap.get(current) + 1);
-                            queue.add(neighbor);
-                        }
+            n = Integer.valueOf(sc.nextLine());
+            for (int i = 0; i < n; i++) {
+                String line = sc.nextLine().trim();
+                String[] array = line.split("-");
+                int first = Integer.valueOf(array[0]);
+                if (!map.containsKey(first)) {
+                    map.put(first, new ArrayList<>());
+                }
+                if(array.length > 1){
+                    for (String s : array[1].split(",")) {
+                        map.get(first).add(Integer.valueOf(s));
                     }
                 }
-                result = distanceMap.getOrDefault(second, 0);
             }
-            System.out.println(String.format("To get from %s to %s takes %d knight moves.", first, second, result));
+
+            m = Integer.valueOf(sc.nextLine());
+            for (int i = 0; i < m; i++) {
+                String line = sc.nextLine().trim();
+                String[] array = line.split("[\\s]+");
+                int start = Integer.valueOf(array[0]);
+                int finish = Integer.valueOf(array[1]);
+
+                if (map.containsKey(start)) {
+                    if(start == finish){
+                        output.add(String.valueOf(start));
+                    } else {
+                        if (!resultMap.containsKey(start)) {
+                            Queue<Integer> queue = new LinkedList<>();
+                            queue.add(start);
+                            Map<Integer, Integer> parentMap = new HashMap<>();
+                            parentMap.put(start, -1);
+
+                            while (!queue.isEmpty()) {
+                                int current = queue.poll();
+                                if (map.containsKey(current)) {
+                                    for (int neighbor : map.get(current)) {
+                                        if (!parentMap.containsKey(neighbor)) {
+                                            parentMap.put(neighbor, current);
+                                            queue.add(neighbor);
+                                        }
+                                    }
+                                }
+                            }
+                            resultMap.put(start, parentMap);
+                        }
+
+                        Map<Integer, Integer> parentMap = resultMap.get(start);
+                        if (parentMap.containsKey(finish)) {
+                            List<Integer> resultList = new ArrayList<>();
+                            resultList.add(finish);
+                            int nextParent = parentMap.get(resultList.get(resultList.size() - 1));
+                            while (nextParent != start) {
+                                resultList.add(nextParent);
+                                nextParent = parentMap.get(resultList.get(resultList.size() - 1));
+                            }
+                            resultList.add(start);
+                            Collections.reverse(resultList);
+                            output.add(resultList.stream().map(String::valueOf).collect(Collectors.joining(" ")));
+                        } else {
+                            output.add("connection impossible");
+                        }
+                    }
+                } else {
+                    output.add("connection impossible");
+                }
+            }
+
+            for (String s : output) {
+                System.out.println(s);
+            }
         }
     }
 
-    private String[] getPossibleMoves(String current) {
-        List<String> list = new ArrayList<>();
-        int row = Integer.valueOf(String.valueOf(current.charAt(1))) - 1;
-        int col = current.charAt(0) - 'a';
-
-        for(int index = 0; index < dx.length; index++){
-            int x = row + dx[index];
-            int y = col + dy[index];
-            if(0 <= x && x <= 7 && 0 <= y && y <= 7){
-                list.add(String.valueOf((char)('a' + y) + String.valueOf(x + 1)));
-            }
-        }
-        return list.toArray(new String[0]);
-    }
 }
 
