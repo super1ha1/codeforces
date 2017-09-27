@@ -4,10 +4,12 @@ import java.util.*;
 
 public class Main {
 
-    private int n, m, minTotal, costAirPort, numberAirPort;
-    private int[] pset = new int[200010];
-    private PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> priorityQueue =
+    private int n, r, numberState;
+    private double costRoad, costRail;
+    private int[] pset = new int[1010];
+    private PriorityQueue<Map.Entry<Double, Map.Entry<Integer, Integer>>> priorityQueue =
                     new PriorityQueue<>(Comparator.comparing(Map.Entry::getKey));
+    private int[][] pair;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -15,45 +17,73 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+                Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //         Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         int testCase = sc.nextInt();
-        for(int current = 1; current <= testCase; current++) {
+        for (int current = 1; current <= testCase; current++) {
             n = sc.nextInt();
-            m = sc.nextInt();
-            costAirPort = sc.nextInt();
+            r = sc.nextInt();
 
             initSet(n);
             priorityQueue.clear();
+            pair = new int[n + 1][];
 
-            for (int i = 0; i < m; i++) {
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                int weight = sc.nextInt();
-                priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(first, second)));
+            for (int i = 1; i <= n; i++) {
+                int[] point = new int[2];
+                point[0] = sc.nextInt();
+                point[1] = sc.nextInt();
+                pair[i] = point;
+            }
+
+            for (int i = 1; i < n; i++) {
+                for (int j = i + 1; j <= n; j++) {
+                    priorityQueue.add(new AbstractMap.SimpleEntry<>(distance(pair[i], pair[j]),
+                                    new AbstractMap.SimpleEntry<>(i, j)));
+                }
             }
 
             kruska();
 
-            System.out.println(String.format("Case #%d: %d %d", current, minTotal, numberAirPort));
+            System.out.println(String.format("Case #%d: %d %d %d", current, numberState, Math.round(costRoad), Math.round(costRail)));
         }
     }
 
+    private double distance(int[] first, int[] second) {
+        return Math.sqrt(Math.pow(Math.abs(first[0] - second[0]), 2) + Math.pow(Math.abs(first[1] - second[1]), 2));
+    }
+
     private void kruska() {
-        minTotal = 0;
+        costRoad = 0.0;
+        costRail = 0.0;
+        numberState = -1;
+        boolean firstTime = false;
+
         while (!priorityQueue.isEmpty()) {
-            Map.Entry<Integer, Map.Entry<Integer, Integer>> entry = priorityQueue.poll();
+            Map.Entry<Double, Map.Entry<Integer, Integer>> entry = priorityQueue.poll();
             Map.Entry<Integer, Integer> pair = entry.getValue();
-            if (!isSameSet(pair.getKey(), pair.getValue()) && entry.getKey() < costAirPort) {
-                minTotal += entry.getKey();
+            if (!isSameSet(pair.getKey(), pair.getValue())) {
+                double weight = entry.getKey();
+                if (weight <= r) {
+                    costRoad += weight;
+                } else {
+                    if (!firstTime) {
+                        firstTime = true;
+                        numberState = numberOfSet();
+                    }
+                    costRail += weight;
+                }
                 unionSet(pair.getKey(), pair.getValue());
             }
         }
 
-        numberAirPort = numberOfSet();
-        minTotal += numberAirPort * costAirPort;
+        if(n == 1){
+            numberState = 1;
+        }
+        if(numberState < 0){
+            numberState = numberOfSet();
+        }
     }
 
     private int numberOfSet() {
