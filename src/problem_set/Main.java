@@ -2,12 +2,14 @@ package problem_set;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    private Map<Integer, List<Integer>> map = new HashMap<>();
-    private int n;
-    private int [] allocation;
+    private int total, n;
+    private int [] value, allocation;
+    private int maxSum;
+    private List<Integer> resultList = new ArrayList<>();
     public static void main(String[] args) throws Exception {
         Main main = new Main();
         main.run(args);
@@ -16,62 +18,51 @@ public class Main {
     private void run(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
-//                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+//        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        while (true){
+
+        while (sc.hasNext()){
+            total = sc.nextInt();
             n = sc.nextInt();
-            if(n == 0){
-                break;
-            }
-            int edge = sc.nextInt();
-            map.clear();
+            value = new int[n];
             allocation = new int[n];
 
-            for(int i = 0; i < edge; i++){
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                if(!map.containsKey(first)){
-                    map.put(first, new ArrayList<>());
-                }
-                if(!map.containsKey(second)) {
-                    map.put(second, new ArrayList<>());
-                }
-                map.get(first).add(second);
-                map.get(second).add(first);
+            for (int i = 0; i < n; i++){
+                value[i] = sc.nextInt();
             }
 
-            boolean possible = backTrack(0);
-            System.out.println(possible ? "BICOLORABLE." : "NOT BICOLORABLE.");
+            resultList.clear();
+            maxSum = 0;
+            backTrack(0, 0);
+            System.out.println(getList() + " sum:" + maxSum);
         }
 
     }
 
-    private boolean backTrack(int count) {
-        if(count == n){
-            return true;
-        }
-        for(int color = 1; color <= 2; color++){
-            if(canColor(count, color)){
-                allocation[count] = color;
-                if(backTrack(count + 1)){
-                    return true;
-                }
-                allocation[color] = 0;
-            }
-        }
-        return false;
+    private String getList() {
+        return resultList.stream().map(String::valueOf).collect(Collectors.joining(" "));
     }
 
-    private boolean canColor(int index, int color) {
-        if(map.containsKey(index)){
-            List<Integer> list = map.get(index);
-            for(int neighbor: list){
-                if(allocation[neighbor] == color){
-                    return false;
+    private void backTrack(int counter, int currentSum) {
+        if(counter == n){
+            if(currentSum <= total && currentSum > maxSum){
+                maxSum = currentSum;
+                resultList.clear();
+                for(int i = 0; i < n; i++){
+                    if(allocation[i] == 1){
+                        resultList.add(value[i]);
+                    }
                 }
             }
+            return;
         }
-        return true;
+
+        allocation[counter] = 1;
+        backTrack(counter + 1, currentSum + value[counter]);
+
+        allocation[counter] = 0;
+        backTrack(counter + 1, currentSum);
+
     }
 }
 
