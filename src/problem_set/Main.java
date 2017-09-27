@@ -1,14 +1,13 @@
 package problem_set;
 
+import java.io.File;
 import java.util.*;
 
 public class Main {
 
-    private int n, m, minTotal, costAirPort, numberAirPort;
-    private int[] pset = new int[10010];
-    private PriorityQueue<Map.Entry<Integer, Map.Entry<Integer, Integer>>> priorityQueue =
-                    new PriorityQueue<>(Comparator.comparing(Map.Entry::getKey));
-    private int[][] distance;
+    private Map<Integer, List<Integer>> map = new HashMap<>();
+    private int n;
+    private int [] allocation;
     public static void main(String[] args) throws Exception {
         Main main = new Main();
         main.run(args);
@@ -19,82 +18,60 @@ public class Main {
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int testCase = sc.nextInt();
-        for(int current = 1; current <= testCase; current++) {
+        while (true){
             n = sc.nextInt();
-            m = sc.nextInt();
-            costAirPort = sc.nextInt();
+            if(n == 0){
+                break;
+            }
+            int edge = sc.nextInt();
+            map.clear();
+            allocation = new int[n];
 
-            initSet(n);
-            priorityQueue.clear();
-            distance = new int[n + 10][n + 10];
-
-            for (int i = 0; i < m; i++) {
+            for(int i = 0; i < edge; i++){
                 int first = sc.nextInt();
                 int second = sc.nextInt();
-                int weight = sc.nextInt();
-                int min = Math.min(first, second);
-                int max = Math.max(first, second);
-                if(weight < costAirPort) {
-                    if(distance[min][max] == 0){
-                        distance[min][max] = weight;
-                        priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(min, max)));
-                    }else {
-                        if(weight < distance[min][max]){
-                            distance[min][max] = weight;
-                            priorityQueue.add(new AbstractMap.SimpleEntry<>(weight, new AbstractMap.SimpleEntry<>(min, max)));
-                        }
-                    }
+                if(!map.containsKey(first)){
+                    map.put(first, new ArrayList<>());
+                }
+                if(!map.containsKey(second)) {
+                    map.put(second, new ArrayList<>());
+                }
+                map.get(first).add(second);
+                map.get(second).add(first);
+            }
+
+            boolean possible = backTrack(0);
+            System.out.println(possible ? "BICOLORABLE." : "NOT BICOLORABLE.");
+        }
+
+    }
+
+    private boolean backTrack(int count) {
+        if(count == n){
+            return true;
+        }
+        for(int color = 1; color <= 2; color++){
+            if(canColor(count, color)){
+                allocation[count] = color;
+                if(backTrack(count + 1)){
+                    return true;
+                }
+                allocation[color] = 0;
+            }
+        }
+        return false;
+    }
+
+    private boolean canColor(int index, int color) {
+        if(map.containsKey(index)){
+            List<Integer> list = map.get(index);
+            for(int neighbor: list){
+                if(allocation[neighbor] == color){
+                    return false;
                 }
             }
-
-            kruska();
-
-            System.out.println(String.format("Case #%d: %d %d", current, minTotal, numberAirPort));
         }
-    }
-
-    private void kruska() {
-        minTotal = 0;
-        numberAirPort = n;
-        while (!priorityQueue.isEmpty()) {
-            Map.Entry<Integer, Map.Entry<Integer, Integer>> entry = priorityQueue.poll();
-            Map.Entry<Integer, Integer> pair = entry.getValue();
-            if (!isSameSet(pair.getKey(), pair.getValue())) {
-                minTotal += entry.getKey();
-                unionSet(pair.getKey(), pair.getValue());
-                numberAirPort--;
-            }
-        }
-
-//        numberAirPort = numberOfSet();
-        minTotal += numberAirPort * costAirPort;
-    }
-
-    private int numberOfSet() {
-        Set<Integer> set = new HashSet<>();
-        for (int i = 1; i <= n; i++) {
-            set.add(findSet(i));
-        }
-        return set.size();
-    }
-
-    private void unionSet(int i, int j) {
-        pset[findSet(i)] = findSet(j);
-    }
-
-    private boolean isSameSet(int i, int j) {
-        return findSet(i) == findSet(j);
-    }
-
-    private int findSet(int i) {
-        return (pset[i] == i ? i : (pset[i] = findSet(pset[i])));
-    }
-
-    private void initSet(int s) {
-        for (int i = 1; i <= s; i++) {
-            pset[i] = i;
-        }
+        return true;
     }
 }
 
