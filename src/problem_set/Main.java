@@ -3,9 +3,9 @@ package problem_set;
 import java.util.Scanner;
 
 public class Main {
-    private static final int NORMAL_CELL = 0, STICKER = 1, PILLAR = -1;
+    private static final char NORMAL_CELL = '.', STICKER = '*', PILLAR = '#';
     private int n, m, s, total, x, y;
-    private int[][] arena;
+    private char[][] arena;
     private DIRECTION currentDirection;
 
     public static void main(String[] args) throws Exception {
@@ -28,44 +28,38 @@ public class Main {
             }
             sc.nextLine();
 
-            arena = new int[n][m];
+            arena = new char[n][m];
             for (int i = 0; i < n; i++) {
                 String line = sc.nextLine().trim();
+                arena[i] = line.toCharArray();
                 for (int j = 0; j < m; j++) {
                     switch (line.charAt(j)) {
-                        case '.':
-                            arena[i][j] = NORMAL_CELL;
-                            break;
-                        case '*':
-                            arena[i][j] = STICKER;
-                            break;
-
-                        case '#':
-                            arena[i][j] = PILLAR;
-                            break;
-
                         case 'N':
                             currentDirection = DIRECTION.NORTH;
                             x = i;
                             y = j;
+                            arena[i][j] = NORMAL_CELL;
                             break;
 
                         case 'S':
                             x = i;
                             y = j;
                             currentDirection = DIRECTION.SOUTH;
+                            arena[i][j] = NORMAL_CELL;
                             break;
 
                         case 'L':
                             x = i;
                             y = j;
                             currentDirection = DIRECTION.EAST;
+                            arena[i][j] = NORMAL_CELL;
                             break;
 
                         case 'O':
                             x = i;
                             y = j;
                             currentDirection = DIRECTION.WEST;
+                            arena[i][j] = NORMAL_CELL;
                             break;
 
                         default:
@@ -74,10 +68,11 @@ public class Main {
                 }
             }
 
-            String order = sc.nextLine();
+            String order = sc.nextLine().trim();
             total = 0;
             for (int i = 0; i < s; i++) {
-                move(order.charAt(i));
+                char c = order.charAt(i);
+                move(c);
             }
             System.out.println(total);
         }
