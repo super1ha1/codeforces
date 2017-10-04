@@ -1,10 +1,16 @@
 package problem_set;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
-    private int n, h;
-    private int[] allocation;
+    private char[][] square;
+    private int[][] visit;
+    private int x, y, max, m, n, dfsComponent, currentSum;
+
+    private char land;
+    private int[] dx = new int[]{-1, 0, 1, 0};
+    private int[] dy = new int[]{0, -1, 0, 1};
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -16,45 +22,64 @@ public class Main {
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int testCase = sc.nextInt();
-        for(int i = 0; i < testCase; i++){
+        while (sc.hasNext()) {
+            m = sc.nextInt();
             n = sc.nextInt();
-            h = sc.nextInt();
-            allocation = new int[n];
-            backTrack(0, n - h, h);
+            sc.nextLine();
+            square = new char[m][n];
+            visit = new int[m][n];
 
-            if(i < testCase - 1){
-                System.out.println("");
+            for (int i = 0; i < m; i++) {
+                square[i] = sc.nextLine().trim().toCharArray();
+            }
+            x = sc.nextInt();
+            y = sc.nextInt();
+            land = square[x][y];
+
+            dfsComponent = 0;
+            currentSum = 0;
+            max = 0;
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (notVisit(i, j)) {
+                        currentSum = 0;
+                        floodfill(i, j, ++dfsComponent);
+                        if (currentSum > max && visit[x][y] != dfsComponent) {
+                            max = currentSum;
+                        }
+
+                    }
+                }
+            }
+            System.out.println(max);
+        }
+    }
+
+    private boolean notVisit(int i, int j) {
+        return square[i][j] == land && visit[i][j] == 0;
+    }
+
+    private void floodfill(int row, int col, int component) {
+        visit[row][col] = component;
+        currentSum++;
+
+        for (int i = 0; i < 4; i++) {
+            int x = row + dx[i];
+            int y = col + dy[i];
+            if (0 <= x && x < m && 0 <= y && y < n && notVisit(x, y)) {
+                floodfill(x, y, component);
             }
         }
-    }
 
-    private void backTrack(int count, int numberZero, int numberOne) {
-        if(count == n){
-            printSolution();
-            return;
+        //last col
+        if (col == n - 1 && notVisit(row, 0)) {
+            floodfill(row, 0, component);
         }
 
-        if(numberZero > 0){
-            //try 0
-            allocation[count] = 0;
-            backTrack(count + 1, numberZero - 1, numberOne);
-
-        }
-
-        if(numberOne > 0){
-            //try 1
-            allocation[count] = 1;
-            backTrack(count + 1, numberZero, numberOne - 1);
+        if (col == 0 && notVisit(row, n - 1)) {
+            floodfill(row, n - 1, component);
         }
     }
 
-    private void printSolution() {
-        String output = "";
-        for(int i = 0; i < n; i++){
-            output += allocation[i];
-        }
-        System.out.println(output);
-    }
 }
 
