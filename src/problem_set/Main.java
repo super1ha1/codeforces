@@ -1,17 +1,14 @@
 package problem_set;
 
 import java.io.File;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    private char[][] square;
-    private int[][] visit;
-    private int n, dfsComponent, counter;
-    private boolean isAlive;
 
-    private int[] dx = new int[]{-1, 0, 1, 0};
-    private int[] dy = new int[]{0, -1, 0, 1};
-
+    private int n;
+    private int[] distance, weightList;
+    private boolean[] reachList;
+    private Map<Integer, List<Integer>> map = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -23,52 +20,75 @@ public class Main {
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int testCase = sc.nextInt();
-        for(int current = 1; current <= testCase; current++){
-            n = sc.nextInt();
-            sc.nextLine();
-            square = new char[n][n];
-            visit = new int[n][n];
 
-            for (int i = 0; i < n; i++) {
-                square[i] = sc.nextLine().trim().toCharArray();
+        while (true) {
+            n = sc.nextInt();
+            if (n == -1) {
+                break;
+            }
+            weightList = new int[n + 10];
+
+            for (int i = 1; i <= n; i++) {
+                map.put(i, new ArrayList<>());
+                int weight = sc.nextInt();
+                weightList[i] = weight;
+                int numberOfNode = sc.nextInt();
+                for (int j = 0; j < numberOfNode; j++) {
+                    int next = sc.nextInt();
+                    map.get(i).add(next);
+                }
             }
 
-            dfsComponent = 0;
-            counter = 0;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (notVisit(i, j)) {
-                        isAlive = false;
-                        floodfill(i, j, ++dfsComponent);
-                        if(isAlive){
-                            counter++;
+            distance = new int[n + 10];
+            for (int i = 1; i <= n; i++) {
+                distance[i] = Integer.MIN_VALUE;
+            }
+            distance[1] = 100;
+
+            for (int i = 1; i <= n; i++) {
+                for (int node = 1; node <= n; node++) {
+                    if(distance[node] <= 0){
+                        continue;
+                    }
+                    for (int neightbor : map.get(node)) {
+                        distance[neightbor] = Math.max(distance[neightbor], distance[node] + weightList[neightbor]);
+                    }
+                }
+            }
+
+            boolean cycle = false;
+            for (int node = 1; node <= n; node++) {
+                if(distance[node] <= 0){
+                    continue;
+                }
+                for (int neightbor : map.get(node)) {
+                    if (distance[neightbor] < distance[node] + weightList[neightbor]) {
+                        reachList = new boolean[n + 10];
+                        if(canReach(node, n)){
+                            cycle = true;
                         }
                     }
                 }
             }
-            System.out.println(String.format("Case %d: %d", current, counter));
+
+            boolean result = distance[n] > 0 || cycle;
+            System.out.println(result ? "winnable" : "hopeless");
         }
     }
 
-    private boolean notVisit(int i, int j) {
-        return (square[i][j] == 'x' || square[i][j] == '@') && visit[i][j] == 0;
-    }
-
-    private void floodfill(int row, int col, int component) {
-        visit[row][col] = component;
-        if(square[row][col] == 'x'){
-            isAlive = true;
+    private boolean canReach(int start, int finish) {
+        if(start == finish){
+            return true;
         }
-
-        for (int i = 0; i < 4; i++) {
-            int x = row + dx[i];
-            int y = col + dy[i];
-            if (0 <= x && x < n && 0 <= y && y < n && notVisit(x, y)) {
-                floodfill(x, y, component);
+        reachList[start] = true;
+        if(map.containsKey(start)){
+            for(int neighbor: map.get(start)){
+                if(!reachList[neighbor] && canReach(neighbor, n)){
+                    return true;
+                }
             }
         }
+        return false;
     }
-
 }
 
