@@ -5,10 +5,6 @@ import java.util.*;
 
 public class Main {
 
-    private int n;
-    private int[] distance, weightList;
-    private boolean[] reachList;
-    private Map<Integer, List<Integer>> map = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -20,75 +16,40 @@ public class Main {
 //                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
 //        Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
+        int n = sc.nextInt();
+        sc.nextLine();
+        String line = sc.nextLine().trim();
+        char[] chars = line.toCharArray();
 
-        while (true) {
-            n = sc.nextInt();
-            if (n == -1) {
+        int[] arrayZero = new int[n];
+        for(int i = 0; i < n; i++){
+            int value = Integer.valueOf(String.valueOf(chars[i]));
+            if(value == 1){
+                arrayZero[i] += 1;
+            } else {
+                arrayZero[i] += -1;
+            }
+            if(i > 0){
+                arrayZero[i] += arrayZero[i -1];
+            }
+        }
+
+        int max = 0;
+        for(int j = n -1; j >= 0; j--){
+            if(arrayZero[j] == 0 && j + 1 > max){
+                max = j + 1;
                 break;
             }
-            weightList = new int[n + 10];
-
-            for (int i = 1; i <= n; i++) {
-                map.put(i, new ArrayList<>());
-                int weight = sc.nextInt();
-                weightList[i] = weight;
-                int numberOfNode = sc.nextInt();
-                for (int j = 0; j < numberOfNode; j++) {
-                    int next = sc.nextInt();
-                    map.get(i).add(next);
-                }
-            }
-
-            distance = new int[n + 10];
-            for (int i = 1; i <= n; i++) {
-                distance[i] = Integer.MIN_VALUE;
-            }
-            distance[1] = 100;
-
-            for (int i = 1; i <= n; i++) {
-                for (int node = 1; node <= n; node++) {
-                    if(distance[node] <= 0){
-                        continue;
-                    }
-                    for (int neightbor : map.get(node)) {
-                        distance[neightbor] = Math.max(distance[neightbor], distance[node] + weightList[neightbor]);
-                    }
-                }
-            }
-
-            boolean cycle = false;
-            for (int node = 1; node <= n; node++) {
-                if(distance[node] <= 0){
-                    continue;
-                }
-                for (int neightbor : map.get(node)) {
-                    if (distance[neightbor] < distance[node] + weightList[neightbor]) {
-                        reachList = new boolean[n + 10];
-                        if(canReach(node, n)){
-                            cycle = true;
-                        }
-                    }
-                }
-            }
-
-            boolean result = distance[n] > 0 || cycle;
-            System.out.println(result ? "winnable" : "hopeless");
-        }
-    }
-
-    private boolean canReach(int start, int finish) {
-        if(start == finish){
-            return true;
-        }
-        reachList[start] = true;
-        if(map.containsKey(start)){
-            for(int neighbor: map.get(start)){
-                if(!reachList[neighbor] && canReach(neighbor, n)){
-                    return true;
+            for(int i = 0; i <= j; i++){
+                if(Math.abs(arrayZero[j] - arrayZero[i]) == 0){
+                    max = Math.max(max, j - i);
+                    break;
                 }
             }
         }
-        return false;
+        System.out.println(max);
     }
 }
+
+
 
