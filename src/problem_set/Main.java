@@ -1,15 +1,11 @@
 package problem_set;
 
-import java.io.File;
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
 
-    private final int LARGE_VALUE = Integer.MAX_VALUE;
     private int n;
-    private long[] distance, weightList;
-    private boolean[] canReachList;
-    private Map<Integer, List<Integer>> map = new HashMap<>();
+    private int[][] values;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -17,104 +13,44 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-        //                Scanner sc = new Scanner(System.in);
-        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+                        Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-
-        int counter = 0;
         while (sc.hasNext()) {
             n = sc.nextInt();
-            counter++;
-            weightList = new long[n + 10];
-            for (int i = 1; i <= n; i++) {
-                weightList[i] = sc.nextInt();
-            }
-
-            int r = sc.nextInt();
-            map.clear();
-            for (int i = 0; i < r; i++) {
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                if (!map.containsKey(first)) {
-                    map.put(first, new ArrayList<>());
-                }
-                map.get(first).add(second);
-            }
-
-            bellmanFord();
-
-            int q = sc.nextInt();
-            System.out.println(String.format("Set #%d", counter));
-
-            for (int i = 0; i < q; i++) {
-                int destination = sc.nextInt();
-                canReachList = new boolean[n + 10];
-                if(canReach(1, destination)) {
-//                    boolean cycle = checkCycle(destination);
-//                    if (cycle) {
-//                        System.out.println("?");
-//                    } else {
-//                    }
-                    System.out.println(distance[destination] < 3 ? "?" : distance[destination]);
-
-                } else {
-                    System.out.println("?");
+            values = new int[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    values[i][j] = sc.nextInt();
+                    if (i > 0)
+                        values[i][j] += values[i - 1][j];
+                    if (j > 0)
+                        values[i][j] += values[i][j - 1];
+                    if (i > 0 && j > 0)
+                        values[i][j] -= values[i - 1][j - 1];
                 }
             }
-        }
-    }
-
-    private void bellmanFord() {
-        distance = new long[n + 10];
-        for (int i = 1; i <= n; i++) {
-            distance[i] = LARGE_VALUE;
-        }
-        distance[1] = 0;
-        for (int i = 0; i < n; i++) {
-            for (int node = 1; node <= n; node++) {
-                if (map.containsKey(node)) {
-                    for (int neighbor : map.get(node)) {
-                        distance[neighbor] = Math.min(distance[neighbor],
-                                        distance[node] + (long) Math.pow(weightList[neighbor] - weightList[node], 3));
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean checkCycle(int destination) {
-        boolean cycle = false;
-        for (int node = 1; node <= n; node++) {
-            if (map.containsKey(node)) {
-                for (int neighbor : map.get(node)) {
-                    if (distance[neighbor] < distance[node] + (long) Math
-                                    .pow(weightList[neighbor] - weightList[node], 3)) {
-                        canReachList = new boolean[n + 10];
-                        if (canReach(neighbor, destination)) {
-                            cycle = true;
+            int maxSoFar = -127 * 100 * 100;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int maxEndHere = -127 * 100 * 100;
+                    for (int k = i; k < n; k++) {
+                        for (int l = j; l < n; l++) {
+                            int maxLocal = values[k][l];
+                            if (i > 0)
+                                maxLocal -= values[i - 1][l];
+                            if (j > 0)
+                                maxLocal -= values[k][j - 1];
+                            if (i > 0 && j > 0)
+                                maxLocal += values[i - 1][j - 1];
+                            maxEndHere = Math.max(maxEndHere, maxLocal);
                         }
                     }
+                    maxSoFar = Math.max(maxSoFar, maxEndHere);
                 }
             }
+            System.out.println(maxSoFar);
         }
-        return cycle;
-    }
-
-    private boolean canReach(int start, int finish) {
-        if (start == finish) {
-            return true;
-        }
-        canReachList[start] = true;
-        if (map.containsKey(start)) {
-            for (int neighbor : map.get(start)) {
-                if (!canReachList[neighbor]) {
-                    if (canReach(neighbor, finish)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }
 
