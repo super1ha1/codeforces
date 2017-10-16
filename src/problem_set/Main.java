@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    private int n;
-    private int[][] values;
+    private int number, n;
+    private int[] values;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -13,43 +13,59 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-                        Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        Scanner sc = new Scanner(System.in);
+//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-        while (sc.hasNext()) {
+        number = sc.nextInt();
+        for (int route = 1; route <= number; route++) {
             n = sc.nextInt();
-            values = new int[n][n];
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    values[i][j] = sc.nextInt();
-                    if (i > 0)
-                        values[i][j] += values[i - 1][j];
-                    if (j > 0)
-                        values[i][j] += values[i][j - 1];
-                    if (i > 0 && j > 0)
-                        values[i][j] -= values[i - 1][j - 1];
-                }
+            values = new int[n - 1];
+            for (int i = 0; i < n - 1; i++) {
+                values[i] = sc.nextInt();
             }
-            int maxSoFar = -127 * 100 * 100;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    int maxEndHere = -127 * 100 * 100;
-                    for (int k = i; k < n; k++) {
-                        for (int l = j; l < n; l++) {
-                            int maxLocal = values[k][l];
-                            if (i > 0)
-                                maxLocal -= values[i - 1][l];
-                            if (j > 0)
-                                maxLocal -= values[k][j - 1];
-                            if (i > 0 && j > 0)
-                                maxLocal += values[i - 1][j - 1];
-                            maxEndHere = Math.max(maxEndHere, maxLocal);
-                        }
+            int maxSoFar = Integer.MIN_VALUE;
+            int maxEndHere = 0;
+            int start = n;
+            int end = 1;
+
+            int startLocal = 1;
+            int endLocal;
+
+            for (int i = 0; i < n - 1; i++) {
+                maxEndHere += values[i];
+
+                if (maxEndHere > maxSoFar) {
+                    maxSoFar = maxEndHere;
+                    endLocal = i + 2;
+
+                    start = startLocal;
+                    end = endLocal;
+                }
+
+                if (maxEndHere == maxSoFar) {
+                    endLocal = i + 2;
+
+                    // check length
+                    if(endLocal - startLocal > end - start){
+                        start = startLocal;
+                        end = endLocal;
+                    } else if(endLocal - startLocal == end - start){
+                        // no thing
                     }
-                    maxSoFar = Math.max(maxSoFar, maxEndHere);
+                }
+
+                if (maxEndHere < 0) {
+                    maxEndHere = 0;
+                    startLocal = i + 2;
                 }
             }
-            System.out.println(maxSoFar);
+
+            if (maxSoFar < 0) {
+                System.out.println(String.format("Route %d has no nice parts", route));
+            } else {
+                System.out.println(String.format("The nicest part of route %d is between stops %d and %d", route, start,
+                                end));
+            }
         }
     }
 }
