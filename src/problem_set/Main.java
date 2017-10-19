@@ -45,14 +45,30 @@ public class Main {
                             // top down other
                             int sumTopDown = values[n-1][h];
                             if(j > 0) sumTopDown -= values[n-1][j-1];
-                            sumTopDown -= sum;
+                            if(i > 0 || k < n -1) sumTopDown -= sum;
                             maxEndHere = Math.max(maxEndHere, sumTopDown);
 
                             // left right other
                             int sumLeftRight = values[k][n-1];
                             if(i > 0) sumLeftRight -= values[i-1][n-1];
-                            sumLeftRight -= sum;
+                            if(j > 0 || h < n -1) sumLeftRight -= sum;
                             maxEndHere = Math.max(maxEndHere, sumLeftRight);
+
+                            // sum 4 corner, ignore case whole sub rectangle
+                            if(i == 0 && j == 0 && k == n-1 && h == n-1){
+                                // do nothing
+                            } else {
+                                int sumCorner = values[n-1][n-1];
+                                if(i == 0 && k == n -1){
+                                    sumCorner -= sumTopDown;
+                                }else if(j == 0 && h == n -1){
+                                    sumCorner -= sumLeftRight;
+                                } else {
+                                    sumCorner -= sumTopDown + sumLeftRight + sum;
+                                }
+                                maxEndHere = Math.max(maxEndHere, sumCorner);
+                            }
+
                         }
                     }
                     maxSoFar = Math.max(maxEndHere, maxSoFar);
