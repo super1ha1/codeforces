@@ -1,12 +1,11 @@
 package problem_set;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    private static final int largeValue = 1000;
+    private static final int largeValue = 1000000;
+
     public static void main(String[] args) throws Exception {
         Main main = new Main();
         main.run(args);
@@ -17,65 +16,56 @@ public class Main {
 //        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int count = 0;
+        int testCase = 0;
         while (true) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            if (a == 0 && b == 0) {
+            int C = sc.nextInt();
+            int S = sc.nextInt();
+            int Q = sc.nextInt();
+            if (C == 0 && S == 0 && Q == 0) {
                 break;
-            } else {
-                List<Edge> list = new ArrayList<>();
-                list.add(new Edge(a, b));
-                count++;
-                while (true) {
-                    int c = sc.nextInt();
-                    int d = sc.nextInt();
-                    if (c == 0 && d == 0) {
-                        break;
-                    }
-                    list.add(new Edge(c, d));
-                }
-
-                int[][] array = new int[101][101];
-                for (int i = 1; i < 101; i++) {
-                    for (int j = 1; j < 101; j++) {
-                       array[i][j] = largeValue;
-                    }
-                }
-
-                for (Edge e : list) {
-                    array[e.x][e.y] = 1;
-                }
-                for (int k = 1; k < 101; k++) {
-                    for (int i = 1; i < 101; i++) {
-                        for (int j = 1; j < 101; j++) {
-                            // only if there is path i to k and k to j
-                            array[i][j] = Math.min(array[i][j], array[i][k] + array[k][j]);
-                        }
-                    }
-                }
-                int counter = 0;
-                int sum = 0;
-                for (int i = 1; i < 101; i++) {
-                    for (int j = 1; j < 101; j++) {
-                        if (i != j && array[i][j] < largeValue) {
-                            sum += array[i][j];
-                            counter++;
-                        }
-                    }
-                }
-                double result = (1.0 * sum)/counter;
-                System.out.println(String.format("Case %d: average length between pages = %.3f clicks", count, result));
             }
-        }
-    }
+            testCase++;
+            if (testCase > 1) {
+                System.out.println("");
+            }
+            int[][] array = new int[C + 1][C + 1];
+            for (int i = 1; i <= C; i++) {
+                for (int j = 1; j <= C; j++) {
+                    array[i][j] = largeValue;
+                }
+            }
+            for (int i = 0; i < S; i++) {
+                int first = sc.nextInt();
+                int second = sc.nextInt();
+                int loud = sc.nextInt();
+                if (first <= C && second <= C && first > 0 && second > 0) {
+                    array[first][second] = loud;
+                    array[second][first] = loud;
+                }
+            }
 
-    static class Edge {
-        public final int x, y;
+            for (int k = 1; k <= C; k++) {
+                for (int i = 1; i <= C; i++) {
+                    for (int j = 1; j <= C; j++) {
+                        array[i][j] = Math.min(array[i][j], Math.max(array[i][k], array[k][j]));
+                    }
+                }
+            }
 
-        public Edge(int x, int y) {
-            this.x = x;
-            this.y = y;
+            System.out.println("Case #" + testCase);
+            for (int i = 0; i < Q; i++) {
+                int first = sc.nextInt();
+                int second = sc.nextInt();
+                if (first <= C && second <= C && first > 0 && second > 0) {
+                    if (array[first][second] < largeValue) {
+                        System.out.println(array[first][second]);
+                    } else {
+                        System.out.println("no path");
+                    }
+                } else {
+                    System.out.println("no path");
+                }
+            }
         }
     }
 }
