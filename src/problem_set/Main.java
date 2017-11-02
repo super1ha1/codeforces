@@ -1,6 +1,10 @@
 package problem_set;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -12,59 +16,88 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-                Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        //        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        int testCase = 0;
         while (true) {
-            int C = sc.nextInt();
-            int S = sc.nextInt();
-            int Q = sc.nextInt();
-            if (C == 0 && S == 0 && Q == 0) {
+            int n = sc.nextInt();
+            if (n == 0) {
                 break;
             }
-            testCase++;
-            if (testCase > 1) {
-                System.out.println("");
-            }
-            int[][] array = new int[C + 1][C + 1];
-            for (int i = 1; i <= C; i++) {
-                for (int j = 1; j <= C; j++) {
-                    array[i][j] = largeValue;
-                }
-            }
-            for (int i = 0; i < S; i++) {
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                int loud = sc.nextInt();
-                if (first <= C && second <= C && first > 0 && second > 0) {
-                    array[first][second] = loud;
-                    array[second][first] = loud;
+            sc.nextLine();
+            int[][] young = new int[27][27];
+            int[][] old = new int[27][27];
+
+            for (int i = 1; i <= 26; i++) {
+                for (int j = 1; j <= 26; j++) {
+                    young[i][j] = largeValue;
+                    old[i][j] = largeValue;
                 }
             }
 
-            for (int k = 1; k <= C; k++) {
-                for (int i = 1; i <= C; i++) {
-                    for (int j = 1; j <= C; j++) {
-                        array[i][j] = Math.min(array[i][j], Math.max(array[i][k], array[k][j]));
-                    }
-                }
-            }
+            for (int i = 0; i < n; i++) {
+                String[] lines = sc.nextLine().trim().split("[\\s+]");
+                int first = lines[2].charAt(0) - 'A' + 1;
+                int second = lines[3].charAt(0) - 'A' + 1;
+                boolean isYoung = lines[0].equals("Y");
+                boolean isBidirectional = lines[1].equals("B");
+                int value = Integer.valueOf(lines[4]);
 
-            System.out.println("Case #" + testCase);
-            for (int i = 0; i < Q; i++) {
-                int first = sc.nextInt();
-                int second = sc.nextInt();
-                if (first <= C && second <= C && first > 0 && second > 0) {
-                    if (array[first][second] < largeValue) {
-                        System.out.println(array[first][second]);
+                if (first == second) {
+                    continue;
+                }
+                if (isBidirectional) {
+                    if (isYoung) {
+                        young[first][second] = value;
+                        young[second][first] = value;
                     } else {
-                        System.out.println("no path");
+                        old[first][second] = value;
+                        old[second][first] = value;
                     }
                 } else {
-                    System.out.println("no path");
+                    if (isYoung) {
+                        young[first][second] = value;
+                    } else {
+                        old[first][second] = value;
+                    }
                 }
+            }
+
+            for (int k = 1; k <= 26; k++) {
+                for (int i = 1; i <= 26; i++) {
+                    for (int j = 1; j <= 26; j++) {
+                        // for young
+                        young[i][j] = Math.min(young[i][j], young[i][k] + young[k][j]);
+                        old[i][j] = Math.min(old[i][j], old[i][k] + old[k][j]);
+                    }
+                }
+            }
+
+            String[] lines = sc.nextLine().trim().split("[\\s+]");
+            int meLocation = lines[0].charAt(0) - 'A' + 1;
+            int profLocation = lines[1].charAt(0) - 'A' + 1;
+
+            int min = largeValue;
+            List<String> meetingPoint = new ArrayList<>();
+            if (meLocation == profLocation) {
+                min = 0;
+                meetingPoint.add(String.valueOf((char) (meLocation - 1 + 'A')));
+            }
+            for (int k = 1; k <= 26; k++) {
+                int currentValue = young[meLocation][k] + old[profLocation][k];
+                if (currentValue < min) {
+                    min = currentValue;
+                    meetingPoint.clear();
+                    meetingPoint.add(String.valueOf((char) (k - 1 + 'A')));
+                } else if (currentValue == min && currentValue < largeValue) {
+                    meetingPoint.add(String.valueOf((char) (k - 1 + 'A')));
+                }
+            }
+            if (min < largeValue) {
+                System.out.println(String.format("%d %s", min, meetingPoint.stream().collect(Collectors.joining(" "))));
+            } else {
+                System.out.println("You will never meet.");
             }
         }
     }
