@@ -1,14 +1,14 @@
 package problem_set;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main {
 
-    private static final int largeValue = 1000000;
+    private static final int largeValue = 10000;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -16,8 +16,8 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-        //        Scanner sc = new Scanner(System.in);
-        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        Scanner sc = new Scanner(System.in);
+//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         while (true) {
@@ -26,78 +26,94 @@ public class Main {
                 break;
             }
             sc.nextLine();
-            int[][] young = new int[27][27];
-            int[][] old = new int[27][27];
-
-            for (int i = 1; i <= 26; i++) {
-                for (int j = 1; j <= 26; j++) {
+            int[][] young = new int[26][26];
+            int[][] old = new int[26][26];
+            for (int i = 0; i < 26; i++) {
+                for (int j = 0; j < 26; j++) {
                     young[i][j] = largeValue;
                     old[i][j] = largeValue;
                 }
             }
 
+            int maxIndex = 0;
             for (int i = 0; i < n; i++) {
-                String[] lines = sc.nextLine().trim().split("[\\s+]");
-                int first = lines[2].charAt(0) - 'A' + 1;
-                int second = lines[3].charAt(0) - 'A' + 1;
-                boolean isYoung = lines[0].equals("Y");
-                boolean isBidirectional = lines[1].equals("B");
-                int value = Integer.valueOf(lines[4]);
+                String line = sc.nextLine();
+                String[] lines = line.trim().split("[\\s]+");
+                boolean isYoung = lines[0].charAt(0) == 'Y';
+                boolean isBidirection = lines[1].charAt(0) == 'B';
+                int start = lines[2].charAt(0) - 'A';
+                int end = lines[3].charAt(0) - 'A';
+                int weight = Integer.valueOf(lines[4]);
 
-                if (first == second) {
-                    continue;
+                if (start > maxIndex) {
+                    maxIndex = start;
                 }
-                if (isBidirectional) {
-                    if (isYoung) {
-                        young[first][second] = value;
-                        young[second][first] = value;
-                    } else {
-                        old[first][second] = value;
-                        old[second][first] = value;
+                if (end > maxIndex) {
+                    maxIndex = end;
+                }
+
+                if (isYoung) {
+                    young[start][end] = weight;
+                    if (isBidirection) {
+                        young[end][start] = weight;
                     }
                 } else {
-                    if (isYoung) {
-                        young[first][second] = value;
-                    } else {
-                        old[first][second] = value;
+                    old[start][end] = weight;
+                    if (isBidirection) {
+                        old[end][start] = weight;
                     }
                 }
             }
+            String[] location = sc.nextLine().trim().split("[\\s]+");
+            int meLocation = location[0].charAt(0) - 'A';
+            int profLocation = location[1].charAt(0) - 'A';
+            if (meLocation > maxIndex) {
+                maxIndex = meLocation;
+            }
+            if (profLocation > maxIndex) {
+                maxIndex = profLocation;
+            }
 
-            for (int k = 1; k <= 26; k++) {
-                for (int i = 1; i <= 26; i++) {
-                    for (int j = 1; j <= 26; j++) {
-                        // for young
+            int minDistance = largeValue;
+            List<Integer> meetingPoints = new ArrayList<>();
+            if (meLocation == profLocation) {
+                minDistance = 0;
+                meetingPoints.add(meLocation);
+            }
+
+            // floyd warshall
+            for (int k = 0; k <= maxIndex; k++) {
+                for (int i = 0; i <= maxIndex; i++) {
+                    for (int j = 0; j <= maxIndex; j++) {
                         young[i][j] = Math.min(young[i][j], young[i][k] + young[k][j]);
                         old[i][j] = Math.min(old[i][j], old[i][k] + old[k][j]);
                     }
                 }
             }
 
-            String[] lines = sc.nextLine().trim().split("[\\s+]");
-            int meLocation = lines[0].charAt(0) - 'A' + 1;
-            int profLocation = lines[1].charAt(0) - 'A' + 1;
+            young[meLocation][meLocation] = 0;
+            old[profLocation][profLocation] = 0;
 
-            int min = largeValue;
-            List<String> meetingPoint = new ArrayList<>();
-            if (meLocation == profLocation) {
-                min = 0;
-                meetingPoint.add(String.valueOf((char) (meLocation - 1 + 'A')));
-            }
-            for (int k = 1; k <= 26; k++) {
-                int currentValue = young[meLocation][k] + old[profLocation][k];
-                if (currentValue < min) {
-                    min = currentValue;
-                    meetingPoint.clear();
-                    meetingPoint.add(String.valueOf((char) (k - 1 + 'A')));
-                } else if (currentValue == min && currentValue < largeValue) {
-                    meetingPoint.add(String.valueOf((char) (k - 1 + 'A')));
+            for (int k = 0; k <= maxIndex; k++) {
+                int value = young[meLocation][k] + old[profLocation][k];
+                if (value < minDistance) {
+                    minDistance = value;
+                    meetingPoints.clear();
+                    meetingPoints.add(k);
+
+                } else if (value == minDistance && value < largeValue) {
+                    meetingPoints.add(k);
                 }
             }
-            if (min < largeValue) {
-                System.out.println(String.format("%d %s", min, meetingPoint.stream().collect(Collectors.joining(" "))));
-            } else {
+
+            meetingPoints = new ArrayList<>(new HashSet<>(meetingPoints));
+
+            if (meetingPoints.isEmpty()) {
                 System.out.println("You will never meet.");
+            } else {
+                System.out.println(String.format("%d %s", minDistance,
+                                meetingPoints.stream().map(i -> String.valueOf((char) ('A' + i)))
+                                                .collect(Collectors.joining(" "))));
             }
         }
     }
