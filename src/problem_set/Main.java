@@ -1,14 +1,14 @@
 package problem_set;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class Main {
 
     private static final int largeValue = 10000;
+    private Map<Integer, List<Integer>> map = new HashMap<>();
+    private int[] num, low, parent;
+    private int counter;
+    private List<Map.Entry<Integer, Integer>> resultList = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -17,103 +17,82 @@ public class Main {
 
     private void run(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+//                        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
-
-        while (true) {
+        while (sc.hasNext()) {
             int n = sc.nextInt();
             if (n == 0) {
-                break;
+                System.out.println("0 critical links");
+                System.out.println("");
+                continue;
             }
             sc.nextLine();
-            int[][] young = new int[26][26];
-            int[][] old = new int[26][26];
-            for (int i = 0; i < 26; i++) {
-                for (int j = 0; j < 26; j++) {
-                    young[i][j] = largeValue;
-                    old[i][j] = largeValue;
-                }
-            }
+            map.clear();
+            resultList.clear();
 
-            int maxIndex = 0;
             for (int i = 0; i < n; i++) {
                 String line = sc.nextLine();
-                String[] lines = line.trim().split("[\\s]+");
-                boolean isYoung = lines[0].charAt(0) == 'Y';
-                boolean isBidirection = lines[1].charAt(0) == 'B';
-                int start = lines[2].charAt(0) - 'A';
-                int end = lines[3].charAt(0) - 'A';
-                int weight = Integer.valueOf(lines[4]);
-
-                if (start > maxIndex) {
-                    maxIndex = start;
+                String[] arrays = line.trim().split("[\\s]+");
+                int index = Integer.valueOf(arrays[0]);
+                if (!map.containsKey(index)) {
+                    map.put(index, new ArrayList<>());
                 }
-                if (end > maxIndex) {
-                    maxIndex = end;
-                }
+                int numberOfConnection = Integer.valueOf(arrays[1].substring(1, arrays[1].length() - 1));
+                if (numberOfConnection > 0) {
 
-                if (isYoung) {
-                    young[start][end] = weight;
-                    if (isBidirection) {
-                        young[end][start] = weight;
-                    }
-                } else {
-                    old[start][end] = weight;
-                    if (isBidirection) {
-                        old[end][start] = weight;
+                    for (int j = 2; j < arrays.length; j++) {
+                        int value = Integer.valueOf(arrays[j]);
+                        if (!map.containsKey(value)) {
+                            map.put(value, new ArrayList<>());
+                        }
+                        map.get(index).add(value);
+                        map.get(value).add(index);
                     }
                 }
             }
-            String[] location = sc.nextLine().trim().split("[\\s]+");
-            int meLocation = location[0].charAt(0) - 'A';
-            int profLocation = location[1].charAt(0) - 'A';
-            if (meLocation > maxIndex) {
-                maxIndex = meLocation;
-            }
-            if (profLocation > maxIndex) {
-                maxIndex = profLocation;
-            }
-
-            int minDistance = largeValue;
-            List<Integer> meetingPoints = new ArrayList<>();
-            if (meLocation == profLocation) {
-                minDistance = 0;
-                meetingPoints.add(meLocation);
+            num = new int[n];
+            low = new int[n];
+            parent = new int[n];
+            counter = 0;
+            for (int i = 0; i < n; i++) {
+                if (num[i] == 0) {
+                    dfs(i);
+                }
             }
 
-            // floyd warshall
-            for (int k = 0; k <= maxIndex; k++) {
-                for (int i = 0; i <= maxIndex; i++) {
-                    for (int j = 0; j <= maxIndex; j++) {
-                        young[i][j] = Math.min(young[i][j], young[i][k] + young[k][j]);
-                        old[i][j] = Math.min(old[i][j], old[i][k] + old[k][j]);
+            resultList = new ArrayList<>(new HashSet<>(resultList));
+            Collections.sort(resultList, Comparator.comparingInt(Map.Entry::getKey));
+            System.out.println(String.format("%d critical links", resultList.size()));
+            if (resultList.size() > 0) {
+                for (Map.Entry<Integer, Integer> entry : resultList) {
+                    System.out.println(String.format("%d - %d", entry.getKey(), entry.getValue()));
+                }
+            }
+            System.out.println("");
+        }
+    }
+
+    private void dfs(int index) {
+        counter++;
+        num[index] = counter;
+        low[index] = counter;
+        if (map.containsKey(index)) {
+            for (int neighbor : map.get(index)) {
+                if (num[neighbor] == 0) {
+                    parent[neighbor] = index;
+                    dfs(neighbor);
+
+                    if (low[neighbor] > num[index]) {
+                        int min = Math.min(neighbor, index);
+                        int max = Math.max(neighbor, index);
+                        resultList.add(new AbstractMap.SimpleEntry<>(min, max));
                     }
+
+                    low[index] = Math.min(low[index], low[neighbor]);
+
+                } else if (parent[index] != neighbor) {
+                    low[index] = Math.min(low[index], num[neighbor]);
                 }
-            }
-
-            young[meLocation][meLocation] = 0;
-            old[profLocation][profLocation] = 0;
-
-            for (int k = 0; k <= maxIndex; k++) {
-                int value = young[meLocation][k] + old[profLocation][k];
-                if (value < minDistance) {
-                    minDistance = value;
-                    meetingPoints.clear();
-                    meetingPoints.add(k);
-
-                } else if (value == minDistance && value < largeValue) {
-                    meetingPoints.add(k);
-                }
-            }
-
-            meetingPoints = new ArrayList<>(new HashSet<>(meetingPoints));
-
-            if (meetingPoints.isEmpty()) {
-                System.out.println("You will never meet.");
-            } else {
-                System.out.println(String.format("%d %s", minDistance,
-                                meetingPoints.stream().map(i -> String.valueOf((char) ('A' + i)))
-                                                .collect(Collectors.joining(" "))));
             }
         }
     }
