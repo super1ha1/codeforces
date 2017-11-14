@@ -1,14 +1,15 @@
 package problem_set;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     private static final int largeValue = 10000;
-    private Map<Integer, List<Integer>> map = new HashMap<>();
-    private int[] num, low, parent;
-    private int counter;
-    private List<Map.Entry<Integer, Integer>> resultList = new ArrayList<>();
+    private int[] subsequences;
+    private List<Integer> list;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -17,84 +18,56 @@ public class Main {
 
     private void run(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-//                        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+//                                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
+
+        list = new ArrayList<>();
         while (sc.hasNext()) {
-            int n = sc.nextInt();
-            if (n == 0) {
-                System.out.println("0 critical links");
-                System.out.println("");
-                continue;
-            }
-            sc.nextLine();
-            map.clear();
-            resultList.clear();
+            list.add(sc.nextInt());
+        }
 
-            for (int i = 0; i < n; i++) {
-                String line = sc.nextLine();
-                String[] arrays = line.trim().split("[\\s]+");
-                int index = Integer.valueOf(arrays[0]);
-                if (!map.containsKey(index)) {
-                    map.put(index, new ArrayList<>());
-                }
-                int numberOfConnection = Integer.valueOf(arrays[1].substring(1, arrays[1].length() - 1));
-                if (numberOfConnection > 0) {
+        subsequences = new int[list.size()];
+        int max = -1;
+        int index = -1;
+        for (int i = 0; i < list.size(); i++) {
+            int value = LIS(i);
+            if (value >= max) {
+                index = i;
+                max = value;
+            }
+        }
 
-                    for (int j = 2; j < arrays.length; j++) {
-                        int value = Integer.valueOf(arrays[j]);
-                        if (!map.containsKey(value)) {
-                            map.put(value, new ArrayList<>());
-                        }
-                        map.get(index).add(value);
-                        map.get(value).add(index);
-                    }
-                }
+        List<Integer> result = new ArrayList<>();
+        int value = list.get(index);
+        result.add(value);
+        int j = index - 1;
+        while (j >= 0) {
+            if (list.get(j) < value) {
+                value = list.get(j);
+                result.add(value);
             }
-            num = new int[n];
-            low = new int[n];
-            parent = new int[n];
-            counter = 0;
-            for (int i = 0; i < n; i++) {
-                if (num[i] == 0) {
-                    dfs(i);
-                }
-            }
-
-            resultList = new ArrayList<>(new HashSet<>(resultList));
-            Collections.sort(resultList, Comparator.comparingInt(Map.Entry::getKey));
-            System.out.println(String.format("%d critical links", resultList.size()));
-            if (resultList.size() > 0) {
-                for (Map.Entry<Integer, Integer> entry : resultList) {
-                    System.out.println(String.format("%d - %d", entry.getKey(), entry.getValue()));
-                }
-            }
-            System.out.println("");
+            j--;
+        }
+        System.out.println(result.size());
+        System.out.println("-");
+        Collections.reverse(result);
+        for (int i : result) {
+            System.out.println(i);
         }
     }
 
-    private void dfs(int index) {
-        counter++;
-        num[index] = counter;
-        low[index] = counter;
-        if (map.containsKey(index)) {
-            for (int neighbor : map.get(index)) {
-                if (num[neighbor] == 0) {
-                    parent[neighbor] = index;
-                    dfs(neighbor);
+    private int LIS(int index) {
+        if (subsequences[index] > 0) {
+            return subsequences[index];
+        }
 
-                    if (low[neighbor] > num[index]) {
-                        int min = Math.min(neighbor, index);
-                        int max = Math.max(neighbor, index);
-                        resultList.add(new AbstractMap.SimpleEntry<>(min, max));
-                    }
-
-                    low[index] = Math.min(low[index], low[neighbor]);
-
-                } else if (parent[index] != neighbor) {
-                    low[index] = Math.min(low[index], num[neighbor]);
-                }
+        int value = 1;
+        for (int i = 0; i < index; i++) {
+            if (list.get(i) < list.get(index)) {
+                value = Math.max(value, 1 + LIS(i));
             }
         }
+        return subsequences[index] = value;
     }
 }
 
