@@ -7,8 +7,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final int largeValue = 10000;
-    private int[] subsequences;
     private List<Integer> list;
 
     public static void main(String[] args) throws Exception {
@@ -17,57 +15,62 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-//                                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+                Scanner sc = new Scanner(System.in);
+//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
-        list = new ArrayList<>();
-        while (sc.hasNext()) {
-            list.add(sc.nextInt());
+        int value = -1;
+        try {
+            list = new ArrayList<>();
+            while (sc.hasNext()) {
+                value = sc.nextInt();
+                list.add(value);
+            }
+        } catch (Exception e) {
+            System.out.println("value: " + value);
+            e.printStackTrace();
         }
+        int maxLength = 1, bestEnd = 0;
+        int n = list.size();
+        int[] dp = new int[n];
+        int[] prev = new int[n];
+        dp[0] = 1;
+        prev[0] = -1;
 
-        subsequences = new int[list.size()];
-        int max = -1;
-        int index = -1;
-        for (int i = 0; i < list.size(); i++) {
-            int value = LIS(i);
-            if (value >= max) {
-                index = i;
-                max = value;
+        for (int i = 1; i < n; i++) {
+            dp[i] = 1;
+            prev[i] = -1;
+            for (int j = i - 1; j >= 0; j--) {
+                if (dp[j] + 1 > dp[i] && list.get(j) < list.get(i)) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
+                }
+            }
+            if (dp[i] >= maxLength) {
+                maxLength = dp[i];
+                bestEnd = i;
             }
         }
-
         List<Integer> result = new ArrayList<>();
-        int value = list.get(index);
-        result.add(value);
-        int j = index - 1;
-        while (j >= 0) {
-            if (list.get(j) < value) {
-                value = list.get(j);
-                result.add(value);
+        int index = bestEnd;
+        int currentValue = list.get(index);
+        result.add(currentValue);
+
+        while (true) {
+            index = prev[index];
+            if (index < 0) {
+                break;
             }
-            j--;
+            currentValue = list.get(index);
+            result.add(currentValue);
         }
+
+        Collections.reverse(result);
         System.out.println(result.size());
         System.out.println("-");
-        Collections.reverse(result);
         for (int i : result) {
             System.out.println(i);
         }
-    }
-
-    private int LIS(int index) {
-        if (subsequences[index] > 0) {
-            return subsequences[index];
-        }
-
-        int value = 1;
-        for (int i = 0; i < index; i++) {
-            if (list.get(i) < list.get(index)) {
-                value = Math.max(value, 1 + LIS(i));
-            }
-        }
-        return subsequences[index] = value;
     }
 }
 
