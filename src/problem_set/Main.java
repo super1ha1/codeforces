@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private List<Integer> list;
+    private List<Integer> inputList;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -15,61 +15,90 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-                Scanner sc = new Scanner(System.in);
-//        Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
+        Scanner sc = new Scanner(System.in);
+//                Scanner sc = new Scanner(new File("C:\\toolbar_local\\workspace\\Testing\\codeforces\\in.txt"));
         //                 Scanner sc = new Scanner(new File("/Users/dackhue.nguyen/toolbar_local/workspace/codeforces/in.txt"));
 
         int value = -1;
         try {
-            list = new ArrayList<>();
+            inputList = new ArrayList<>();
             while (sc.hasNext()) {
                 value = sc.nextInt();
-                list.add(value);
+                inputList.add(value);
             }
         } catch (Exception e) {
             System.out.println("value: " + value);
             e.printStackTrace();
         }
-        int maxLength = 1, bestEnd = 0;
-        int n = list.size();
-        int[] dp = new int[n];
-        int[] prev = new int[n];
-        dp[0] = 1;
-        prev[0] = -1;
+
+        int n = inputList.size();
+        List<Integer> indexList = new ArrayList<>();
+        indexList.add(0);
+        int[] parent = new int[n];
+        for(int i = 0; i < n; i++){
+            parent[i] = -1;
+        }
 
         for (int i = 1; i < n; i++) {
-            dp[i] = 1;
-            prev[i] = -1;
-            for (int j = i - 1; j >= 0; j--) {
-                if (dp[j] + 1 > dp[i] && list.get(j) < list.get(i)) {
-                    dp[i] = dp[j] + 1;
-                    prev[i] = j;
+            int currentValue = inputList.get(i);
+            int lastValue = inputList.get(indexList.get(indexList.size() - 1));
+            if (currentValue > lastValue) {
+                // case 3: value larger than all in inputList
+                parent[i] = indexList.get(indexList.size() - 1);
+                indexList.add(i);
+
+            } else {
+                // case 2: in the middle
+                int indexMinLarger = customBinarySearch(indexList, currentValue);
+                indexList.add(indexMinLarger + 1, i);
+                indexList.remove(indexMinLarger);
+
+                if(indexMinLarger > 0) {
+                    parent[i] = indexList.get(indexMinLarger -1);
                 }
             }
-            if (dp[i] >= maxLength) {
-                maxLength = dp[i];
-                bestEnd = i;
-            }
         }
-        List<Integer> result = new ArrayList<>();
-        int index = bestEnd;
-        int currentValue = list.get(index);
-        result.add(currentValue);
 
+        List<Integer> resultList = new ArrayList<>();
+        int parentIndex = indexList.get(indexList.size() -1);
+        resultList.add(inputList.get(parentIndex));
         while (true) {
-            index = prev[index];
-            if (index < 0) {
+            parentIndex = parent[parentIndex];
+            if(parentIndex == -1) {
                 break;
             }
-            currentValue = list.get(index);
-            result.add(currentValue);
+            resultList.add(inputList.get(parentIndex));
         }
 
-        Collections.reverse(result);
-        System.out.println(result.size());
+        Collections.reverse(resultList);
+        System.out.println(resultList.size());
         System.out.println("-");
-        for (int i : result) {
+        for (int i : resultList) {
             System.out.println(i);
+        }
+    }
+
+    private int customBinarySearch(List<Integer> list, int currentValue) {
+        return binarySearch(list, 0, list.size() -1, currentValue);
+    }
+
+    private int binarySearch(List<Integer> list, int low, int high, int value) {
+        if(high == low) {
+            if(inputList.get(list.get(low)) >= value) {
+                return low;
+            } else {
+                return low + 1;
+            }
+        }
+
+        int mid = (high + low) /2;
+        int midValue = inputList.get(list.get(mid));
+        if(midValue < value) {
+            return binarySearch(list, mid + 1, high, value);
+        } else if(midValue > value) {
+            return binarySearch(list, low, mid, value);
+        } else {
+            return mid;
         }
     }
 }
